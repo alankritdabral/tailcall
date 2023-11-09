@@ -148,3 +148,77 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "style: apply lint fixes"
+
+
+  Micro_benchmarks:
+    name: Criterion Benchmark
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Rust Stable Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - name: Cache Rust Dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run cargo bench and capture the output
+        run: |
+            cargo build --release
+            cargo bench 2>&1 | tee bench_output.txt
+        working-directory: ${{ github.workspace }}
+    
+      - name: Convert bench output to YAML
+        run: |
+            echo "bench_output: |" > bench_output.yaml
+            cat bench_output.txt | sed -e 's/^/  /' >> bench_output.yaml
+        working-directory: ${{ github.workspace }}
+    
+      - name: Store the output as a workflow artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: bench-output
+            path: bench_output.yaml    
+
+      - name: Download main branch benchmark results
+        uses: actions/download-artifact@v2
+        with:
+              name: main-branch-benchmarks
+              path: main_bench_output.yaml
+      
+      - name: Compare benchmark results
+        run: |
+              # Calculate the threshold for degradation (10%)
+              threshold=10
+              
+              # Use jq to parse the benchmark results
+              current=$(jq -r '.bench_output' current_bench_output.txt)
+              main=$(jq -r '.bench_output' main_bench_output.yaml)
+              
+              # Calculate the percentage difference
+              percentage_difference=$(echo "scale=2; (($current - $main) / $main) * 100" | bc)
+              
+              # Check if the percentage difference is greater than the threshold
+              if [ $(echo "$percentage_difference < -$threshold" | bc -l) -eq 1 ]; then
+                echo "Performance has degraded by more than 10%."
+                exit 1
+              else
+                echo "Performance is acceptable."
+              fi
+      
+        working-directory: ${{ github.workspace }}
+      
