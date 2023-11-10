@@ -1,0 +1,5 @@
+test_batched_body       time:   [1.7603 µs 1.8279 µs 1.9041 µs]
+Found 19 outliers among 100 measurements (19.00%)
+  9 (9.00%) high mild
+  10 (10.00%) high severe
+
