@@ -28,7 +28,7 @@ jobs:
           cwd: "benches/criterion" # Enter the directory with your benchmarks
           benchName: "json_like_bench"
           defaultFeatures: false
-          branchName: default
+          branchName: ${{ github.base_ref }}
           token: ${{ secrets.GITHUB_TOKEN }} # Other action configurations here
 
       # Your logic to handle benchmark results, performance comparisons, and report generation
