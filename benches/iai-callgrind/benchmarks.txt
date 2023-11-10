@@ -1,5 +1,7 @@
-test_batched_body       time:   [1.7603 µs 1.8279 µs 1.9041 µs]
-Found 19 outliers among 100 measurements (19.00%)
-  9 (9.00%) high mild
-  10 (10.00%) high severe
-
+json_like_bench_iai_callgrind::batched_body::benchmark_batched_body
+  Instructions:               10436 (No Change)
+  L1 Hits:                    14930 (No Change)
+  L2 Hits:                        3 (No Change)
+  RAM Hits:                     134 (No Change)
+  Total read+write:           15067 (No Change)
+  Estimated Cycles:           19635 (No Change)
