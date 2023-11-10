@@ -1,23 +1,32 @@
-on: [pull_request]
-name: benchmark pull requests
+name: Benchmark and Build Check
+on:
+    push:
+      branches:
+        - "**"
+    pull_request:
+      branches: [main]
+      types: [opened, reopened, synchronize]
+    release:
+      types: [published]
+
 jobs:
-  runBenchmark:
-    name: run benchmark
+  benchmark_and_build_check:
+    name: Benchmark and Build Check
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: boa-dev/criterion-compare-action@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Your existing setup steps here
+
+      - name: Run Criterion Benchmarks
+        if: (github.event_name == 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published')
+        uses: boa-dev/criterion-compare-action@v3.2.4
         with:
-          cwd: "benches/criterion"
-          # Optional. Compare only this package
-          package: "example-package"
-          # Optional. Compare only this benchmark target
-          benchName: "example-bench-target"
-          # Optional. Disables the default features of a crate
-          defaultFeatures: false
-          # Optional. Features activated in the benchmark
-          features: "async,tokio-support"
-          # Needed. The name of the branch to compare with. This default uses the branch which is being pulled against
-          branchName: ${{ github.base_ref }}
-          # Optional. Default is `${{ github.token }}`.
-          token: ${{ secrets.GITHUB_TOKEN }}
+          cwd: "benches/criterion" # Enter the directory with your benchmarks
+          # Other action configurations here
+
+      # Your logic to handle benchmark results, performance comparisons, and report generation
+
+      # Additional logic for build time comparison, conditional execution, and forks support

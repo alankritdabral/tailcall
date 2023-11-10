@@ -81,7 +81,6 @@ unsafe-js = ["dep:mini-v8"]
 async = ["some-async-dependency"]
 tokio-support = ["some-tokio-dependency"]
 
-
 [[bench]]
 name = "json_like_bench"
 harness = false
