@@ -29,8 +29,6 @@ jobs:
           benchName: "Criterion"
           # Optional. Disables the default features of a crate
           defaultFeatures: false
-          # Optional. Features activated in the benchmark
-          features: "async,tokio-support"
           # Needed. The name of the branch to compare with. This default uses the branch which is being pulled against
           branchName: default
           # Optional. Default is `${{ github.token }}`.
