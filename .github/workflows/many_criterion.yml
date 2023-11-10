@@ -1,0 +1,36 @@
+name: Run Multiple Criterion Benchmarks
+
+on:
+  pull_request:
+    branches: [main] # Adjust the branch name as needed
+  push:
+    branches:
+      - main # Adjust the branch name as needed
+  release:
+    types: [published]
+
+jobs:
+  run_multiple_benchmarks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Benchmark 1
+        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+        run: boa-dev/criterion-compare-action@v3.2.4 --benchName json_like_bench --defaultFeatures false --branchName ${{ github.base_ref }} --token ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Benchmark 2
+        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+        run: boa-dev/criterion-compare-action@v3.2.4 --benchName impl_path_string_for_evaluation_context --defaultFeatures false --branchName ${{ github.base_ref }} --token ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Benchmark 3
+        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+        run: boa-dev/criterion-compare-action@v3.2.4 --benchName data_loader_bench --defaultFeatures false --branchName ${{ github.base_ref }} --token ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Benchmark 4
+        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+        run: boa-dev/criterion-compare-action@v3.2.4 --benchName request_template_bench --defaultFeatures false --branchName ${{ github.base_ref }} --token ${{ secrets.GITHUB_TOKEN }}
+
+      # Include more steps for additional benchmarks
