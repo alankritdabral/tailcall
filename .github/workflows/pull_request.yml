@@ -25,7 +25,16 @@ jobs:
         uses: boa-dev/criterion-compare-action@v3.2.4
         with:
           cwd: "benches/criterion" # Enter the directory with your benchmarks
-          # Other action configurations here
+          # Optional. Compare only this benchmark target
+          benchName: "Criterion"
+          # Optional. Disables the default features of a crate
+          defaultFeatures: false
+          # Optional. Features activated in the benchmark
+          features: "async,tokio-support"
+          # Needed. The name of the branch to compare with. This default uses the branch which is being pulled against
+          branchName: default
+          # Optional. Default is `${{ github.token }}`.
+          token: ${{ secrets.GITHUB_TOKEN }} # Other action configurations here
 
       # Your logic to handle benchmark results, performance comparisons, and report generation
 
