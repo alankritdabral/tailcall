@@ -25,6 +25,8 @@ jobs:
         uses: boa-dev/criterion-compare-action@v3.2.4
         with:
           cwd: "benches/criterion" # Enter the directory with your benchmarks
+          benchName: "json_like_bench"
+          
           # Optional. Disables the default features of a crate
           defaultFeatures: false
           # Needed. The name of the branch to compare with. This default uses the branch which is being pulled against
