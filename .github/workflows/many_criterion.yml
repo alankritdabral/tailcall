@@ -13,7 +13,7 @@ on:
 jobs:
   run_multiple_benchmarks:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
           benchName: json_like_bench
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-         
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run impl_path_string_for_evaluation_context
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
@@ -33,7 +33,7 @@ jobs:
           benchName: impl_path_string_for_evaluation_context
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run data_loader_bench
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
@@ -42,7 +42,7 @@ jobs:
           benchName: data_loader_bench
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run request_template_bench
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
@@ -52,3 +52,18 @@ jobs:
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check benchmark percentage differences
+        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
+        run: |
+          benchmark_results=$(paste the actual benchmark results here) # Replace this with the actual benchmark results from your action
+          
+          IFS=$'\n' # Setting the Internal Field Separator to newline
+
+          for result in $benchmark_results; do
+            percentage=$(echo $result | awk '{ print $3 }' | tr -d '+%') # Extracting the percentage value
+            if [ $(echo "$percentage > 10" | bc) -eq 1 ]; then # Checking if the percentage is greater than 10
+              echo "Percentage difference exceeds 10%: $result"
+              exit 1 # Exit the workflow with an error status if the percentage exceeds 10
+            fi
+          done
