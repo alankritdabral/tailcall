@@ -85,7 +85,7 @@ jobs:
           }' <<< "$output"
 
       - name: Install iai-callgrind-runner
-        run: cargo install --version 0.8.0 iai-callgrind-runner
+        run: cargo install --version 0.7.3 iai-callgrind-runner
 
       - name: Run Benchmarks
         run: |
