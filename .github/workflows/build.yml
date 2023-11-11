@@ -1,4 +1,4 @@
-name:  build time degradation
+name: build time degradation
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Install iai-callgrind-runner
         run: cargo install --version 0.7.3 iai-callgrind-runner
 
