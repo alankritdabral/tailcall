@@ -65,7 +65,7 @@ httpmock = "0.6"
 mockito = "1.2.0"
 pretty_assertions = "1.4.0"
 stripmargin = "0.1.1"
-iai-callgrind = "0.7.3"
+iai-callgrind = "0.8.0"
 
 [profile.release]
 opt-level = 3
