@@ -57,22 +57,29 @@ jobs:
       - name: Check Benchmark Changes
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
         run: |
-          # Assign the benchmark results to a variable
-          benchmark_results=$(/home/runner/.cargo/bin/critcmp base changes) # Replace with the command to fetch the benchmark results
+          # Run the critcmp command and capture its output
+          output=$(/home/runner/.cargo/bin/critcmp base changes)
 
-          # Parsing the benchmark results and checking for percentage differences
-          echo "$benchmark_results" | awk 'NR > 1 { print $1, $2, $3, $4, $6, $7 }' | while read -r group base changes; do
-              if [[ "$changes" == "?" || "$base" == "?" ]]; then
-                  continue
-              fi
-              base=$(echo "$base" | sed 's/.*[[:space:]]//') # Extracting the base value
-              changes=$(echo "$changes" | sed 's/.*[[:space:]]//') # Extracting the changes value
+          # Print the captured output
+          echo "$output"
 
-              percentage=$(echo "scale=2; (($changes - $base) / $base) * 100" | bc) # Calculating percentage difference
+          # Use awk to calculate percentage differences and fail the CI if the difference is more than 10%
+          awk 'NR > 2 {
+              group=$1
+              base=$7
+              changes=$3
 
-              # Checking if the percentage change exceeds 10%
-              if [ $(echo "$percentage > 10" | bc) -eq 1 ]; then
-                  echo "Percentage change for $group exceeds 10%: $percentage%"
-                  exit 1 # Exiting with a non-zero status to indicate a CI failure
-              fi
-          done
+              gsub(/[^\-0-9\.]/, "", changes)  # Extract only numerical values
+              gsub(/[^\-0-9\.]/, "", base)     # Extract only numerical values
+
+              # Ensure changes and base values are not empty
+              if (changes != "" && base != "") {
+                  diff = changes - base  # Calculate the absolute difference
+                  percentage = (diff / base) * 100  # Calculate the percentage difference
+
+                  if (percentage > 10) {
+                      printf "Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
+                      exit 1  # Exit script to indicate CI failure
+                  }
+              }
+          }' <<< "$output"
