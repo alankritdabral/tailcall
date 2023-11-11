@@ -84,10 +84,6 @@ jobs:
               }
           }' <<< "$output"
 
-  callgrind_ci_job:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Install iai-callgrind-runner
         run: cargo install --version 0.8.0 iai-callgrind-runner
 
