@@ -53,17 +53,26 @@ jobs:
           branchName: ${{ github.base_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check benchmark percentage differences
+      # Add a step to analyze benchmark percentage differences
+      - name: Check Benchmark Changes
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
         run: |
-          benchmark_results=$(paste the actual benchmark results here) # Replace this with the actual benchmark results from your action
-          
-          IFS=$'\n' # Setting the Internal Field Separator to newline
+          # Assign the benchmark results to a variable
+          benchmark_results=$(/home/runner/.cargo/bin/critcmp base changes) # Replace with the command to fetch the benchmark results
 
-          for result in $benchmark_results; do
-            percentage=$(echo $result | awk '{ print $3 }' | tr -d '+%') # Extracting the percentage value
-            if [ $(echo "$percentage > 10" | bc) -eq 1 ]; then # Checking if the percentage is greater than 10
-              echo "Percentage difference exceeds 10%: $result"
-              exit 1 # Exit the workflow with an error status if the percentage exceeds 10
-            fi
+          # Parsing the benchmark results and checking for percentage differences
+          echo "$benchmark_results" | awk 'NR > 1 { print $1, $2, $3, $4, $6, $7 }' | while read -r group base changes; do
+              if [[ "$changes" == "?" || "$base" == "?" ]]; then
+                  continue
+              fi
+              base=$(echo "$base" | sed 's/.*[[:space:]]//') # Extracting the base value
+              changes=$(echo "$changes" | sed 's/.*[[:space:]]//') # Extracting the changes value
+
+              percentage=$(echo "scale=2; (($changes - $base) / $base) * 100" | bc) # Calculating percentage difference
+
+              # Checking if the percentage change exceeds 10%
+              if [ $(echo "$percentage > 10" | bc) -eq 1 ]; then
+                  echo "Percentage change for $group exceeds 10%: $percentage%"
+                  exit 1 # Exiting with a non-zero status to indicate a CI failure
+              fi
           done
