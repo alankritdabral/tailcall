@@ -86,7 +86,7 @@ jobs:
 
       - name: Install iai-callgrind-runner
         run: cargo install --version 0.7.3 iai-callgrind-runner
-            sudo apt-get install valgrind
+             apt-get install valgrind
 
 
       - name: Run Benchmarks
