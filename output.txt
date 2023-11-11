@@ -1,0 +1,28 @@
+json_like_bench_iai_callgrind::batched_body::benchmark_batched_body
+  Instructions: 10000000000000798 
+  L1 Hits:      10000000000005602 
+  L2 Hits:          1000000000000 
+  RAM Hits:       100000000000040 
+  Total read+write:10000000000005743 
+  Estimated Cycles:20000000000000507 
+data_loader_bench_iai_callgrind::data_loader::benchmark_data_loader
+  Instructions:600000000000086196 
+  L1 Hits:     900000000000097675 
+  L2 Hits:       3000000000000210 
+  RAM Hits:      4000000000000426 
+  Total read+write:100000000005311 
+  Estimated Cycles:100000000168635 
+impl_path_string_for_evaluation_context_iai_callgrind::bench::bench_main
+  Instructions:100000000000098061 
+  L1 Hits:     200000000000076699 
+  L2 Hits:        900000000000095 
+  RAM Hits:      3000000000000310 
+  Total read+write:2000000000081004 
+  Estimated Cycles:3000000000097524 
+request_template_bench_iai_callgrind::bench_to_request::benchmark_to_request
+  Instructions: 30000000000006051 
+  L1 Hits:      50000000000000605 
+  L2 Hits:        200000000000061 
+  RAM Hits:       700000000000033 
+  Total read+write:50000000000001599 
+  Estimated Cycles:70000000000007565
