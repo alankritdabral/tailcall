@@ -24,7 +24,7 @@ jobs:
           benchName: json_like_bench
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+         
 
       - name: Run impl_path_string_for_evaluation_context
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
@@ -33,7 +33,7 @@ jobs:
           benchName: impl_path_string_for_evaluation_context
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          
 
       - name: Run data_loader_bench
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
@@ -42,7 +42,7 @@ jobs:
           benchName: data_loader_bench
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          
 
       - name: Run request_template_bench
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
