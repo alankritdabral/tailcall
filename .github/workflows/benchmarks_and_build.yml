@@ -11,9 +11,12 @@ on:
       - opened
       - reopened
       - synchronize
-  release:
-    types:
-      - published
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to run benchmark on"
+        required: true
+        default: "main"
 
 jobs:
   Criterion_benchmarks:
