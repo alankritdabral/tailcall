@@ -9,6 +9,7 @@ on:
 jobs:
   benchmark:
     name: build_time_check
+    if: contains(github.event.pull_request.labels.*.name, ':benchmark')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
