@@ -11,7 +11,7 @@ on:
     types: [published]
 
 jobs:
-  benchmarks_test:
+  Criterion_benchmarks:
     runs-on: ubuntu-latest
 
     steps:

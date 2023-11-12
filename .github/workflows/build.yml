@@ -9,7 +9,7 @@ on:
 
 jobs:
   benchmark:
-    name: iai_callgrind
+    name: build_time_check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,4 +35,5 @@ jobs:
         run: |
           chmod +x .github/scripts/build_time_compare.sh
           ./.github/scripts/build_time_compare.sh
+
 #helo
