@@ -2,7 +2,7 @@ name: Benchmark
 
 on:
   pull_request:
-    types: [opened, synchronize, labeled]
+    types: [opened, synchronize, labeled, reopened]
     branches:
       - main
 
