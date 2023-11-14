@@ -13,20 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        run: cargo install boa-dev/criterion-compare-action@3.2.4
+      - name: Install criterion-compare-action
+        run: |
+          mkdir -p ~/.cargo/bin
+          curl -LsSf https://github.com/boa-dev/criterion-compare-action/releases/download/v3.2.4/critcmp -o ~/.cargo/bin/critcmp
+          chmod +x ~/.cargo/bin/critcmp
 
       - name: Run benchmarks and comment on PR
         if: github.event_name == 'pull_request'
         run: |
           # Run benchmarks
-          npx boa-dev/criterion-compare-action@3.2.4 json_like_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-          npx boa-dev/criterion-compare-action@3.2.4 impl_path_string_for_evaluation_context --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-          npx boa-dev/criterion-compare-action@3.2.4 data_loader_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-          npx boa-dev/criterion-compare-action@3.2.4 request_template_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          critcmp base changes
 
           # Comment on the pull request
-          output=$(/home/runner/.cargo/bin/critcmp base changes)
+          output=$(critcmp base changes)
           echo "$output"
           awk 'NR > 2 {
               group=$1
