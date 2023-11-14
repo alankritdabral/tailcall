@@ -79,6 +79,9 @@ overflow-checks = false
 [features]
 unsafe-js = ["dep:mini-v8"]
 
+[lib]
+bench = false
+
 [[bench]]
 name = "json_like_bench"
 harness = false
