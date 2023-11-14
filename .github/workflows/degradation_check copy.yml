@@ -1,70 +1,66 @@
-name: Helo
+name: Benchmarks and build time
 
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
     branches: [main]
     types: [opened, reopened, synchronize]
-  release:
-    types: [published]
 
 jobs:
-  BenchmarkRunner:
+  runBenchmarks:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Helo
-        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
-        uses: boa-dev/criterion-compare-action@v3.2.4
+      - name: Install Dependencies
+        run: cargo install boa-dev/criterion-compare-action@v3.2.4
+
+      - name: Run benchmarks and comment on PR
+        if: github.event_name == 'pull_request'
         run: |
-           json_like_bench --default-features=false --branch-name=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          # Run benchmarks
+          npx boa-dev/criterion-compare-action@v3.2.4 json_like_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@v3.2.4 impl_path_string_for_evaluation_context --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@v3.2.4 data_loader_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@v3.2.4 request_template_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
 
-           impl_path_string_for_evaluation_context --default-features=false --branch-name=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-
-           data_loader_bench --default-features=false --branch-name=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-
-           request_template_bench --default-features=false --branch-name=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-
-  BenchmarkAnalyzer:
-    needs: BenchmarkRunner
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Analyze benchmark percentage differences and comment on PR
-        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
-        run: |
-          # Run the critcmp command and capture its output
+          # Comment on the pull request
           output=$(/home/runner/.cargo/bin/critcmp base changes)
-
-          # Print the captured output
           echo "$output"
-
-          # Use awk to calculate percentage differences and comment on the PR if the difference is more than 10%
           awk 'NR > 2 {
               group=$1
               base=$7
               changes=$3
 
-              gsub(/[^\-0-9\.]/, "", changes)  # Extract only numerical values
-              gsub(/[^\-0-9\.]/, "", base)     # Extract only numerical values
+              gsub(/[^\-0-9\.]/, "", changes)
+              gsub(/[^\-0-9\.]/, "", base)
 
-              # Ensure changes and base values are not empty
               if (changes != "" && base != "") {
-                  diff = changes - base  # Calculate the absolute difference
-                  percentage = (diff / base) * 100  # Calculate the percentage difference
+                  diff = changes - base
+                  percentage = (diff / base) * 100
 
                   if (percentage > 10) {
-                      comment="Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
-                      echo "$comment"
-                      # Add logic to comment on the pull request using GitHub API or a suitable GitHub Action
+                      printf "Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
+                      exit 1
                   }
               }
-          }' <<< "$output"
+          }' <<< "$output" | \
+          if [[ $? -eq 0 ]]; then
+              COMMENT="Benchmarks Passed! :white_check_mark:"
+          else
+              COMMENT="Benchmarks Failed! :x:"
+          fi
+          echo "$COMMENT"
+          echo "::set-output name=COMMENT::$COMMENT"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        run: |
+          COMMENT="${{ needs.runBenchmarks.outputs.COMMENT }}"
+          echo "Comment: $COMMENT"
+          echo "$COMMENT" | gh pr comment ${{ github.event.number }} --body -
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
