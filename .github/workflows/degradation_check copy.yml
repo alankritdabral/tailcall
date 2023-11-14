@@ -14,16 +14,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        run: cargo install boa-dev/criterion-compare-action@v3.2.4
+        run: cargo install boa-dev/criterion-compare-action@3.2.4
 
       - name: Run benchmarks and comment on PR
         if: github.event_name == 'pull_request'
         run: |
           # Run benchmarks
-          npx boa-dev/criterion-compare-action@v3.2.4 json_like_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-          npx boa-dev/criterion-compare-action@v3.2.4 impl_path_string_for_evaluation_context --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-          npx boa-dev/criterion-compare-action@v3.2.4 data_loader_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
-          npx boa-dev/criterion-compare-action@v3.2.4 request_template_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@3.2.4 json_like_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@3.2.4 impl_path_string_for_evaluation_context --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@3.2.4 data_loader_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
+          npx boa-dev/criterion-compare-action@3.2.4 request_template_bench --defaultFeatures=false --branchName=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
 
           # Comment on the pull request
           output=$(/home/runner/.cargo/bin/critcmp base changes)
