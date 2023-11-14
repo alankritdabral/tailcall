@@ -21,29 +21,28 @@ jobs:
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
         uses: boa-dev/criterion-compare-action@v3.2.4
         with:
-          benchName: -json_like_bench 
-          -impl_path_string_for_evaluation_context
+          token: ${{ secrets.GITHUB_TOKEN }}
+          benchName: json_like_bench
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run impl_path_string_for_evaluation_context
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
         uses: boa-dev/criterion-compare-action@v3.2.4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           benchName: impl_path_string_for_evaluation_context
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run data_loader_bench
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
         uses: boa-dev/criterion-compare-action@v3.2.4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           benchName: data_loader_bench
           defaultFeatures: false
           branchName: ${{ github.base_ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run request_template_bench
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
