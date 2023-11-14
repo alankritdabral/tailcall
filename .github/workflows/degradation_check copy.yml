@@ -1,4 +1,4 @@
-name: Run Benchmarks
+name: Aloo
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run benchmarks
+      - name: Aloo
         if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'release' && github.event.action == 'published') }}
         run: |
           boa-dev/criterion-compare-action@v3.2.4 json_like_bench --default-features=false --branch-name=${{ github.base_ref }} --token=${{ secrets.GITHUB_TOKEN }}
