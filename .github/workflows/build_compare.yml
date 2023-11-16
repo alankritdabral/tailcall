@@ -34,5 +34,5 @@ jobs:
 
       - name: Execute build_time_compare.sh
         run: |
-          chmod +x .github/scripts/build_time_compare.sh
+          chmod +x .github/scripts/build_time_compare.sh main "benches/iai-callgrind/benchmarks.txt"
           ./.github/scripts/build_time_compare.sh main "benches/iai-callgrind/benchmarks.txt"
