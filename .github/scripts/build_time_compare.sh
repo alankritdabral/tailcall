@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Get the repository URL or name from the git configuration
-repo_url=$(git remote get-url origin)  # Assumes 'origin' is the remote name
-repo_name=$(basename -s .git "$repo_url")
-
-branch_name="$1"  # Use the first command-line argument as the branch name
-file1_url="$repo_url/$branch_name/benches/iai-callgrind/benchmarks.txt"
+file1="benches/iai-callgrind/benchmarks.txt"
 file2="benches/iai-callgrind/benchmarks.txt"
 
-if [ -z "$branch_name" ]; then
-    echo "Usage: $0 <other_branch_name>"
-    exit 1
-fi
+# Fetching file1 from the current branch
+file1_content=$(git show HEAD:$file1)
+echo "$file1_content" > file1.txt
+
+main_branch="main"
+
+# Fetching file2 from the main branch
+file2_content=$(git show origin/$main_branch:$file2)
+echo "$file2_content" > file2.txt
 
 # Fetching file1 from the specified URL
 curl -s "$file1_url" > file1.txt || { echo "Failed to download file from $file1_url"; exit 1; }
