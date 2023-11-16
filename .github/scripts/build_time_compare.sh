@@ -9,6 +9,8 @@ fi
 branch_name="$1"
 file2="$2"
 
+echo "Fetching file1 content from the branch: $branch_name"
+
 # Fetching file1 content from the specified branch
 file1_content=$(git show "$branch_name":benches/iai-callgrind/benchmarks.txt)
 
