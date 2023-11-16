@@ -1,24 +1,20 @@
 #!/bin/bash
 
-# Check if the number of command-line arguments is correct
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <branch_name> <file2>"
+# Get the repository URL or name from the git configuration
+repo_url=$(git remote get-url origin)  # Assumes 'origin' is the remote name
+repo_name=$(basename -s .git "$repo_url")
+
+branch_name="$1"  # Use the first command-line argument as the branch name
+file1_url="$repo_url/$branch_name/benches/iai-callgrind/benchmarks.txt"
+file2="benches/iai-callgrind/benchmarks.txt"
+
+if [ -z "$branch_name" ]; then
+    echo "Usage: $0 <other_branch_name>"
     exit 1
 fi
 
-branch_name="$1"
-file2="$2"
-
-echo "Fetching file1 content from the branch: $branch_name"
-
-# Fetching file1 content from the specified branch
-file1_content=$(git show "$branch_name":benches/iai-callgrind/benchmarks.txt)
-
-# Check if fetching from the specified branch was successful
-if [ -z "$file1_content" ]; then
-    echo "Failed to fetch file content from branch $branch_name."
-    exit 1
-fi
+# Fetching file1 from the specified URL
+curl -s "$file1_url" > file1.txt || { echo "Failed to download file from $file1_url"; exit 1; }
 
 benchmarks=(
     "json_like_bench_iai_callgrind::batched_body::benchmark_batched_body"
@@ -38,7 +34,7 @@ for bench in "${benchmarks[@]}"; do
 
     # Check attribute changes
     for attribute in "${attributes[@]}"; do
-        value1=$(echo "$file1_content" | grep -A5 "$bench" | grep -Po "${attribute}:\K\d+")
+        value1=$(grep -A5 "$bench" "file1.txt" | grep -Po "${attribute}:\K\d+")
         value2=$(grep -A5 "$bench" "$file2" | grep -Po "${attribute}:\K\d+")
 
         if [ -n "$value1" ] && [ -n "$value2" ]; then
@@ -55,12 +51,12 @@ for bench in "${benchmarks[@]}"; do
     done
 
     # Check performance metric changes 
-    #Total read+write = L1 Hits + L2 Hits + RAM Hits.
-    #Estimated Cycles = L1 Hits + 5 × (L2 Hits) + 35 × (RAM Hits)
-    for file in "$file1_content" "$file2"; do
-        l1_hits=$(echo "$file" | grep -A5 "$bench" | grep -Po "L1 Hits:\K\d+")
-        l2_hits=$(echo "$file" | grep -A5 "$bench" | grep -Po "L2 Hits:\K\d+")
-        ram_hits=$(echo "$file" | grep -A5 "$bench" | grep -Po "RAM Hits:\K\d+")
+    # Total read+write = L1 Hits + L2 Hits + RAM Hits.
+    # Estimated Cycles = L1 Hits + 5 × (L2 Hits) + 35 × (RAM Hits)
+    for file in "file1.txt" "$file2"; do
+        l1_hits=$(grep -A5 "$bench" "$file" | grep -Po "L1 Hits:\K\d+")
+        l2_hits=$(grep -A5 "$bench" "$file" | grep -Po "L2 Hits:\K\d+")
+        ram_hits=$(grep -A5 "$bench" "$file" | grep -Po "RAM Hits:\K\d+")
 
         if [ $x -ne 0 ]; then
             p1=$(( ( (l1_hits + l2_hits + ram_hits) - x ) * 100 / x ))
