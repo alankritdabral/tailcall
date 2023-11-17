@@ -1,9 +1,14 @@
 name: Benchmark Workflow
 
 on:
- push:
-   branches:
-     - main
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  release:
+    types: [published]
 
 jobs:
  benchmark:
