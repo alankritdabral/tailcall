@@ -3,7 +3,7 @@ name: honey singh
 on:
  push:
    branches:
-     - main
+     - '**'
  pull_request:
    branches: [main]
    types: [opened, reopened, synchronize]
@@ -13,6 +13,7 @@ on:
 jobs:
  benchmark_main:
    runs-on: ubuntu-latest
+   if: github.ref == 'refs/heads/main'
 
    steps:
      - name: Checkout code
@@ -31,6 +32,7 @@ jobs:
 
  benchmark_new:
    runs-on: ubuntu-latest
+   if: github.ref != 'refs/heads/main'
 
    steps:
      - name: Checkout code
@@ -42,10 +44,10 @@ jobs:
 
      - name: Run benchmarks on new
        run: |
-         cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new
-         cargo bench --bench data_loader_bench -- --save-baseline new
-         cargo bench --bench request_template_bench -- --save-baseline new
-         cargo bench --bench json_like_bench -- --save-baseline new
+         cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline before
+         cargo bench --bench data_loader_bench -- --save-baseline before
+         cargo bench --bench request_template_bench -- --save-baseline before
+         cargo bench --bench json_like_bench -- --save-baseline before
 
  compare_and_comment:
    needs: [benchmark_main, benchmark_new] # This ensures that these jobs run before this one
@@ -57,4 +59,4 @@ jobs:
 
      - name: Compare benchmarks and comment on PR
        run: |
-         critcmp before new
+         critcmp main new
