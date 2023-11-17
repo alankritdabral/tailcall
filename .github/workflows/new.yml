@@ -9,26 +9,52 @@ on:
     types: [opened, reopened, synchronize]
   release:
     types: [published]
+
 jobs:
-  benchmark:
+  benchmark_main:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: critcmp
-      run: |
-        cargo install critcmp
+      - name: critcmp
+        run: |
+          cargo install critcmp
         
-    - name: Run benchmarks on main
-      run: |
-        cargo bench -- --save-baseline main
+      - name: Run benchmarks on main
+        run: |
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline before
+          cargo bench --bench data_loader_bench -- --save-baseline before
+          cargo bench --bench request_template_bench -- --save-baseline before
+          cargo bench --bench json_like_bench -- --save-baseline before
 
-    - name: Run benchmarks on new
-      run: |
-        cargo bench -- --save-baseline new
+  benchmark_new:
+    runs-on: ubuntu-latest
 
-    - name: Compare benchmarks and comment on PR
-      run: |
-        critcmp main new
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: critcmp
+        run: |
+          cargo install critcmp
+        
+      - name: Run benchmarks on new
+        run: |
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline before
+          cargo bench --bench data_loader_bench -- --save-baseline before
+          cargo bench --bench request_template_bench -- --save-baseline before
+          cargo bench --bench json_like_bench -- --save-baseline before
+
+  compare_and_comment:
+    needs: [benchmark_main, benchmark_new]  # This ensures that these jobs run before this one
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Compare benchmarks and comment on PR
+        run: |
+          critcmp main new
