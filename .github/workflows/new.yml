@@ -43,16 +43,7 @@ jobs:
 
     - name: Compare benchmarks
       run: critcmp main_branch new_branch
-
-  run-benchmark:
-    runs-on: ubuntu-latest
-
-    steps:
     - uses: actions/checkout@v3
     - uses: boa-dev/criterion-compare-action@v3
       with:
-        features: "async,tokio-support"
-        # Needed. The name of the branch to compare with. This default uses the branch which is being pulled against
-        branchName: ${{ github.base_ref }}
-        # Optional. Default is `${{ github.token }}`.
         token: ${{ secrets.GITHUB_TOKEN }}
