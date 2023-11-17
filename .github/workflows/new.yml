@@ -50,23 +50,20 @@ jobs:
      with:
        github-token: ${{ secrets.GITHUB_TOKEN }}
        script: |
-         const resultsAsMarkdown = convertToMarkdown(myOutput);
-         const octokit = github.getOctokit(inputs.token);
-         const contextObj = { ...context.issue };
-         try {
-           const { data: comment } = await octokit.rest.issues.createComment({
-             owner: contextObj.owner,
-             repo: contextObj.repo,
-             issue_number: contextObj.number,
-             body: resultsAsMarkdown,
-           });
-           core.info(
-             `Created comment id '${comment.id}' on issue '${contextObj.number}' in '${contextObj.repo}'.`
-           );
-           core.setOutput("comment-id", comment.id);
-         } catch (err) {
-           core.warning(`Failed to comment: ${err}`);
-           core.info("Commenting is not possible from forks.");
-           const resultsAsObject = convertToTableObject(myOutput);
-           console.table(resultsAsObject);
-         }
+          output=$(/home/runner/.cargo/bin/critcmp base changes)
+          echo "$output"
+          awk 'NR > 2 {
+              group=$1
+              base=$7
+              changes=$3
+              gsub(/[^\-0-9\.]/, "", changes)
+              gsub(/[^\-0-9\.]/, "", base)
+              if (changes != "" && base != "") {
+                  diff = changes - base
+                  percentage = (diff / base) * 100
+                  if (percentage > 10) {
+                      printf "Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
+                      exit 1
+                  }
+              }
+          }' <<< "$output"
