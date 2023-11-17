@@ -99,7 +99,7 @@ jobs:
     - name: Run shell script
       id: script
       run: |
-          output=$(bash ./.github/src/degradation.sh)
+          output=$(bash ./.github/scripts/degradation.sh)
           echo "::set-output name=output::$output"
 
     - name: Comment PR with script output
