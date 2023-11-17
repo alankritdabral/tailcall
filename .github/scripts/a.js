@@ -3,86 +3,39 @@ const tools = new Toolkit({
   event: ["pull_request.opened", "pull_request.synchronize"]
 });
 
+const benchmarks = [
+  "impl_path_string_for_evaluation_context",
+  "data_loader_bench",
+  "request_template_bench",
+  "json_like_bench"
+];
+
+async function runBenchmarks(branch) {
+  for (const benchmark of benchmarks) {
+    await tools.runInWorkspace("cargo", [
+      "bench",
+      "--",
+      "bench",
+      benchmark,
+      "--",
+      "--save-baseline",
+      branch
+    ]);
+  }
+}
+
 async function main() {
   tools.log("### Benchmark starting ###");
-  await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "impl_path_string_for_evaluation_context",
-    "--",
-    "--save-baseline",
-    "changes"
-  ]);
-  await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "data_loader_bench",
-    "--",
-    "--save-baseline",
-    "changes"
-  ]);
-  await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "request_template_bench",
-    "--",
-    "--save-baseline",
-    "changes"
-  ]);
-  await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "json_like_bench",
-    "--",
-    "--save-baseline",
-    "changes"
-  ]);
-  //main
+
+  await runBenchmarks("changes");
   tools.log("Changes benchmarked");
+
   await tools.runInWorkspace("git", ["checkout", "master"]);
   tools.log("Checked out to master branch");
-    await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "impl_path_string_for_evaluation_context",
-    "--",
-    "--save-baseline",
-    "master"
-  ]);
-    await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "data_loader_bench",
-    "--",
-    "--save-baseline",
-    "master"
-  ]);
-    await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "request_template_bench",
-    "--",
-    "--save-baseline",
-    "master"
-  ]);
-    await tools.runInWorkspace("cargo", [
-    "bench",
-    "--",
-    "bench",
-    "json_like_bench",
-    "--",
-    "--save-baseline",
-    "master"
-  ]);
-  
+
+  await runBenchmarks("master");
   tools.log("Master benchmarked");
+
   const result = await tools.runInWorkspace("critcmp", ["master", "changes"]);
   const resultsAsMarkdown = convertToMarkdown(result.stdout);
 
@@ -94,7 +47,7 @@ async function main() {
     body: resultsAsMarkdown
   });
 
-  tools.exit.success("Succesfully run!");
+  tools.exit.success("Successfully run!");
 }
 
 function convertToMarkdown(results) {
@@ -155,6 +108,6 @@ ${benchResults}
   try {
     await main();
   } catch (e) {
-    tools.exit.failure(`Unhanded error:\n${e}`);
+    tools.exit.failure(`Unhandled error:\n${e}`);
   }
 })();
