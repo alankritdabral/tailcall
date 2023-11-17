@@ -1,10 +1,14 @@
-name: Benchmark CI
+name: honey singh
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
-
+      - "**"
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  release:
+    types: [published]
 jobs:
   benchmark:
     runs-on: ubuntu-latest
