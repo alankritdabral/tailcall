@@ -1,4 +1,4 @@
-name: Benchmark Workflow
+name: Comment Criterion
 
 on:
   push:
@@ -41,9 +41,31 @@ jobs:
         cargo bench --bench request_template_bench -- --save-baseline main_branch
         cargo bench --bench json_like_bench -- --save-baseline main_branch
 
-    - name: Compare benchmarks
-      run: critcmp main_branch new_branch
-    - uses: |
-            actions/checkout@v3
-            matchai/criterion-compare-action@master
-            token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Check Benchmark Changes
+      run: |
+          # Run the critcmp command and capture its output
+          output=$(/home/runner/.cargo/bin/critcmp main_branch new_branch)
+
+          # Print the captured output
+          echo "$output"
+
+          # Use awk to calculate percentage differences and fail the CI if the difference is more than 10%
+          awk 'NR > 2 {
+              group=$1
+              base=$7
+              changes=$3
+
+              gsub(/[^\-0-9\.]/, "", changes)  # Extract only numerical values
+              gsub(/[^\-0-9\.]/, "", base)     # Extract only numerical values
+
+              # Ensure changes and base values are not empty
+              if (changes != "" && base != "") {
+                  diff = changes - base  # Calculate the absolute difference
+                  percentage = (diff / base) * 100  # Calculate the percentage difference
+
+                  if (percentage > 10) {
+                      printf "Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
+                      exit 1  # Exit script to indicate CI failure
+                  }
+              }
+          }' <<< "$output"
