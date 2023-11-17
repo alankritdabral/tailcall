@@ -21,8 +21,9 @@ jobs:
 
       - name: Install Dependencies
         run: npm install actions-toolkit @octokit/rest
-
-      - name: Run Benchmark Script
-        run: node .github/scr/a.js
+      
+      
+      - name: Run benchmark script
+        run: node .github/src/a.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
