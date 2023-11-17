@@ -83,4 +83,34 @@ jobs:
                 "https://api.github.com/repos/${{ github.repository }}/issues/${pr_number}/comments" \
                 -d "{\"body\":\"$comments\"}"
         fi
+    - name: Comment on PR
+      uses: actions/github-script@v5
+      with:
+          script: |
+            const issue_number = context.issue.number;
+            const comment = 'This is a comment from the CI pipeline';
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: comment
+            });
 
+    - name: Run shell script
+      id: script
+      run: |
+          output=$(bash ./.github/src/degradation.sh)
+          echo "::set-output name=output::$output"
+
+    - name: Comment PR with script output
+      uses: actions/github-script@v5
+      with:
+          script: |
+            const issue_number = context.issue.number;
+            const comment = `Script output: ${{ steps.script.outputs.output }}`;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: comment
+            });
