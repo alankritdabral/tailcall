@@ -1,0 +1,37 @@
+name: Benchmark CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Rust
+      uses: actions/setup-rust@v1
+      with:
+        toolchain: stable
+
+    - name: Build and test
+      run: |
+        cargo build --verbose
+        cargo test --verbose
+        cargo install critcmp
+        
+    - name: Run benchmarks on main
+      run: |
+        cargo bench -- --save-baseline main
+
+    - name: Run benchmarks on new
+      run: |
+        cargo bench -- --save-baseline new
+
+    - name: Compare benchmarks and comment on PR
+      run: |
+        critcmp main new
