@@ -24,6 +24,6 @@ jobs:
       
       
       - name: Run benchmark script
-        run: node .github/src/a.js
+        run: node home/runner/work/tailcall/tailcall/.github/src/a.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
