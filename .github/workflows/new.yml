@@ -12,6 +12,7 @@ on:
 
 jobs:
   benchmark_main:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,12 +25,13 @@ jobs:
         
       - name: Run benchmarks on main
         run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main
-          cargo bench --bench data_loader_bench -- --save-baseline main
-          cargo bench --bench request_template_bench -- --save-baseline main
-          cargo bench --bench json_like_bench -- --save-baseline main
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
+          cargo bench --bench data_loader_bench -- --save-baseline main_branch
+          cargo bench --bench request_template_bench -- --save-baseline main_branch
+          cargo bench --bench json_like_bench -- --save-baseline main_branch
 
   benchmark_new:
+    if: github.ref != 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -42,10 +44,10 @@ jobs:
         
       - name: Run benchmarks on new
         run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new
-          cargo bench --bench data_loader_bench -- --save-baseline new
-          cargo bench --bench request_template_bench -- --save-baseline new
-          cargo bench --bench json_like_bench -- --save-baseline new
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
+          cargo bench --bench data_loader_bench -- --save-baseline new_branch
+          cargo bench --bench request_template_bench -- --save-baseline new_branch
+          cargo bench --bench json_like_bench -- --save-baseline new_branch
 
   compare_and_comment:
     needs: [benchmark_main, benchmark_new]  # This ensures that these jobs run before this one
