@@ -239,6 +239,11 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org
 
+      - name: Run benchmark
+        run: node path/to/your/script.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install dependencies
         if: github.event_name == 'release' && github.event.action == 'published'
         run: |
