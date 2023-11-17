@@ -23,10 +23,10 @@ jobs:
 
    - name: Benchmark changes
      run: |
-       cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline changes
-       cargo bench --bench data_loader_bench -- --save-baseline changes
-       cargo bench --bench request_template_bench -- --save-baseline changes
-       cargo bench --bench json_like_bench -- --save-baseline changes
+       cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
+       cargo bench --bench data_loader_bench -- --save-baseline new_branch
+       cargo bench --bench request_template_bench -- --save-baseline new_branch
+       cargo bench --bench json_like_bench -- --save-baseline new_branch
 
    - name: Fetch base branch
      run: git fetch
@@ -36,14 +36,14 @@ jobs:
 
    - name: Benchmark base
      run: |
-       cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline before
-       cargo bench --bench data_loader_bench -- --save-baseline before
-       cargo bench --bench request_template_bench -- --save-baseline before
-       cargo bench --bench json_like_bench -- --save-baseline before
+       cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
+       cargo bench --bench data_loader_bench -- --save-baseline main_branch
+       cargo bench --bench request_template_bench -- --save-baseline main_branch
+       cargo bench --bench json_like_bench -- --save-baseline main_branch
 
 
    - name: Compare benchmarks
-     run: critcmp base changes
+     run: critcmp main_branch new_branch
 
    - name: Comment on issue
      uses: actions/github-script@v3
