@@ -1,62 +1,60 @@
 name: honey singh
 
 on:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches: [main]
-    types: [opened, reopened, synchronize]
-  release:
-    types: [published]
+ push:
+   branches:
+     - main
+ pull_request:
+   branches: [main]
+   types: [opened, reopened, synchronize]
+ release:
+   types: [published]
 
 jobs:
-  benchmark_main:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+ benchmark_main:
+   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v2
 
-      - name: critcmp
-        run: |
-          cargo install critcmp
-        
-      - name: Run benchmarks on main
-        run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
-          cargo bench --bench data_loader_bench -- --save-baseline main_branch
-          cargo bench --bench request_template_bench -- --save-baseline main_branch
-          cargo bench --bench json_like_bench -- --save-baseline main_branch
+     - name: Install critcmp
+       run: |
+         cargo install critcmp
 
-  benchmark_new:
-    if: github.ref != 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
+     - name: Run benchmarks on main
+       run: |
+         cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline before
+         cargo bench --bench data_loader_bench -- --save-baseline before
+         cargo bench --bench request_template_bench -- --save-baseline before
+         cargo bench --bench json_like_bench -- --save-baseline before
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+ benchmark_new:
+   runs-on: ubuntu-latest
 
-      - name: critcmp
-        run: |
-          cargo install critcmp
-        
-      - name: Run benchmarks on new
-        run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
-          cargo bench --bench data_loader_bench -- --save-baseline new_branch
-          cargo bench --bench request_template_bench -- --save-baseline new_branch
-          cargo bench --bench json_like_bench -- --save-baseline new_branch
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v2
 
-  compare_and_comment:
-    needs: [benchmark_main, benchmark_new]  # This ensures that these jobs run before this one
-    runs-on: ubuntu-latest
+     - name: Install critcmp
+       run: |
+         cargo install critcmp
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+     - name: Run benchmarks on new
+       run: |
+         cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new
+         cargo bench --bench data_loader_bench -- --save-baseline new
+         cargo bench --bench request_template_bench -- --save-baseline new
+         cargo bench --bench json_like_bench -- --save-baseline new
 
-      - name: Compare benchmarks and comment on PR
-        run: |
-          critcmp main new
+ compare_and_comment:
+   needs: [benchmark_main, benchmark_new] # This ensures that these jobs run before this one
+   runs-on: ubuntu-latest
+
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v2
+
+     - name: Compare benchmarks and comment on PR
+       run: |
+         critcmp before new
