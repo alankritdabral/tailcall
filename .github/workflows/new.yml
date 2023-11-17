@@ -45,25 +45,26 @@ jobs:
    - name: Compare benchmarks
      run: critcmp main_branch new_branch
 
-   - name: Comment on issue
+   - name: Run GitHub Script
      uses: actions/github-script@v3
      with:
-       github-token: ${{ secrets.GITHUB_TOKEN }}
-       script: |
-          output=$(/home/runner/.cargo/bin/critcmp base changes)
-          echo "$output"
-          awk 'NR > 2 {
-              group=$1
-              base=$7
-              changes=$3
-              gsub(/[^\-0-9\.]/, "", changes)
-              gsub(/[^\-0-9\.]/, "", base)
-              if (changes != "" && base != "") {
-                  diff = changes - base
-                  percentage = (diff / base) * 100
-                  if (percentage > 10) {
-                      printf "Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
-                      exit 1
-                  }
+      script: |
+        output=$(/home/runner/.cargo/bin/critcmp base changes)
+        echo "$output" | awk 'NR > 2 {
+          group=$1
+          base=$7
+          changes=$3
+          gsub(/[^-0-9.]/, "", changes)
+          gsub(/[^-0-9.]/, "", base)
+          if (changes != "" && base != "") {
+              diff = changes - base
+              percentage = (diff / base) * 100
+              if (percentage > 10) {
+                  printf "Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage
+                  exit 1
               }
-          }' <<< "$output"
+          }
+        }'
+      debug: false
+      user-agent: actions/github-script
+      result-encoding: json
