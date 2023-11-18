@@ -15,59 +15,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Critcmp
-      run: cargo install critcmp
+      - name: Install Critcmp
+        run: cargo install critcmp
 
-    - name: Benchmark changes
-      run: |
-        cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
-        cargo bench --bench data_loader_bench -- --save-baseline new_branch
-        cargo bench --bench request_template_bench -- --save-baseline new_branch
-        cargo bench --bench json_like_bench -- --save-baseline new_branch
+      - name: Benchmark changes
+        run: |
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
+          cargo bench --bench data_loader_bench -- --save-baseline new_branch
+          cargo bench --bench request_template_bench -- --save-baseline new_branch
+          cargo bench --bench json_like_bench -- --save-baseline new_branch
 
-    - name: Fetch base branch
-      run: git fetch
+      - name: Fetch base branch
+        run: git fetch
 
-    - name: Checkout base branch
-      run: git checkout ${{ github.base_ref }}
+      - name: Checkout base branch
+        run: git checkout ${{ github.base_ref }}
 
-    - name: Benchmark base
-      run: |
-        cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
-        cargo bench --bench data_loader_bench -- --save-baseline main_branch
-        cargo bench --bench request_template_bench -- --save-baseline main_branch
-        cargo bench --bench json_like_bench -- --save-baseline main_branch
-    - name: Comment on PR
-      uses: actions/github-script@v5
-      with:
-          script: |
-            const issue_number = context.issue.number;
-            const comment = 'This is a comment from the CI pipeline';
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue_number,
-              body: comment
-            });
+      - name: Benchmark base
+        run: |
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
+          cargo bench --bench data_loader_bench -- --save-baseline main_branch
+          cargo bench --bench request_template_bench -- --save-baseline main_branch
+          cargo bench --bench json_like_bench -- --save-baseline main_branch
 
-    - name: Run shell script
-      id: script
-      run: |
-          output=$(bash .github/scripts/degradation.sh)
-          echo "::set-output name=output::$output"
+      - name: run shell script
+        run: |
+          echo "| Test                          | Base         | PR               | % change   |"  > output_file.txt
+          echo "|-------------------------------|--------------|------------------|------------|"  >> output_file.txt
+          critcmp main_branch new_branch | awk 'NR>2 {
+              item = $1
+              before=$7
+              after=$3
+              before_val = ($7 ~ /ns/) ? $7 : ($7 ~ /µs/) ? $7 * 1000 : ($7 ~ /ms/) ? $7 * 1000000 : "invalid"
+              after_val = ($3 ~ /ns/) ? $3 : ($3 ~ /µs/) ? $3 * 1000 : ($3 ~ /ms/) ? $3 * 1000000 : "invalid"
+              temp1=before_val
+              temp2=after_val
+              if (before_val != "invalid" && after_val != "invalid") {
+                  change = ((after_val - before_val) / before_val) * 100
+                  gsub("%", "", change)  # Remove '%' symbol
+                  printf "%-30s %-20s %-20s %-10.2f\n", item, before, after, change >> "output_file.txt"
+              }
+              else {
+                  printf "Invalid units detected for %s\n", item
+              }
+          }'
 
-    - name: Comment PR with script output
-      uses: actions/github-script@v5
-      with:
-          script: |
-            const issue_number = context.issue.number;
-            const comment = `Script output: ${{ steps.script.outputs.output }}`;
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue_number,
-              body: comment
-            });
+      - name: PR comment with file
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: output_file.txt
