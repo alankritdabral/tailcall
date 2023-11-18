@@ -40,49 +40,6 @@ jobs:
         cargo bench --bench data_loader_bench -- --save-baseline main_branch
         cargo bench --bench request_template_bench -- --save-baseline main_branch
         cargo bench --bench json_like_bench -- --save-baseline main_branch
-    - name: Run critcmp and add PR comment
-      run: |
-        output=$(/home/runner/.cargo/bin/critcmp main_branch ${{ github.event.before }})
-
-        comments=$(awk 'BEGIN {
-            comment=""
-        }
-        NR > 2 {
-            group=$1
-            base=$7
-            changes=$3
-
-            gsub(/[^\-0-9\.]/, "", changes)  # Extract only numerical values
-            gsub(/[^\-0-9\.]/, "", base)     # Extract only numerical values
-
-            # Ensure changes and base values are not empty
-            if (changes != "" && base != "") {
-                diff = changes - base  # Calculate the absolute difference
-                percentage = (diff / base) * 100  # Calculate the percentage difference
-
-                if (percentage > 10) {
-                    comment = comment sprintf("Percentage change for %s exceeds 10%%: %.2f%%\n", group, percentage)
-                }
-            }
-        }
-        END {
-            print comment
-        }' <<< "$output")
-
-        echo "$output"
-
-        if [ -n "$comments" ]; then
-            echo "Adding comments to the pull request:"
-            echo "$comments"
-
-            pr_number="${{ github.event.number }}"
-
-            curl -X POST \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github.v3+json" \
-                "https://api.github.com/repos/${{ github.repository }}/issues/${pr_number}/comments" \
-                -d "{\"body\":\"$comments\"}"
-        fi
     - name: Comment on PR
       uses: actions/github-script@v5
       with:
