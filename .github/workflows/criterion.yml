@@ -63,6 +63,12 @@ jobs:
               }
           }'
 
+      - name: Debug Info
+        run: |
+          echo "Owner: ${{ github.repository_owner }}"
+          echo "Repo: ${{ github.repository }}"
+          echo "Issue Number: ${{ github.event.number }}"
+
       - name: Comment PR
         uses: actions/github-script@v6
         with:
