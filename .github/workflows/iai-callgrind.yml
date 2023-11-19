@@ -21,6 +21,9 @@ jobs:
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
 
+      - name: Fetch base branch
+        run: git fetch
+
       - name: Benchmark changes
         run: |
           echo -n > benches/iai-callgrind/benchmarks.txt
@@ -29,8 +32,6 @@ jobs:
           cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
           cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
           sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
-      - name: Fetch base branch
-        run: git fetch
 
       - name: Checkout base branch
         run: git checkout ${{ github.base_ref }}
