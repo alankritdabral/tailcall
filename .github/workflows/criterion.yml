@@ -96,53 +96,52 @@ jobs:
     
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+ steps:
+     - name: Checkout code
+       uses: actions/checkout@v2
 
-      - name: Install iai-callgrind-runner
-        run: cargo install --version 0.7.3 iai-callgrind-runner
+     - name: Install iai-callgrind-runner
+       run: cargo install --version 0.7.3 iai-callgrind-runner
 
-      - name: Install Valgrind
-        run: sudo apt-get update && sudo apt-get install valgrind
+     - name: Install Valgrind
+       run: sudo apt-get update && sudo apt-get install valgrind
 
-      - name: Fetch base branch
-        run: git fetch
+     - name: Fetch base branch
+       run: git fetch
 
-      - name: Check for changes
-        run: |
-          if [[ -n $(git status --porcelain) ]]; then
-            git config --global user.email "github-actions@github.com"
-            git config --global user.name "GitHub Actions"
-            git add .
-            git commit -m "Committing changes before switching branches in GitHub Actions"
-          fi
+     - name: Check for changes
+       run: |
+         if [[ -n $(git status --porcelain) ]]; then
+           git config --global user.email "github-actions@github.com"
+           git config --global user.name "GitHub Actions"
+           git add .
+           git commit -m "Committing changes before switching branches in GitHub Actions"
+         fi
 
-      - name: Checkout base branch
-        run: git checkout ${{ github.base_ref }}
+     - name: Checkout base branch
+       run: git checkout ${{ github.base_ref }}
 
-      - name: Benchmark base
-        run: |
-          echo -n > benches/iai-callgrind/benchmark.txt
-          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
+     - name: Benchmark base
+       run: |
+         echo -n > benches/iai-callgrind/benchmark.txt
+         cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
 
-      - name: Checkout back to the current branch
-        run: git checkout ${{ github.head_ref }}
+     - name: Commit benchmark file
+       run: |
+         git add benches/iai-callgrind/benchmark.txt
+         git commit -m "Save benchmark results"
 
-      - name: Benchmark changes
-        run: |
-          echo -n > benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
+     - name: Create new branch and switch to it
+       run: git checkout -b Integrate-CI-for-running-benchmarks-#624
 
-      - name: Execute build_time_compare.sh
-        run: |
-          chmod +x .github/scripts/compare_build_time.sh
-          bash .github/scripts/compare_build_time.sh
+     - name: Copy benchmark file to new branch
+       run: git checkout main -- benches/iai-callgrind/benchmark.txt
+
+     - name: Commit benchmark file to new branch
+       run: |
+         git add benches/iai-callgrind/benchmark.txt
+         git commit -m "Save benchmark results to new branch"
