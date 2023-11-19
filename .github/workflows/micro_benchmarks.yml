@@ -1,4 +1,4 @@
-name: Comment Criterion
+name: Micro Benchmarks
 
 on:
   pull_request:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   Micro-benchmarks:
+    name: criterion_benchmarks
     runs-on: ubuntu-latest
 
     steps:
@@ -92,3 +93,25 @@ jobs:
               issue_number: issue_number,
               body: comment
             });
+
+  Build_time_compare:
+    name: iai_callgrind_benchmarks
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Install iai-callgrind-runner
+      - name: Install iai-callgrind-runner
+        run: cargo install --version 0.7.3 iai-callgrind-runner
+
+      # Step 3: Install Valgrind
+      - name: Install Valgrind
+        run: sudo apt-get update && sudo apt-get install valgrind
+
+      - name: Execute build_time_compare.sh
+        run: |
+          chmod +x .github/scripts/compare_build_time.sh
+          bash .github/scripts/compare_build_time.sh
