@@ -1,12 +1,12 @@
 name: iai-callgrind
 
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, reopened, synchronize]
     push:
     branches:
       - "**"
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
   release:
     types: [published]
 
