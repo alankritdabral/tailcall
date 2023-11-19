@@ -28,7 +28,7 @@ jobs:
           cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
           cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
           cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-
+          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
       - name: Fetch base branch
         run: git fetch
 
@@ -42,10 +42,7 @@ jobs:
           cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
           cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
           cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-
-      - name: Manipulate Benchmark File
-        run: sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
-          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
+          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
 
       - name: Execute build_time_compare.sh
         run: |
