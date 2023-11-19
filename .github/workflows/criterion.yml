@@ -93,7 +93,7 @@ jobs:
               body: comment
             });
   iai-callgrind:
-    benchmark:
+    
     runs-on: ubuntu-latest
 
     steps:
