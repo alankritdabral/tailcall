@@ -1,0 +1,50 @@
+name: iai-caallgrind
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  release:
+    types: [published]
+
+jobs:
+  iai:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install iai-callgrind-runner
+        run: cargo install --version 0.7.3 iai-callgrind-runner
+
+      - name: Install Valgrind
+        run: sudo apt-get update && sudo apt-get install valgrind
+
+      - name: Benchmark changes
+        run: |
+          echo -n > benches/iai-callgrind/benchmarks.txt
+          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
+      - name: Fetch base branch
+        run: git fetch
+
+      - name: Checkout base branch
+        run: git checkout ${{ github.base_ref }}
+
+      - name: Benchmark base
+        run: |
+          echo -n > benches/iai-callgrind/benchmark.txt
+          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
+
+      - name: Execute build_time_compare.sh
+        run: |
+          chmod +x .github/scripts/build_time_compare.sh
+          bash .github/scripts/compare_build_time.sh
