@@ -2,10 +2,9 @@ name: Comment Criterion
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, reopened, synchronize]
-  release:
-    types: [published]
+    types: [opened, synchronize, labeled]
+    branches:
+      - main
 
 jobs:
   benchmark:

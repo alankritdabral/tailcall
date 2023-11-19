@@ -1,4 +1,4 @@
-name: honeysigh
+name: iai-caallgrind
 
 on:
   pull_request:
@@ -46,4 +46,5 @@ jobs:
 
       - name: Execute build_time_compare.sh
         run: |
-          bash .github/scripts/build_time_compare.sh
+          chmod +x .github/scripts/build_time_compare.sh
+          .github/scripts/build_time_compare.sh
