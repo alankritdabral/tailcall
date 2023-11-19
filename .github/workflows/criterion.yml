@@ -43,8 +43,6 @@ jobs:
 
       - name: Run shell script
         run: |
-          echo "| Test                          | Base         | PR               | % change   |"  > output_file.txt
-          echo "|-------------------------------|--------------|------------------|------------|"  >> output_file.txt
           critcmp main_branch new_branch | awk 'NR>2 {
               item = $1
               before = $7
@@ -72,18 +70,23 @@ jobs:
       - name: Comment PR
         uses: actions/github-script@v6
         with:
-         script: |
-           const fs = require('fs');
-           const fileContent = fs.readFileSync('output_file.txt', 'utf8');
-           const issue_number = context.issue.number;
-           const comment = `
-           | Test                          | Base         | PR               | % change   |
-           |-------------------------------|--------------|------------------|------------|
-           ${fileContent}
-           `;
-           github.rest.issues.createComment({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             issue_number: issue_number,
-             body: comment
-           });
+          script: |
+            const fs = require('fs');
+            const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+            const issue_number = context.issue.number;
+            const comment = `
+              <details>
+              <summary>Benchmark Results</summary>
+
+              | Test                          | Base         | PR               | % change   |
+              |-------------------------------|--------------|------------------|------------|
+              ${fileContent}
+
+              </details>
+            `;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: comment
+            });
