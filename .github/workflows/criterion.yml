@@ -43,6 +43,8 @@ jobs:
 
       - name: Run shell script
         run: |
+          echo "| Test                          | Base         | PR               | % change   |"  > output_file.txt
+          echo "|-------------------------------|--------------|------------------|------------|"  >> output_file.txt
           critcmp main_branch new_branch | awk 'NR>2 {
               item = $1
               before = $7
@@ -55,9 +57,14 @@ jobs:
                   change = ((after_val - before_val) / before_val) * 100
                   gsub("%", "", change)  # Remove '%' symbol
                   printf "| %-30s | %-20s | %-20s | %-10.2f |\n", item, before, after, change >> "output_file.txt"
+                  if (change > 5) {
+                      echo "Percentage change exceeds 10%. Failing the workflow."
+                      exit 1
+                  }
               }
               else {
-                  printf "Invalid units detected for %s\n", item
+                  echo "Invalid units detected for %s. Failing the workflow."
+                  exit 1
               }
           }'
 
@@ -68,6 +75,7 @@ jobs:
           echo "Issue Number: ${{ github.event.number }}"
 
       - name: Comment PR
+        if: always()
         uses: actions/github-script@v6
         with:
           script: |
@@ -75,14 +83,14 @@ jobs:
             const fileContent = fs.readFileSync('output_file.txt', 'utf8');
             const issue_number = context.issue.number;
             const comment = `
-              <details>
-              <summary>Benchmark Results</summary>
+            <details>
+            <summary>Benchmark Results</summary>
 
-              | Test                          | Base         | PR               | % change   |
-              |-------------------------------|--------------|------------------|------------|
-              ${fileContent}
+            | Test                          | Base         | PR               | % change   |
+            |-------------------------------|--------------|------------------|------------|
+            ${fileContent}
 
-              </details>
+            </details>
             `;
             github.rest.issues.createComment({
               owner: context.repo.owner,
