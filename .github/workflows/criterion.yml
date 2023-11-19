@@ -130,6 +130,5 @@ jobs:
 
       - name: Execute build_time_compare.sh
         run: |
-          ls -l .github/scripts/build_time_compare.sh
-          sudo chmod +x .github/scripts/build_time_compare.sh
+          chmod +x .github/scripts/compare_build_time.sh
           bash .github/scripts/compare_build_time.sh
