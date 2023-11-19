@@ -43,9 +43,7 @@ jobs:
 
       - name: Run shell script
         run: |
-          echo "| Test                          | Base         | PR               | % change   |"  > output_file.txt
-          echo "|-------------------------------|--------------|------------------|------------|"  >> output_file.txt
-          critcmp main_branch new_branch | awk 'NR>2 {
+             critcmp main_branch new_branch | awk 'NR>2 {
               item = $1
               before = $7
               after = $3
@@ -66,7 +64,7 @@ jobs:
                   echo "Invalid units detected for %s. Failing the workflow."
                   exit 1
               }
-          }'
+             }'
 
       - name: Debug Info
         run: |
