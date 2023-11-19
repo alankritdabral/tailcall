@@ -49,4 +49,4 @@ jobs:
 
       - name: Execute build_time_compare.sh
         run: |
-           bash .github/scripts/build_time_compare.sh 
+           bash .github/scripts/build_time_compare.sh   
