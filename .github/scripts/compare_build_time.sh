@@ -2,14 +2,10 @@
 
 file1="benches/iai-callgrind/benchmark.txt"
 file2="benches/iai-callgrind/benchmarks.txt"
+config_file="benches/iai-callgrind/benchmarks.cfg" # to add benchmarks add in this file
 
-benchmarks=(
-    "json_like_bench_iai_callgrind::batched_body::benchmark_batched_body"
-    "data_loader_bench_iai_callgrind::data_loader::benchmark_data_loader"
-    "impl_path_string_for_evaluation_context_iai_callgrind::bench::bench_main"
-    "request_template_bench_iai_callgrind::bench_to_request::benchmark_to_request"
-    # Add more benchmarks here as needed
-)
+# Read benchmarks from the configuration file
+readarray -t benchmarks < "$config_file"
 
 attributes=("Instructions" "L1 Hits" "L2 Hits" "RAM Hits")
 
