@@ -47,4 +47,4 @@ jobs:
       - name: Execute build_time_compare.sh
         run: |
           chmod +x .github/scripts/build_time_compare.sh
-          .github/scripts/build_time_compare.sh
+          bash .github/scripts/compare_build_time.sh
