@@ -92,11 +92,9 @@ jobs:
               issue_number: issue_number,
               body: comment
             });
-  iai-callgrind:
-    
+  iai-callgrind: 
     runs-on: ubuntu-latest
-
- steps:
+    steps:
      - name: Checkout code
        uses: actions/checkout@v2
 
