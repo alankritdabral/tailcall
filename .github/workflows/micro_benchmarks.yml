@@ -1,4 +1,4 @@
-name: Comment Criterion
+name: Micro benchmarks
 
 on:
   pull_request:
