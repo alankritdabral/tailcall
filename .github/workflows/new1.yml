@@ -1,64 +1,82 @@
 name: Benchmark Workflow
 
 on:
-  pull_request:
-    branches:
-      - '*'
+ pull_request:
+   branches:
+     - '*'
 
 jobs:
-  benchmark:
-    runs-on: ubuntu-latest
+ benchmark:
+   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+   steps:
+     # Step 1: Checkout the code from the repository
+     - name: Checkout code
+       uses: actions/checkout@v2
 
-      - name: Install iai-callgrind-runner
-        run: cargo install --version 0.7.3 iai-callgrind-runner
+     # Step 2: Install iai-callgrind-runner
+     - name: Install iai-callgrind-runner
+       run: cargo install --version 0.7.3 iai-callgrind-runner
 
-      - name: Install Valgrind
-        run: sudo apt-get update && sudo apt-get install valgrind
+     # Step 3: Install Valgrind
+     - name: Install Valgrind
+       run: sudo apt-get update && sudo apt-get install valgrind
 
-      - name: Check for changes
-        run: |
-          if [[ -n $(git status --porcelain) ]]; then
-            git checkout -- Cargo.lock
-          fi
+     # Step 4: Check for local changes
+     - name: Check for changes
+       run: |
+         # If there are local changes, commit them
+         if [[ -n $(git status --porcelain) ]]; then
+           git config --global user.email "github-actions@github.com"
+           git config --global user.name "GitHub Actions"
+           git add .
+           git commit -m "Committing changes before switching branches"
+         fi
 
-      - name: Save main benchmark results to the current branch
-        run: echo "Placeholder content" > benches/iai-callgrind/benchmark_main.txt
+     # Step 5: Save main benchmark results to the current branch
+     - name: Save main benchmark results to the current branch
+       run: echo "Placeholder content" > benches/iai-callgrind/benchmark_main.txt
 
-      - name: Fetch base branch
-        run: git fetch
+     # Step 6: Fetch the base branch
+     - name: Fetch base branch
+       run: git fetch
 
-      - name: Checkout base branch
-        run: git checkout ${{ github.base_ref }}
+     # Step 7: Checkout the base branch
+     - name: Checkout base branch
+       run: git checkout ${{ github.base_ref }}
 
-      - name: Benchmark base
-        run: |
-          echo -n > benches/iai-callgrind/benchmark.txt
-          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
+     # Step 8: Benchmark on the base branch
+     - name: Benchmark base
+       run: |
+         # Benchmarking steps for the base branch
+         echo -n > benches/iai-callgrind/benchmark.txt
+         cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
+         sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
 
-      - name: Checkout back to the current branch
-        run: git checkout ${{ github.head_ref }}
+     # Step 9: Checkout back to the current branch
+     - name: Checkout back to the current branch
+       run: git checkout ${{ github.head_ref }}
 
-      - name: Copy main benchmark results from base branch
-        run: cp benches/iai-callgrind/benchmark.txt benches/iai-callgrind/benchmark_main.txt
+     # Step 10: Copy main benchmark results from base branch
+     - name: Copy main benchmark results from base branch
+       run: cp benches/iai-callgrind/benchmark.txt benches/iai-callgrind/benchmark_main.txt
 
-      - name: Benchmark changes
-        run: |
-          echo -n > benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
+     # Step 11: Benchmark changes on the current branch
+     - name: Benchmark changes
+       run: |
+         # Benchmarking steps for changes on the current branch
+         echo -n > benches/iai-callgrind/benchmarks.txt
+         cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+         cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+         cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+         cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
+         sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
 
-      - name: Execute build_time_compare.sh
-        run: |
-          chmod +x .github/scripts/compare_build_time.sh
-          bash .github/scripts/compare_build_time.sh
+     # Step 12: Execute build_time_compare.sh script
+     - name: Execute build_time_compare.sh
+       run: |
+         chmod +x .github/scripts/compare_build_time.sh
+         bash .github/scripts/compare_build_time.sh
