@@ -109,6 +109,15 @@ jobs:
       - name: Fetch base branch
         run: git fetch
 
+      - name: Check for changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            git config --global user.email "github-actions@github.com"
+            git config --global user.name "GitHub Actions"
+            git add .
+            git commit -m "Committing changes before switching branches in GitHub Actions"
+          fi
+
       - name: Checkout base branch
         run: git checkout ${{ github.base_ref }}
 
