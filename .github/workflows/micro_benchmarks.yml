@@ -94,7 +94,7 @@ jobs:
               body: comment
             });
 
-  Build time compare:
+  Build_time_compare:
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
 
