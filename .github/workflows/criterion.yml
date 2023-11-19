@@ -116,9 +116,6 @@ jobs:
             git commit -m "Committing changes before switching branches in GitHub Actions"
           fi
 
-      - name: Save main benchmark results to the current branch
-        run: |
-          cp benches/iai-callgrind/benchmark.txt benches/iai-callgrind/benchmark_main.txt
 
       - name: Checkout base branch
         run: git checkout ${{ github.base_ref }}
@@ -132,6 +129,10 @@ jobs:
           cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
           sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
 
+      - name: Save main benchmark results to the current branch
+        run: |
+          cp benches/iai-callgrind/benchmark.txt benches/iai-callgrind/benchmark_main.txt
+          
       - name: Checkout back to the current branch
         run: git checkout ${{ github.head_ref }}
 
