@@ -21,7 +21,7 @@ jobs:
       - id: check
         run: |
           chmod +x .github/scripts/check_if_build.sh
-          .github/scripts/check_if_build.sh
+          bash .github/scripts/check_if_build.sh
     outputs:
       check_if_build: ${{ steps.check.outputs.check_if_build }}
 
