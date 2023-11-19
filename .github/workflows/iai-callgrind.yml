@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install iai-callgrind-runner 
-        run: cargo install --version 0.8.0 iai-callgrind-runner
+        run: cargo install --version 0.7.3 iai-callgrind-runner
 
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
