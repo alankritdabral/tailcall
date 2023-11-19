@@ -1,4 +1,4 @@
-name: jodd
+name: Benchmark Workflow
 
 on:
   pull_request:
@@ -19,20 +19,17 @@ jobs:
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
 
-      - name: Fetch base branch
-        run: git fetch
-
       - name: Check for changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            git config --global user.email "github-actions@github.com"
-            git config --global user.name "GitHub Actions"
-            git add .
-            git commit -m "Committing changes before switching branches in GitHub Actions"
+            git checkout -- Cargo.lock
           fi
 
       - name: Save main benchmark results to the current branch
         run: echo "Placeholder content" > benches/iai-callgrind/benchmark_main.txt
+
+      - name: Fetch base branch
+        run: git fetch
 
       - name: Checkout base branch
         run: git checkout ${{ github.base_ref }}
