@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Run benchmarks and save output to a file
-echo -n > benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
-
-file1="benches/iai-callgrind/old_benchmark.txt"
-
-# Switch to current branch
-
-
 
 config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
 
