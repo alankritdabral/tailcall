@@ -7,6 +7,7 @@ cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >>
 cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
 cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
+file2="benches/iai-callgrind/new_benchmarks.txt"
 
 # Switch to main branch
 git fetch
@@ -20,12 +21,9 @@ cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --s
 cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 
-file1="benches/iai-callgrind/old_benchmark.txt"
 
 # Switch to current branch
-
-
-file2="benches/iai-callgrind/new_benchmarks.txt"
+file1="benches/iai-callgrind/old_benchmark.txt"
 
 config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
 
