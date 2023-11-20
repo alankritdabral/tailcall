@@ -122,7 +122,7 @@ jobs:
                 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 
                 file2="benches/iai-callgrind/new_benchmarks.txt"
-                
+                git fetch
                 git checkout ${{ github.base_ref }}
                 echo -n > benches/iai-callgrind/old_benchmark.txt
                 cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
