@@ -1,10 +1,5 @@
 #!/bin/bash
 
-file2="benches/iai-callgrind/new_benchmarks.txt"
-
-# Switch to main branch
-git checkout main
-
 # Run benchmarks and save output to a file
 echo -n > benches/iai-callgrind/old_benchmark.txt
 cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
