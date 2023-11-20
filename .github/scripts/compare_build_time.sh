@@ -4,28 +4,29 @@
 git checkout main
 
 # Run benchmarks and save output to a file
-echo -n > benches/iai-callgrind/benchmark.txt
-cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/benchmark.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmark.txt
+echo -n > benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
+
+file1="benches/iai-callgrind/old_benchmark.txt"
 
 # Switch to current branch
 git checkout -
 
 # Run benchmarks and save output to another file
-echo -n > benches/iai-callgrind/benchmarks.txt
-cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/benchmarks.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/benchmarks.txt
+echo -n > benches/iai-callgrind/new_benchmarks.txt
+cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 
+file2="benches/iai-callgrind/new_benchmarks.txt"
 
-file1="benches/iai-callgrind/benchmark.txt"
-file2="benches/iai-callgrind/benchmarks.txt"
-config_file="benches/iai-callgrind/benchmarks.cfg" # to add benchmarks add in this file
+config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
 
 # Read benchmarks from the configuration file
 readarray -t benchmarks < "$config_file"
@@ -70,7 +71,10 @@ for bench in "${benchmarks[@]}"; do
         ram_hits=$(grep -A5 "$bench" "$file" | grep -Po "RAM Hits:\K\d+")
 
         if [ "$x" -ne 0 ]; then
-            p1=$(( ((l1_hits + l2_hits + ram_hits - x) * 100) / x ))
+            total_read_write=$((l1_hits + l2_hits + ram_hits))
+            estimated_cycles=$((l1_hits + 5 * l2_hits + 35 * ram_hits))
+
+            p1=$(( ((total_read_write - x) * 100) / x ))
             echo "$bench Total read+write has a change of $p1%"
 
             if ((p1 > 10)); then
@@ -78,7 +82,7 @@ for bench in "${benchmarks[@]}"; do
                 fail_ci=1
             fi
 
-            p2=$(( ((l1_hits + 5 * l2_hits + 35 * ram_hits - y) * 100) / y ))
+            p2=$(( ((estimated_cycles - y) * 100) / y ))
             echo "$bench Estimated Cycles has a change of $p2%"
 
             if ((p2 > 10)); then
