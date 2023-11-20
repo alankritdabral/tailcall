@@ -16,7 +16,7 @@ sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
 
 # Switch to current branch
-git checkout -
+
 
 
 config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
