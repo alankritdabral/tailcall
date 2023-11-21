@@ -1,11 +1,11 @@
 name: Micro benchmarks
 
 on:
+  push:
+    branches:
+      - "**"
   pull_request:
     types: [opened, synchronize, labeled]
-    branches:
-      - main
-  push:
     branches:
       - main
 
