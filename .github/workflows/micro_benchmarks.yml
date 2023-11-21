@@ -2,7 +2,7 @@ name: Micro benchmarks
 
 on:
   pull_request:
-    types: [opened, synchronize, labeled]
+    types: [opened, reopened, labeled]
     branches:
       - main
   push:
