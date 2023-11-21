@@ -12,15 +12,17 @@ file2="benches/iai-callgrind/new_benchmarks.txt"
 # Switch to main branch
 git fetch
 git checkout main
-
+if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+  echo "Running cargo bench on main branch"
 # Run benchmarks and save output to a file
-echo -n > benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
-
+    echo -n > benches/iai-callgrind/old_benchmark.txt
+    cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+    cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+    cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+    cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+    sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
+    echo "ALALAALALLALALALALLALALLA"
+fi
 
 # Switch to current branch
 file1="benches/iai-callgrind/old_benchmark.txt"
