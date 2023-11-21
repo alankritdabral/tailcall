@@ -2,6 +2,7 @@ name: Micro benchmarks
 
 on:
   push:
+    types: [opened, synchronize, labeled]
     branches:
       - "**"
 
