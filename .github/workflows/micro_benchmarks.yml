@@ -6,7 +6,7 @@ on:
       - "**"    
 jobs:
   Micro-benchmarks:
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark') && github.event_name == 'push'    
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark')   
     name: criterion_benchmarks
     runs-on: ubuntu-latest
 
@@ -87,7 +87,7 @@ jobs:
               body: comment
             });
   Build_time_compare:
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark') && github.event_name == 'push'    
+    if: github.event_name == 'push'    
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
 
