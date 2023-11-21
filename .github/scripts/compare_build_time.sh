@@ -20,8 +20,10 @@ if [ "$GITHUB_REF" == "refs/heads/main" ]; then
     cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
     cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
     cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-    sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
-    echo "ALALAALALLALALALALLALALLA"
+    sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt  
+else
+  echo "Branch not supported for cargo bench: $GITHUB_REF"
+  exit 1
 fi
 
 # Switch to current branch
