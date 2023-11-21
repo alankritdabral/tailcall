@@ -1,4 +1,5 @@
 #!/bin/bash
+git stash
 git fetch
 git checkout main
 if [ "$GITHUB_REF" == "refs/heads/main" ]; then
