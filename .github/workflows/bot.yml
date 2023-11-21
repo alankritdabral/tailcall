@@ -7,7 +7,7 @@ on:
       - main
   push:
     branches:
-      - "**"
+      - main
 
   workflow_dispatch:
     inputs:
@@ -154,7 +154,7 @@ jobs:
 
   Micro-benchmarks:
     name: Criterion Benchmarks
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark') && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -241,7 +241,7 @@ jobs:
 
   Build_time_compare:
     name: iai_callgrind_benchmarks
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark') && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
