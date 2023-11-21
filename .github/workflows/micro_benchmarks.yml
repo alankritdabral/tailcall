@@ -2,12 +2,14 @@ name: Micro benchmarks
 
 on:
   push:
-    types: [opened, synchronize, labeled]
     branches:
       - "**"
-     
+  pull_request:
+    types: [labeled]
+
 jobs:
   Micro-benchmarks:
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
     name: criterion_benchmarks
     runs-on: ubuntu-latest
 
@@ -95,19 +97,17 @@ jobs:
             });
 
   Build_time_compare:
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Install iai-callgrind-runner
       - name: Install iai-callgrind-runner
         run: cargo install --version 0.7.3 iai-callgrind-runner
 
-      # Step 3: Install Valgrind
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
 
