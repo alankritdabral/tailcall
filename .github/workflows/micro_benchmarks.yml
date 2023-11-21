@@ -1,11 +1,11 @@
 name: Micro benchmarks
 
 on:
+  pull_request:
+    types: [opened, reopened, labeled]
   push:
     branches:
       - "**"
-  pull_request:
-    types: [opened, reopened, labeled]
 
 jobs:
   Micro-benchmarks:
