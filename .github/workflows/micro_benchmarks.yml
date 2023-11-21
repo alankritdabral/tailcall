@@ -3,13 +3,7 @@ name: Micro benchmarks
 on:
   push:
     branches:
-      - "**"
-  pull_request:
-    types: [opened, reopened, labeled]
-    branches:
-      - main
-
-     
+      - "**"    
 jobs:
   Micro-benchmarks:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') && github.event_name == 'push'    
