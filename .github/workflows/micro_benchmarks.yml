@@ -5,7 +5,11 @@ on:
     types: [opened, synchronize, labeled]
     branches:
       - main
+  push:
+    branches:
+      - main
 
+     
 jobs:
   Micro-benchmarks:
     name: criterion_benchmarks
