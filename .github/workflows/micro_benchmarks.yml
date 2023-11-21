@@ -3,9 +3,11 @@ name: Micro benchmarks
 on:
   push:
     branches:
-      - "**"    
+      - "**"
+
 jobs:
   Micro-benchmarks:
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: criterion_benchmarks
     runs-on: ubuntu-latest
 
@@ -85,7 +87,9 @@ jobs:
               issue_number: issue_number,
               body: comment
             });
+
   Build_time_compare:
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
 
