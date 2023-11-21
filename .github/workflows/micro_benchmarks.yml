@@ -18,12 +18,19 @@ jobs:
       - name: Install Critcmp
         run: cargo install critcmp
 
+      - name: Create temporary directory
+        run: temp_dir=$(mktemp -d)
+
+      - name: Copy compare_build_time.sh to temporary directory
+        run: cp .github/scripts/compare_build_time.sh "$temp_dir/.github/scripts/"
+
       - name: Benchmark changes
         run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
-          cargo bench --bench data_loader_bench -- --save-baseline new_branch
-          cargo bench --bench request_template_bench -- --save-baseline new_branch
-          cargo bench --bench json_like_bench -- --save-baseline new_branch
+          bash "$temp_dir/.github/scripts/compare_build_time.sh"
+
+      - name: Cleanup temporary directory
+        run: rm -rf "$temp_dir"
+
       - name: Fetch base branch
         run: git fetch
 
@@ -36,42 +43,24 @@ jobs:
           cargo bench --bench data_loader_bench -- --save-baseline main_branch
           cargo bench --bench request_template_bench -- --save-baseline main_branch
           cargo bench --bench json_like_bench -- --save-baseline main_branch
+
       - name: Run shell script
         run: |
-          critcmp main_branch new_branch | awk 'NR>2 {
-           item = $1
-           before = $7
-           after = $3
-           before_val = ($7 ~ /ns/) ? $7 : ($7 ~ /µs/) ? $7 * 1000 : ($7 ~ /ms/) ? $7 * 1000000 : "invalid"
-           after_val = ($3 ~ /ns/) ? $3 : ($3 ~ /µs/) ? $3 * 1000 : ($3 ~ /ms/) ? $3 * 1000000 : "invalid"
-           temp1 = before_val
-           temp2 = after_val
-           if (before_val != "invalid" && after_val != "invalid") {
-               change = ((after_val - before_val) / before_val) * 100
-               gsub("%", "", change)  # Remove '%' symbol
-               printf "| %-30s | %-20s | %-20s | %-10.2f |\n", item, before, after, change >> "output_file.txt"
-               if (change > 10) {
-                   echo "Percentage change exceeds 10%. Failing the workflow."
-                   exit 1
-               }
-           }
-           else {
-               echo "Invalid units detected for %s. Failing the workflow."
-               exit 1
-           }
-          }'
+
+
       - name: Debug Info
         run: |
           echo "Owner: ${{ github.repository_owner }}"
           echo "Repo: ${{ github.repository }}"
           echo "Issue Number: ${{ github.event.number }}"
+
       - name: Comment PR
         if: always()
         uses: actions/github-script@v6
         with:
           script: |
             const fs = require('fs');
-            const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+            const fileContent = fs.readFileSync('benches/criterion/benchmarks.txt', 'utf8');
             const issue_number = context.issue.number;
             const comment = `
             <details>
@@ -94,15 +83,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the repository
-      - name: Checkout code
+      - name: Checkout the code from the repository
         uses: actions/checkout@v2
 
-      # Step 2: Install iai-callgrind-runner
       - name: Install iai-callgrind-runner
         run: cargo install --version 0.7.3 iai-callgrind-runner
 
-      # Step 3: Install Valgrind
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
 
