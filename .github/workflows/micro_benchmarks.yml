@@ -18,19 +18,6 @@ jobs:
       - name: Install Critcmp
         run: cargo install critcmp
 
-      - name: Create temporary directory
-        run: temp_dir=$(mktemp -d)
-
-      - name: Copy compare_build_time.sh to temporary directory
-        run: cp .github/scripts/compare_build_time.sh "$temp_dir/.github/scripts/"
-
-      - name: Benchmark changes
-        run: |
-          bash "$temp_dir/.github/scripts/compare_build_time.sh"
-
-      - name: Cleanup temporary directory
-        run: rm -rf "$temp_dir"
-
       - name: Fetch base branch
         run: git fetch
 
