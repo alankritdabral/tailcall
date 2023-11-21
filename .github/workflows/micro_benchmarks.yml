@@ -17,7 +17,6 @@ on:
 
 jobs:
   Micro-benchmarks:
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark')    
     name: criterion_benchmarks
     runs-on: ubuntu-latest
 
@@ -29,6 +28,7 @@ jobs:
         run: cargo install critcmp
 
       - name: Benchmark changes
+        if: contains(github.event.pull_request.labels.*.name, 'benchmark')    
         run: |
           cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
           cargo bench --bench data_loader_bench -- --save-baseline new_branch
@@ -42,6 +42,7 @@ jobs:
         run: git checkout ${{ github.base_ref }}
 
       - name: Benchmark base
+        if: contains(github.event.pull_request.labels.*.name, 'benchmark')    
         run: |
           cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
           cargo bench --bench data_loader_bench -- --save-baseline main_branch
@@ -104,9 +105,7 @@ jobs:
               body: comment
             });
 
-  Build_time_compare:
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark')    
-    name: iai_callgrind_benchmarks
+  Build_time_compare:    name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
 
     steps:
