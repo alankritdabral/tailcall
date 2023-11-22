@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Switch to main branch
+git fetch
+git checkout main
+
 # Run benchmarks and save output to another file
 echo -n > benches/iai-callgrind/new_benchmarks.txt
 cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
@@ -9,23 +13,6 @@ cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline chan
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 file2="benches/iai-callgrind/new_benchmarks.txt"
 
-config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
-# Read benchmarks from the configuration file
-readarray -t benchmarks < "$config_file"
-
-# Discard all changes in the working directory
-git checkout -- .
-
-# Discard all untracked files
-git clean -fd
-
-# Switch to the branch you want to update
-git checkout ${{ github.base_ref }}
-
-# Fetch the latest changes from the remote repository
-git fetch
-
-
 
 # Run benchmarks and save output to a file
 echo -n > benches/iai-callgrind/old_benchmark.txt
@@ -33,12 +20,16 @@ cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> ben
 cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
 cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
 cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt  
+sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 
+
+# Switch to current branch
 file1="benches/iai-callgrind/old_benchmark.txt"
 
+config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
 
-
+# Read benchmarks from the configuration file
+readarray -t benchmarks < "$config_file"
 
 attributes=("Instructions" "L1 Hits" "L2 Hits" "RAM Hits")
 
