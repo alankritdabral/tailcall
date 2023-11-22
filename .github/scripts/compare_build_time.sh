@@ -3,7 +3,7 @@
 # Switch to main branch
 git fetch
 git checkout --
-git checkout main
+git switch main
 
 # Run benchmarks and save output to another file
 echo -n > benches/iai-callgrind/new_benchmarks.txt
@@ -14,6 +14,7 @@ cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline chan
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 file2="benches/iai-callgrind/new_benchmarks.txt"
 
+git checkout -
 
 # Run benchmarks and save output to a file
 echo -n > benches/iai-callgrind/old_benchmark.txt
