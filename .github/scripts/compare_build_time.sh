@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Switch to main branch
-git checkout --
 git fetch
+git checkout --
 git checkout main
 
 # Run benchmarks and save output to another file
