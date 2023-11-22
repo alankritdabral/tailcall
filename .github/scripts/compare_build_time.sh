@@ -18,10 +18,11 @@ git checkout -- .
 git clean -fd
 
 # Switch to the branch you want to update
-git checkout main
+git checkout ${{ github.base_ref }}
 
 # Fetch the latest changes from the remote repository
 git fetch
+
 
 
 # Run benchmarks and save output to a file
