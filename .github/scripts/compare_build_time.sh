@@ -3,7 +3,7 @@
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Switch to main branch
-git stash
+git stash --keep-index
 git fetch
 git checkout main
 
