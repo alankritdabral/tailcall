@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Switch to main branch
-git fetch
-git checkout --
-git switch main
+git stash
+git checkout main
 
 # Run benchmarks and save output to another file
 echo -n > benches/iai-callgrind/new_benchmarks.txt
@@ -24,6 +23,7 @@ if ! git diff --quiet .github/scripts/compare_build_time.sh; then
 fi
 
 # Switch back to the original branch
+git clean -fd
 git checkout -
 
 # Run benchmarks and save output to a file
