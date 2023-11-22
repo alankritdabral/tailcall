@@ -16,7 +16,7 @@ jobs:
     - name: Run Carago Bench on current branch
       run: |
         # Replace the following command with the actual command to run carago bench
-        carago bench
+        cargo bench
 
     - name: Switch to main branch
       run: git checkout main
@@ -24,4 +24,4 @@ jobs:
     - name: Run Carago Bench on main branch
       run: |
         # Replace the following command with the actual command to run carago bench
-        carago bench
+        cargo bench
