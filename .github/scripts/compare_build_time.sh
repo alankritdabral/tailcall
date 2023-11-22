@@ -1,20 +1,6 @@
 #!/bin/bash
 
 # Run benchmarks and save output to another file
-
-git fetch
-git checkout main
-# Run benchmarks and save output to a file
-    echo -n > benches/iai-callgrind/old_benchmark.txt
-    cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-    cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-    cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-    cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-    sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt  
-
-git checkout --
-git checkout -
-
 echo -n > benches/iai-callgrind/new_benchmarks.txt
 cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
 cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
@@ -23,6 +9,27 @@ cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline chan
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 file2="benches/iai-callgrind/new_benchmarks.txt"
 
+
+# Discard all changes in the working directory
+git checkout -- .
+
+# Discard all untracked files
+git clean -fd
+
+# Switch to the branch you want to update
+git checkout main
+
+# Fetch the latest changes from the remote repository
+git fetch
+
+
+# Run benchmarks and save output to a file
+echo -n > benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt  
 
 file1="benches/iai-callgrind/old_benchmark.txt"
 
