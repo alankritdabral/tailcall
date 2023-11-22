@@ -4,6 +4,7 @@ current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Switch to main branch
 git stash
+git fetch
 git checkout main
 
 # Run benchmarks and save output to another file
