@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Switch to main branch
+git checkout --
 git fetch
 git checkout main
 
