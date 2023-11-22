@@ -14,6 +14,16 @@ cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline chan
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 file2="benches/iai-callgrind/new_benchmarks.txt"
 
+# Check for local changes
+if ! git diff --quiet .github/scripts/compare_build_time.sh; then
+    # Commit the changes or stash them
+    git add .github/scripts/compare_build_time.sh
+    git commit -m "Committing changes to compare_build_time.sh"
+    # Alternatively, you can use git stash:
+    # git stash
+fi
+
+# Switch back to the original branch
 git checkout -
 
 # Run benchmarks and save output to a file
