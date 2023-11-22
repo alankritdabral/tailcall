@@ -10,6 +10,8 @@ sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 file2="benches/iai-callgrind/new_benchmarks.txt"
 
 config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
+# Read benchmarks from the configuration file
+readarray -t benchmarks < "$config_file"
 
 # Discard all changes in the working directory
 git checkout -- .
@@ -36,8 +38,7 @@ sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
 
 
-# Read benchmarks from the configuration file
-readarray -t benchmarks < "$config_file"
+
 
 attributes=("Instructions" "L1 Hits" "L2 Hits" "RAM Hits")
 
