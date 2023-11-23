@@ -18,33 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Comment on PR
-        run: |
-          node -e "const axios = require('axios');
-            const { owner, repo } = context.repo;
-            const commitSha = github.sha;
-
-            try {
-              const response = await axios.get(
-                'https://api.github.com/repos/${owner}/${repo}/commits/${commitSha}/pulls'
-              );
-
-              if (response.data.length > 0) {
-                const prNumber = response.data[0].number;
-                const body = 'Hello! This is a comment on the associated pull request.';
-                await axios.post(
-                  'https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}/comments',
-                  { body },
-                  {
-                    headers: {
-                      Authorization: 'Bearer ${process.env.GITHUB_TOKEN}',
-                      Accept: 'application/vnd.github.v3+json',
-                    },
-                  }
-                );
-              } else {
-                console.log('No associated pull request found.');
-              }
-            } catch (error) {
-              console.error('Error fetching pull request:', error.response ? error.response.data : error.message);
-              process.exit(1);
-            }"
+        uses: machine-learning-apps/pr-comment@1.0.0
+        with:
+           github-token: ${{ secrets.GITHUB_TOKEN }}
+           comment-file:  benches/iai-callgrind/benchmarks.cfg # replace with the path to your file
