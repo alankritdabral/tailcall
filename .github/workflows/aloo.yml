@@ -17,27 +17,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+
       - name: Comment on PR
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-            const commitSha = github.sha;
+        run: |
+          const axios = require('axios');
 
-            // Fetch the pull request associated with the commit
-            const { data: pulls } = await github.pulls.list({
-              owner,
-              repo,
-              head: `${owner}:${commitSha}`,
-            });
+          const { owner, repo } = context.repo;
+          const commitSha = github.sha;
 
-            // Check if there is at least one pull request
-            if (pulls.length > 0) {
-              const prNumber = pulls[0].number;
+          try {
+            const response = await axios.get(
+              `https://api.github.com/repos/${owner}/${repo}/commits/${commitSha}/pulls`
+            );
+
+            if (response.data.length > 0) {
+              const prNumber = response.data[0].number;
               const body = 'Hello! This is a comment on the associated pull request.';
-              const response = await github.issues.createComment({ owner, repo, issue_number: prNumber, body });
-              console.log(response);
+              await axios.post(
+                `https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}/comments`,
+                { body },
+                {
+                  headers: {
+                    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                    Accept: 'application/vnd.github.v3+json',
+                  },
+                }
+              );
             } else {
               console.log('No associated pull request found.');
             }
+          } catch (error) {
+            console.error('Error fetching pull request:', error.response ? error.response.data : error.message);
+            process.exit(1);
+          }
