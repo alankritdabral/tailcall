@@ -28,7 +28,7 @@ jobs:
               const owner = context.repo.owner;
              const repo = context.repo.repo;
              github.issues.createComment({
-               issue_number: issue_number,
+               issue_number: 19,
                owner: owner,
                repo: repo,
                body: content
