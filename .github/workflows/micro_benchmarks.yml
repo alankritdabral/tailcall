@@ -67,7 +67,7 @@ jobs:
         if: always()
         uses: actions/github-script@v6
         with:
-          script: |
+         script: |
               const fs = require('fs');
               const fileContent = fs.readFileSync('output_file.txt', 'utf8');
               const issue_number = context.issue.number;
@@ -77,18 +77,19 @@ jobs:
               const comment = `
               <details>
               <summary>Benchmark Results</summary>
-              | Test                          | Base         | PR               | % change   |
+              | Test                        | Base        | PR              | % change  |
               |-------------------------------|--------------|------------------|------------|
               ${fileContent}
               </details>
               `;
-
+                          
               github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue_number,
               body: comment
               });
+
 
   Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
