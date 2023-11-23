@@ -67,32 +67,48 @@ jobs:
           echo "Owner: ${{ github.repository_owner }}"
           echo "Repo: ${{ github.repository }}"
           echo "Issue Number: ${{ github.event.number }}"
-      - name: Comment PR
-        if: always()
+  
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run GitHub Script
         uses: actions/github-script@v6
         with:
-         script: |
-             const fs = require('fs');
-             const fileContent = fs.readFileSync('output_file.txt', 'utf8');
-             const issue_number = github.context.payload.issue?.number || github.context.payload.pull_request?.number;
+          script: |
+            const github = require('@actions/github');
+            const fs = require('fs');
+            const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+            const context = github.context;
+            const issue_number = context.payload.issue?.number || context.payload.pull_request?.number;
+  
+            console.log(`Issue Number: ${issue_number}`); // Add this line for logging
 
-             console.log(`Issue Number: ${issue_number}`); // Add this line for logging
-
-             const comment = `
-             <details>
-             <summary>Benchmark Results</summary>
-             | Test                  | Base     | PR           | % change |
-             |-------------------------------|--------------|------------------|------------|
-             ${fileContent}
-             </details>
-             `;
-
-             github.rest.issues.createComment({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             issue_number: issue_number,
-             body: comment
-             });
+            const comment = `
+            <details>
+            <summary>Benchmark Results</summary>
+            | Test                  | Base     | PR           | % change |
+            |-------------------------------|--------------|------------------|------------|
+            ${fileContent}
+            </details>
+            `;
+  
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: comment
+            });
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          debug: false
+          user-agent: actions/github-script
+          result-encoding: json
+          retries: 0
+          retry-exempt-status-codes: 400,401,403,404,422
 
   Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
