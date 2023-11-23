@@ -1,4 +1,4 @@
-name: Add Comment on PR
+name: Comment on PR
 
 on:
   pull_request:
@@ -10,26 +10,28 @@ on:
       - "**"
       
 jobs:
-  add-comment:
+  comment-on-pr:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
         with:
-          python-version: 3.8
+          stable: true
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: cargo build --verbose
 
-      - name: Add comment to PR
-        run: |
-          COMMENT="Hello! This is an automated comment on your pull request."
-          echo "$COMMENT" | gh pr comment ${{ github.event.before }}
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment on PR
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+            const body = 'Hello! This is a comment on the pull request.';
+            const response = await github.issues.createComment({ owner, repo, issue_number: prNumber, body });
+            console.log(response);
