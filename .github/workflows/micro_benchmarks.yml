@@ -1,6 +1,8 @@
 name: Micro benchmarks
 
 on:
+  issues:
+   types: [opened, closed, reopened]
   pull_request:
     types: [opened, synchronize, labeled]
     branches:
@@ -10,7 +12,7 @@ on:
       - "**"
  
 jobs:
-  Micro-benchmarks:
+ Check_Degdratation:
     name: Criterion Benchmarks
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     runs-on: ubuntu-latest
@@ -60,41 +62,40 @@ jobs:
       - name: Run actions/github-script@v6
         uses: actions/github-script@v6
         with:
-          script: |
+         script: |
            const fs = require('fs');
            const fileContent = fs.readFileSync('output_file.txt', 'utf8');
            const scriptContext = github.context;
            const issue_number = scriptContext.payload.issue?.number || scriptContext.payload.pull_request?.number;
-     
+           
            console.log(`Issue Number: ${issue_number}`); // Add this line for logging
-     
+           
            const comment = `
            <details>
            <summary>Benchmark Results</summary>
-           | Test                | Base    | PR          | % change |
+           | Test               | Base   | PR         | % change |
            |-------------------------------|--------------|------------------|------------|
            ${fileContent}
            </details>
            `;
-     
+           
            github.rest.issues.createComment({
-           owner: scriptContext.repo.owner,
-           repo: scriptContext.repo.repo,
-           issue_number: issue_number,
-           body: comment
+             owner: scriptContext.repo.owner,
+             repo: scriptContext.repo.repo,
+             issue_number: issue_number,
+             body: comment
            });
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          debug: false
-          user-agent: actions/github-script
-          result-encoding: json
-          retries: 0
-          retry-exempt-status-codes: 400,401,403,404,422
+         github-token: ${{ secrets.GITHUB_TOKEN }}
+         debug: false
+         user-agent: actions/github-script
+         result-encoding: json
+         retries: 0
+         retry-exempt-status-codes: 400,401,403,404,422
         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-
-  Build_time_compare:
+ 
+ Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
