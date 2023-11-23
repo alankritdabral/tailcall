@@ -45,25 +45,53 @@ jobs:
           critcmp main_branch new_branch
           chmod +x .github/scripts/check_degradation.sh
           bash .github/scripts/check_degradation.sh
-  
-      - name: Comment on Commit
-        uses: actions/github-script@v3
+          
+      - uses: actions/github-script@v6
+        id: get_issue_number
+        with:
+          script: |
+            if (context.issue.number) {
+              // Return issue number if present
+              return context.issue.number;
+            } else {
+              // Otherwise return issue number from commit
+              return (
+                await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              commit_sha: context.sha,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+              ).data[0].number;
+            }
+          result-encoding: string
+          
+      - name: Comment on PR
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-              const { owner, repo, sha } = context.repo;        
-              const fs = require('fs');
-              const path = require('path');
-              const filePath = path.join(process.env.GITHUB_WORKSPACE, 'output_file.txt');
-              const fileContent = fs.readFileSync(filePath, 'utf8');
-              const comment = await github.rest.repos.createCommitComment({
-              owner,
-              repo,
-              sha,
-              body: fileContent
-              });
-          github: ${{ github }}
+           const fs = require('fs');
+           const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+           const issue_number = ${{steps.get_issue_number.outputs.result}}
+           const owner = context.repo.owner;
+           const repo = context.repo.repo;
+            const comment = `
+            <details>
+            <summary>Benchmark Results</summary>
 
+            | Test                          | Base         | PR               | % change   |
+            |-------------------------------|--------------|------------------|------------|
+            ${fileContent}
+
+            </details>
+            `;
+           github.rest.issues.createComment({
+           issue_number: issue_number,
+           owner: owner,
+           repo: repo,
+           body: content
+           });
+           
  Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
