@@ -18,7 +18,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Comment on PR
-        uses: machine-learning-apps/pr-comment@1.0.0
+        uses: actions/github-script@v5
         with:
-           github-token: ${{ secrets.GITHUB_TOKEN }}
-           comment-file:  benches/iai-callgrind/benchmarks.cfg # replace with the path to your file
+         github-token: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
+         script: |
+            const fs = require('fs');
+            const content = fs.readFileSync('./path-to-your-file', 'utf8');
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            github.issues.createComment({
+              issue_number: issue_number,
+            owner: owner,
+              repo: repo,
+              body: content
+            });
