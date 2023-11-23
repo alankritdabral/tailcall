@@ -89,7 +89,7 @@ jobs:
            issue_number: issue_number,
            owner: owner,
            repo: repo,
-           body: content
+           body: comment
            });
            
  Build_time_compare:
