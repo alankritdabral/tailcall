@@ -17,18 +17,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-
-
-      - name: Install dependencies
-        run: cargo build --verbose
-
       - name: Comment on PR
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
-            const prNumber = github.event.before; // Use before or after commit hash as a reference to find associated pull request
-            const body = 'Hello! This is a comment on the associated pull request.';
-            const response = await github.issues.createComment({ owner, repo, issue_number: prNumber, body });
-            console.log(response);
+            const commitSha = github.sha;
+
+            // Fetch the pull request associated with the commit
+            const { data: pulls } = await github.pulls.list({
+              owner,
+              repo,
+              head: `${owner}:${commitSha}`,
+            });
+
+            // Check if there is at least one pull request
+            if (pulls.length > 0) {
+              const prNumber = pulls[0].number;
+              const body = 'Hello! This is a comment on the associated pull request.';
+              const response = await github.issues.createComment({ owner, repo, issue_number: prNumber, body });
+              console.log(response);
+            } else {
+              console.log('No associated pull request found.');
+            }
