@@ -3,8 +3,7 @@ name: Micro benchmarks
 on:
   push:
     branches:
-      - "**"   
-      
+      - "**"    
 jobs:
   Micro-benchmarks:
     name: Criterion Benchmarks
