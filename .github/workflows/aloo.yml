@@ -23,7 +23,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
              const fs = require('fs');
-             const content = fs.readFileSync('./path-to-your-file', 'utf8');
+             const content = fs.readFileSync('helo.txt', 'utf8');
              const issue_number = context.issue.number || context.payload.pull_request.number;
              const owner = context.repo.owner;
              const repo = context.repo.repo;
