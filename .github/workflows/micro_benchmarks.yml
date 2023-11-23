@@ -1,8 +1,6 @@
 name: Micro benchmarks
 
 on:
-  issues:
-   types: [opened, closed, reopened]
   pull_request:
     types: [opened, synchronize, labeled]
     branches:
