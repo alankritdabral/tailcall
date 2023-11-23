@@ -45,23 +45,24 @@ jobs:
         run: |
           chmod +x .github/scripts/check_degradation.sh
           bash .github/scripts/check_degradation.sh
-    
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
   
-      - name: Comment on Pull Request
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Comment on Commit
+        uses: actions/github-script@v3
         with:
-          filePath: output_file.txt
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          mode: upsert
-          create_if_not_exists: true
-          
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+              const { owner, repo, sha } = context.repo;        
+              const fs = require('fs');
+              const path = require('path');
+              const filePath = path.join(process.env.GITHUB_WORKSPACE, 'output_file.txt');
+              const fileContent = fs.readFileSync(filePath, 'utf8');
+              const comment = await github.rest.repos.createCommitComment({
+              owner,
+              repo,
+              sha,
+              body: fileContent
+              });
+
  Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
