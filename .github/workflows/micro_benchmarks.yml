@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Critcmp
-        run: cargo install critcmp || echo "Critcmp is already installed"
+        run: cargo install critcmp 
 
       - name: Benchmark changes
         run: |
@@ -43,6 +43,7 @@ jobs:
 
       - name: Run shell script
         run: |
+          critcmp main_branch new_branch
           chmod +x .github/scripts/check_degradation.sh
           bash .github/scripts/check_degradation.sh
   
