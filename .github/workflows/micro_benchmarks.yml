@@ -80,7 +80,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const github = require('@actions/github');
             const fs = require('fs');
             const fileContent = fs.readFileSync('output_file.txt', 'utf8');
             const context = github.context;
