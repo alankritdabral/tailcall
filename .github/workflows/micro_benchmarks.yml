@@ -68,11 +68,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-      - name: Comment PR
-        if: always()
-        uses: actions/github-script@v6
-        with:
-          script: |
               const fs = require('fs');
               const fileContent = fs.readFileSync('output_file.txt', 'utf8');
               const issue_number = github.context.payload.issue?.number || github.context.payload.pull_request?.number;
