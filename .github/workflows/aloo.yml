@@ -28,7 +28,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
-            const prNumber = context.payload.pull_request.number;
-            const body = 'Hello! This is a comment on the pull request.';
+            const prNumber = github.event.before; // Use before or after commit hash as a reference to find associated pull request
+            const body = 'Hello! This is a comment on the associated pull request.';
             const response = await github.issues.createComment({ owner, repo, issue_number: prNumber, body });
             console.log(response);
