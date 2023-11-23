@@ -24,7 +24,7 @@ jobs:
           script: |
              const fs = require('fs');
              const content = fs.readFileSync('helo.txt', 'utf8');
-             const issue_number = context.issue.number || context.payload.pull_request.number;
+             const issue_number = context.payload.pull_request ? context.payload.pull_request.number : context.issue.number;
              const owner = context.repo.owner;
              const repo = context.repo.repo;
              github.issues.createComment({
