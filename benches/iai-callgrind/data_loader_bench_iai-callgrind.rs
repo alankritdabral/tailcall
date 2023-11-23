@@ -26,12 +26,7 @@ impl HttpClient for MockHttpClient {
 async fn benchmark_data_loader() {
   let client = Arc::new(MockHttpClient { request_count: Arc::new(AtomicUsize::new(0)) });
 
-  let loader = HttpDataLoader {
-    client: client.clone(),
-    batched: None,
-    body: None,  // Add this line to include the body field
-  };
-
+  let loader = HttpDataLoader { client: client.clone(), batched: None };
 
   let loader = loader.to_data_loader(Batch::default().delay(1));
 
