@@ -68,29 +68,32 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-           const fs = require('fs');
-           const fileContent = fs.readFileSync('output_file.txt', 'utf8');
-           const issue_number = github.context.issue.number || github.context.payload.pull_request.number;
+      - name: Comment PR
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+              const fs = require('fs');
+              const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+              const issue_number = github.context.payload.issue?.number || github.context.payload.pull_request?.number;
 
-           console.log(`Issue Number: ${issue_number}`); // Add this line for logging
+              console.log(`Issue Number: ${issue_number}`); // Add this line for logging
 
-           const comment = `
-           <details>
-           <summary>Benchmark Results</summary>
-           | Test                      | Base       | PR             | % change |
-           |-------------------------------|--------------|------------------|------------|
-           ${fileContent}
-           </details>
-           `;
+              const comment = `
+              <details>
+              <summary>Benchmark Results</summary>
+              | Test                    | Base      | PR            | % change |
+              |-------------------------------|--------------|------------------|------------|
+              ${fileContent}
+              </details>
+              `;
 
-           github.rest.issues.createComment({
-           owner: context.repo.owner,
-           repo: context.repo.repo,
-           issue_number: issue_number,
-           body: comment
-           });
-
-
+              github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: comment
+              });
   Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
