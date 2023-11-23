@@ -1,10 +1,14 @@
 name: Add Comment on PR
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, labeled]
     branches:
       - main
-
+  push:
+    branches:
+      - "**"
+      
 jobs:
   add-comment:
     runs-on: ubuntu-latest
