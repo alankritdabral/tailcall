@@ -17,22 +17,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Comment on PR
-        uses: actions/github-script@v5
+
+      - uses: actions/github-script@v6
+        id: get_issue_number
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-             const fs = require('fs');
-             const content = fs.readFileSync('helo.txt', 'utf8');
-              const commits = context.payload.commits;
-                const lastCommit = commits[commits.length - 1];
-              const pullRequests = lastCommit.associatedPullRequests;
-              const issue_number = pullRequests && pullRequests.length > 0 ? pullRequests[0].number : context.issue.number;
-               const owner = context.repo.owner;
-             const repo = context.repo.repo;
-             github.issues.createComment({
-               issue_number: 19,
-               owner: owner,
-               repo: repo,
-               body: content
-             });
+            if (context.issue.number) {
+              // Return issue number if present
+              return context.issue.number;
+            } else {
+              // Otherwise return issue number from commit
+              return (
+                await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              commit_sha: context.sha,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+              ).data[0].number;
+            }
+          result-encoding: string
+      - name: Issue number
+        run: echo '${{steps.get_issue_number.outputs.result}}'
