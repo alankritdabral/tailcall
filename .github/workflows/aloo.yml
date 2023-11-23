@@ -1,9 +1,12 @@
 name: Comment on PR
-
 on:
- push:
-   branches:
-     - main
+  pull_request:
+    types: [opened, synchronize, labeled]
+    branches:
+      - main
+  push:
+    branches:
+      - "**"
 jobs:
  comment:
    runs-on: ubuntu-latest
