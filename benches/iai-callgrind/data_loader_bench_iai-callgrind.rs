@@ -57,3 +57,4 @@ async fn benchmark_data_loader() {
 
 library_benchmark_group!(name = data_loader; benchmarks = benchmark_data_loader);
 main!(library_benchmark_groups = data_loader);
+
