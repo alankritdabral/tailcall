@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - "**"
-
+ 
 jobs:
   Micro-benchmarks:
     name: Criterion Benchmarks
