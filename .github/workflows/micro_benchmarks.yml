@@ -53,12 +53,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: PR comment with file
+  
+      - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: output_file.txt
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          mode: upsert
+          create_if_not_exists: true
+          
  Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
