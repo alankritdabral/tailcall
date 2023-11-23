@@ -63,6 +63,7 @@ jobs:
               sha,
               body: fileContent
               });
+          github: ${{ github }}
 
  Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
