@@ -18,7 +18,8 @@ git stash drop
 git stash 
 
 # Switch back to the original branch
-git checkout "$current_branch"
+git checkout -
+git branch
 git stash apply
 
 # Run benchmarks and save output to another file
