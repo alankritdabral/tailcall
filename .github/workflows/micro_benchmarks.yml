@@ -16,7 +16,11 @@ jobs:
 
       - name: Install Critcmp
         run: cargo install critcmp 
-
+        
+      - name: Run benchmarks 
+        run: |
+          chmod +x .github/scripts/check_degradation.sh
+          bash .github/scripts/check_degradation.sh        
       - uses: actions/github-script@v6
         id: get_issue_number
         with:
