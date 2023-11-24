@@ -11,6 +11,7 @@
           git stash
 
           git checkout "$current_branch"
+          git branch
           cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
           cargo bench --bench data_loader_bench -- --save-baseline main_branch
           cargo bench --bench request_template_bench -- --save-baseline main_branch
