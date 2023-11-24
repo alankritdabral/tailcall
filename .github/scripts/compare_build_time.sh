@@ -16,7 +16,7 @@ sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
 # Drop the stash you applied earlier
 git stash drop
-
+git reset --hard 
 # Stash your changes
 git stash
 
