@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, labeled]
     branches:
       - main
-
+  
   push:
     branches:
       - main
