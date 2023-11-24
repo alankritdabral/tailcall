@@ -1,9 +1,7 @@
 #!/bin/bash
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
-
 # Switch to main branch
-git stash save -- benches/iai-callgrind/oldbenchmarks.txt
 git fetch
 git checkout main
 
@@ -15,6 +13,7 @@ cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --s
 cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
+git stash save -- benches/iai-callgrind/oldbenchmarks.txt
 
 # Switch back to the original branch
 git checkout "$current_branch"
