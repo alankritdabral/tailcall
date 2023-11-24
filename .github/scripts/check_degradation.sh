@@ -7,12 +7,21 @@
           cargo bench --bench data_loader_bench -- --save-baseline new_branch
           cargo bench --bench request_template_bench -- --save-baseline new_branch
           cargo bench --bench json_like_bench -- --save-baseline new_branch
-          git stash drop 
+        # Drop the stash you applied earlier
+          git stash drop
+
+# Stash your changes
           git stash
 
-          git checkout -
-          git stash apply
+# Switch back to the previous branch
+          git switch -
+
+# Verify that you are on the correct branch
           git branch
+
+# Apply the stash
+          git stash apply
+
           cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
           cargo bench --bench data_loader_bench -- --save-baseline main_branch
           cargo bench --bench request_template_bench -- --save-baseline main_branch
