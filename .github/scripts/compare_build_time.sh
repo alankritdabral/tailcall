@@ -1,8 +1,7 @@
 #!/bin/bash
 
-current_branch=$(git rev-parse --abbrev-ref HEAD)
+current_branch= git branch --show-current
 # Switch to main branch
-echo "$current_branch"
 git stash
 git fetch
 git checkout main
