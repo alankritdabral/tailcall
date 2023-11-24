@@ -18,7 +18,7 @@ git stash drop
 git stash 
 
 # Switch back to the original branch
-git checkout -
+git switch "$current_branch"
 git branch
 git stash apply
 
