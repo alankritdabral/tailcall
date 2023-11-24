@@ -5,6 +5,8 @@ on:
    types: [opened, synchronize, labeled]
    branches:
      - "*"
+
+     
 jobs:
  Check_Degdratation:
     name: Criterion Benchmarks
