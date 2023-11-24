@@ -21,25 +21,13 @@ git stash drop
 git stash
 
 # Switch back to the previous branch
-git switch -
+git switch test-benchmarks
 
 # Verify that you are on the correct branch
 git branch
 
 # Apply the stash
 git stash apply
-
-# Stage the modifications and untracked files for commit
-git add Cargo.lock benches/iai-callgrind/old_benchmark.txt
-
-# Check the status to ensure changes are staged correctly
-git status
-
-# Commit the changes with a meaningful message
-git commit -m "Stashed changes from previous branch"
-
-# If you want to stash the uncommitted changes again for later use
-git stash
 
 
 # Run benchmarks and save output to another file
