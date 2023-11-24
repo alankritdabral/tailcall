@@ -1,6 +1,6 @@
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 git fetch
-git checkout ${{ github.base_ref }}
+git checkout main
 
 cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
 cargo bench --bench data_loader_bench -- --save-baseline new_branch
