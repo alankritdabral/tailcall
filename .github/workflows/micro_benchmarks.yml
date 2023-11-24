@@ -1,14 +1,13 @@
 name: Micro benchmarks
 
 on:
- pull_request:
-   types: [opened, synchronize, labeled]
-   branches:
-     - "*"
+  pull_request:
+    types: [opened, synchronize, labeled]
+    branches:
+      - "*"
 
-     
 jobs:
- Check_Degdratation:
+  Check_Degdratation:
     name: Criterion Benchmarks
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     runs-on: ubuntu-latest
@@ -17,8 +16,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Critcmp
-        run: cargo install critcmp 
-        
+        run: cargo install critcmp
+
       - name: Run Criterion on branch
         run: |
           cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
@@ -42,54 +41,52 @@ jobs:
         run: |
           chmod +x .github/scripts/check_degradation.sh
           bash .github/scripts/check_degradation.sh
-        
+
       - uses: actions/github-script@v6
         id: get_issue_number
         with:
           script: |
             if (context.issue.number) {
-              // Return issue number if present
               return context.issue.number;
             } else {
-              // Otherwise return issue number from commit
               return (
                 await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              commit_sha: context.sha,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            })
+                  commit_sha: context.sha,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
               ).data[0].number;
             }
           result-encoding: string
-          
+
       - name: Comment on PR
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-           const fs = require('fs');
-           const fileContent = fs.readFileSync('output_file.txt', 'utf8');
-           const issue_number = ${{steps.get_issue_number.outputs.result}}
-           const owner = context.repo.owner;
-           const repo = context.repo.repo;
+            const fs = require('fs');
+            const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+            const issue_number = ${{steps.get_issue_number.outputs.result}};
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
             const comment = `
-            <details>
-            <summary>Benchmark Results</summary>
+              <details>
+                <summary>Benchmark Results</summary>
 
-            | Test                          | Base         | PR               | % change   |
-            |-------------------------------|--------------|------------------|------------|
-            ${fileContent}
+                | Test                          | Base         | PR               | % change   |
+                |-------------------------------|--------------|------------------|------------|
+                ${fileContent}
 
-            </details>
+              </details>
             `;
-           github.rest.issues.createComment({
-           issue_number: issue_number,
-           owner: owner,
-           repo: repo,
-           body: comment
-           });
-           
- Build_time_compare:
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
+              body: comment
+            });
+
+  Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
@@ -120,7 +117,7 @@ jobs:
           git checkout main
           git stash apply
 
-      - name: Run iai-callgrind  on main
+      - name: Run iai-callgrind on main
         run: |
           echo -n > benches/iai-callgrind/old_benchmark.txt
           cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
@@ -128,7 +125,7 @@ jobs:
           cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
           cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
           sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
-          
+
       - name: Execute build_time_compare.sh
         run: |
           chmod +x .github/scripts/compare_build_time.sh
