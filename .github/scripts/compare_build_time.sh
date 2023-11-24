@@ -14,7 +14,7 @@ cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --s
 cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
-# Drop the stash applied earlier
+# Drop the stash you applied earlier
 git stash drop
 
 # Stash your changes
@@ -28,6 +28,18 @@ git branch
 
 # Apply the stash
 git stash apply
+
+# Stage the modifications and untracked files for commit
+git add Cargo.lock benches/iai-callgrind/old_benchmark.txt
+
+# Check the status to ensure changes are staged correctly
+git status
+
+# Commit the changes with a meaningful message
+git commit -m "Stashed changes from previous branch"
+
+# If you want to stash the uncommitted changes again for later use
+git stash
 
 
 # Run benchmarks and save output to another file
