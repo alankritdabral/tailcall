@@ -17,10 +17,30 @@ jobs:
       - name: Install Critcmp
         run: cargo install critcmp 
         
-      - name: Run benchmarks 
+      - name: Run Criterion on branch
+        run: |
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
+          cargo bench --bench data_loader_bench -- --save-baseline new_branch
+          cargo bench --bench request_template_bench -- --save-baseline new_branch
+          cargo bench --bench json_like_bench -- --save-baseline new_branch
+
+      - name: Switch to main
+        run: |
+          git fetch
+          git checkout main
+
+      - name: Run Criterion on main
+        run: |
+          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
+          cargo bench --bench data_loader_bench -- --save-baseline main_branch
+          cargo bench --bench request_template_bench -- --save-baseline main_branch
+          cargo bench --bench json_like_bench -- --save-baseline main_branch
+
+      - name: Execute check_degradation.sh
         run: |
           chmod +x .github/scripts/check_degradation.sh
-          bash .github/scripts/check_degradation.sh        
+          bash .github/scripts/check_degradation.sh
+        
       - uses: actions/github-script@v6
         id: get_issue_number
         with:
@@ -82,6 +102,32 @@ jobs:
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
 
+      - name: Run iai-callgrind on branch
+        run: |
+          echo -n > benches/iai-callgrind/new_benchmarks.txt
+          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
+          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
+          file2="benches/iai-callgrind/new_benchmarks.txt"
+
+      - name: Switch to main
+        run: |
+          gitt stash
+          git fetch
+          git checkout main
+          git stash apply
+
+      - name: Run iai-callgrind  on main
+        run: |
+          echo -n > benches/iai-callgrind/old_benchmark.txt
+          cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+          cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+          cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+          cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
+          sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
+          
       - name: Execute build_time_compare.sh
         run: |
           chmod +x .github/scripts/compare_build_time.sh
