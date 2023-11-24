@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - "*"    
+  pull_request:
+    types: [opened, synchronize, labeled]
+    branches:
+      - main
 jobs:
  Check_Degdratation:
     name: Criterion Benchmarks
