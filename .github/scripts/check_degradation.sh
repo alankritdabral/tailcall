@@ -1,15 +1,3 @@
-cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
-cargo bench --bench data_loader_bench -- --save-baseline new_branch
-cargo bench --bench request_template_bench -- --save-baseline new_branch
-cargo bench --bench json_like_bench -- --save-baseline new_branch
-
-git fetch
-git checkout main
-cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
-cargo bench --bench data_loader_bench -- --save-baseline main_branch
-cargo bench --bench request_template_bench -- --save-baseline main_branch
-cargo bench --bench json_like_bench -- --save-baseline main_branch
-
 echo "critcmp main_branch new_branch"
 critcmp main_branch new_branch | awk 'NR>2 {
     item = $1
