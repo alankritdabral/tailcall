@@ -1,44 +1,8 @@
 #!/bin/bash
-
-current_branch= git branch --show-current
-# Switch to main branch
-git stash
-git fetch
-git checkout main
-
-# Run benchmarks and save output to a file
-echo -n > benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main >> benches/iai-callgrind/old_benchmark.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
-# Drop the stash you applied earlier
-git stash drop
-git reset --hard 
-# Stash your changes
-git stash
-
-# Switch back to the previous branch
-git switch "$current_branch"
-
-# Verify that you are on the correct branch
-git branch
-
-# Apply the stash
-git stash apply
-
-
-# Run benchmarks and save output to another file
-echo -n > benches/iai-callgrind/new_benchmarks.txt
-cargo bench --bench json_like_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
-cargo bench --bench data_loader_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
-cargo bench --bench impl_path_string_for_evaluation_context_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
-cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline change >> benches/iai-callgrind/new_benchmarks.txt
-sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/new_benchmarks.txt
 file2="benches/iai-callgrind/new_benchmarks.txt"
 
+# Switch back to the original branch
 config_file="benches/iai-callgrind/benchmarks.cfg" # to add more benchmarks add in this file
 # Read benchmarks from the configuration file
 readarray -t benchmarks < "$config_file"
