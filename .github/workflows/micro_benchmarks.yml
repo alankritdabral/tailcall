@@ -1,10 +1,9 @@
 name: Micro benchmarks
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled]
+  push:
     branches:
-      - main
+      - "*"    
 jobs:
  Check_Degdratation:
     name: Criterion Benchmarks
