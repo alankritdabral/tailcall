@@ -1,4 +1,4 @@
-          current_branch=$(git rev-parse --abbrev-ref HEAD)
+          current_branch=git branch --show-current
           git fetch
           git stash
           git checkout main
@@ -9,17 +9,9 @@
           cargo bench --bench json_like_bench -- --save-baseline new_branch
         # Drop the stash you applied earlier
           git stash drop
-
-# Stash your changes
           git stash
-
-# Switch back to the previous branch
-          git switch -
-
-# Verify that you are on the correct branch
+          git switch "$current_branch"
           git branch
-
-# Apply the stash
           git stash apply
 
           cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
