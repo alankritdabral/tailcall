@@ -21,7 +21,7 @@ git stash drop
 git stash
 
 # Switch back to the previous branch
-git switch test-benchmarks
+git switch "$current_branch"
 
 # Verify that you are on the correct branch
 git branch
