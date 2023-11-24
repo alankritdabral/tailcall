@@ -9,6 +9,7 @@
           cargo bench --bench json_like_bench -- --save-baseline new_branch
         # Drop the stash you applied earlier
           git stash drop
+          git reset --hard 
           git stash
           git switch "$current_branch"
           git branch
