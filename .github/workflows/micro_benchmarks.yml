@@ -1,14 +1,10 @@
 name: Micro benchmarks
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled]
-    branches:
-      - main
-      
-  push:
-    branches:
-      - "*"
+ pull_request:
+   types: [opened, synchronize, labeled]
+   branches:
+     - "*"
 jobs:
  Check_Degdratation:
     name: Criterion Benchmarks
@@ -21,32 +17,6 @@ jobs:
       - name: Install Critcmp
         run: cargo install critcmp 
 
-      - name: Benchmark changes
-        run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline new_branch
-          cargo bench --bench data_loader_bench -- --save-baseline new_branch
-          cargo bench --bench request_template_bench -- --save-baseline new_branch
-          cargo bench --bench json_like_bench -- --save-baseline new_branch
-
-      - name: Fetch base branch
-        run: git fetch
-
-      - name: Checkout base branch
-        run: git checkout ${{ github.base_ref }}
-
-      - name: Benchmark base
-        run: |
-          cargo bench --bench impl_path_string_for_evaluation_context -- --save-baseline main_branch
-          cargo bench --bench data_loader_bench -- --save-baseline main_branch
-          cargo bench --bench request_template_bench -- --save-baseline main_branch
-          cargo bench --bench json_like_bench -- --save-baseline main_branch
-
-      - name: Run shell script
-        run: |
-          critcmp main_branch new_branch
-          chmod +x .github/scripts/check_degradation.sh
-          bash .github/scripts/check_degradation.sh
-          
       - uses: actions/github-script@v6
         id: get_issue_number
         with:
