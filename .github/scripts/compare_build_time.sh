@@ -15,7 +15,7 @@ cargo bench --bench request_template_bench_iai-callgrind -- --save-baseline main
 sed -i 's/ \{1,\}\([0-9]\)/\1/g' benches/iai-callgrind/old_benchmark.txt
 file1="benches/iai-callgrind/old_benchmark.txt"
 git stash drop 
-git stash save -- benches/iai-callgrind/oldbenchmarks.txt
+git stash 
 
 # Switch back to the original branch
 git checkout "$current_branch"
