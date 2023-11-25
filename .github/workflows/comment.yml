@@ -1,0 +1,48 @@
+name: Comment on PR with Benchmark Results
+
+on:
+  pull_request:
+    types:
+      - "*"
+
+jobs:
+  comment-on-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run benchmark and save results
+        run: |
+          # Add commands to run your benchmark and save results to output_file.txt
+          echo "Test,Base,PR,% change" > output_file.txt
+          echo "Test1,100,110,10%" >> output_file.txt
+          echo "Test2,200,180,-10%" >> output_file.txt
+
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const fileContent = fs.readFileSync('output_file.txt', 'utf8');
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const comment = `
+             <details>
+             <summary>Benchmark Results</summary>
+
+             | Test                          | Base         | PR               | % change   |
+             |-------------------------------|--------------|------------------|------------|
+             ${fileContent}
+
+             </details>
+             `;
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
+              body: comment
+            });
