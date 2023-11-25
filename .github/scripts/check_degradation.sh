@@ -13,7 +13,7 @@ critcmp main_branch new_branch | awk 'NR>2 {
         change = ((after_val - before_val) / before_val) * 100
         gsub("%", "", change)  # Remove '%' symbol
 
-        printf "| %-30s | %-20s | %-20s | %-10.2f |\n", item, before, after, change >> "output_file.txt"
+        printf "| %-30s | %-20s | %-20s | %-10.2f |\n", item, before, after, change >> "benches/critcmp.txt"
 
         if (change > 10) {
             echo "Percentage change exceeds 10%. Failing the workflow."
