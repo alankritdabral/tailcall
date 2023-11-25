@@ -3,7 +3,7 @@ name: Comment on PR with Benchmark Results
 on:
   pull_request:
     types:
-      - closed
+      - "*"
 
 jobs:
   comment-on-pr:
