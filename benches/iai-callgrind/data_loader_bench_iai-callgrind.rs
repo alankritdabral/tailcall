@@ -4,6 +4,7 @@ use std::sync::Arc;
 use std::collections::HashMap;
 use async_graphql::Value;
 use async_graphql::futures_util::future::join_all;
+
 use iai_callgrind::{library_benchmark, library_benchmark_group, main};
 use tailcall::config::Batch;
 use tailcall::http::{DataLoaderRequest, HttpClient, HttpDataLoader, Response};
@@ -33,6 +34,7 @@ async fn benchmark_data_loader() {
     body: |_: HashMap<String, Vec<&Value>>, _: &str| async_graphql::Value::Null
    };
 
+
   let loader = loader.to_data_loader(Batch::default().delay(1));
 
   let request1 = reqwest::Request::new(reqwest::Method::GET, "http://example.com/1".parse().unwrap());
@@ -57,3 +59,4 @@ async fn benchmark_data_loader() {
 
 library_benchmark_group!(name = data_loader; benchmarks = benchmark_data_loader);
 main!(library_benchmark_groups = data_loader);
+

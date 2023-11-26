@@ -26,6 +26,7 @@ const ARGS_VALUE: &[&[&str]] = &[
     // missing values
     &["args", "missing"],
     &["args", "nested", "missing"],
+d", "missing"],
 ];
 
 const HEADERS_VALUE: &[&[&str]] = &[&["headers", "existing"], &["headers", "missing"]];
@@ -84,6 +85,7 @@ impl<'a> ResolverContextLike<'a> for MockGraphqlContext {
     fn args(&'a self) -> Option<&'a IndexMap<Name, Value>> {
         Some(&TEST_ARGS)
     }
+
 }
 
 // assert that everything was set up correctly for the benchmark
@@ -122,6 +124,7 @@ fn assert_test(eval_ctx: &EvaluationContext<'_, MockGraphqlContext>) {
     // vars
     assert_eq!(eval_ctx.path_string(&["vars", "existing"]), Some(Cow::Borrowed("var")));
     assert_eq!(eval_ctx.path_string(&["vars", "missing"]), None);
+
 }
 
 #[library_benchmark]
@@ -153,5 +156,6 @@ library_benchmark_group!(
     name = bench;
     benchmarks = bench_main
 );
+
 
 main!(library_benchmark_groups = bench);
