@@ -221,7 +221,7 @@ jobs:
       - name: Run iai-callgrind on branch
         run: |
           echo -n > benches/iai-callgrind/new_benchmark.txt
-          cargo bench --features iai-callgrind > benches/iai-callgrind/new_benchmark.txt
+          cargo bench --features iai-callgrind -- --save-baseline > benches/iai-callgrind/new_benchmark.txt
 
       - name: Switch to main
         run: |
@@ -233,7 +233,7 @@ jobs:
       - name: Run iai-callgrind  on main
         run: |
           echo -n > benches/iai-callgrind/old_benchmark.txt
-          cargo bench --features iai-callgrind > benches/iai-callgrind/old_benchmark.txt
+          cargo bench --features iai-callgrind -- --save-baseline > benches/iai-callgrind/old_benchmark.txt
           
       - name: Execute build_time_compare.sh
         run: |
