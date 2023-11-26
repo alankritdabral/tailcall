@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, labeled]
     branches:
       - "*"
-
+      
   workflow_dispatch:
     inputs:
       branch:
