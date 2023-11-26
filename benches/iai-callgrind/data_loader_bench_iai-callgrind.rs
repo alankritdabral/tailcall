@@ -6,7 +6,7 @@ use async_graphql::futures_util::future::join_all;
 use iai_callgrind::{library_benchmark, library_benchmark_group, main};
 use tailcall::config::Batch;
 use tailcall::http::{DataLoaderRequest, HttpClient, HttpDataLoader, Response};
-
+ 
 #[derive(Clone)]
 struct MockHttpClient {
   // To keep track of the number of times execute is called
