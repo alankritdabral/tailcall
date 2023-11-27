@@ -149,7 +149,7 @@ jobs:
         with:
           commit_message: "style: apply lint fixes"
 
-  Check_Degdratation:
+  Check_Degradation:
     name: Criterion Benchmarks
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     runs-on: ubuntu-latest
@@ -203,6 +203,7 @@ jobs:
               repo: repo,
               body: comment
             });
+
   Build_time_compare:
     if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
     name: iai_callgrind_benchmarks
