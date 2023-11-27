@@ -149,9 +149,9 @@ jobs:
         with:
           commit_message: "style: apply lint fixes"
 
-  Check_Degradation:
+  Check_Degdratation:
     name: Criterion Benchmarks
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -163,7 +163,7 @@ jobs:
       - name: Run Criterion on branch
         run: |
           cargo bench --features criterion -- --save-baseline new_branch
-          
+
       - name: Switch to main
         run: |
           git fetch
@@ -172,7 +172,7 @@ jobs:
       - name: Run Criterion on main
         run: |
           cargo bench --features criterion -- --save-baseline main_branch
-          
+
       - name: Execute check_degradation.sh
         run: |
           bash .github/scripts/check_degradation.sh
@@ -203,9 +203,8 @@ jobs:
               repo: repo,
               body: comment
             });
-
   Build_time_compare:
-    if: contains(github.event.pull_request.labels.*.name, 'benchmark') || contains(github.event.head_commit.message, 'benchmark')
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark')
     name: iai_callgrind_benchmarks
     runs-on: ubuntu-latest
 
@@ -233,7 +232,7 @@ jobs:
         run: |
           echo -n > benches/iai-callgrind/old_benchmark.txt
           cargo bench --features iai-callgrind > benches/iai-callgrind/old_benchmark.txt
-          
+
       - name: Execute build_time_compare.sh
         run: |
           bash .github/scripts/compare_build_time.sh
