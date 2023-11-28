@@ -1,32 +1,3 @@
-use std::collections::BTreeSet;
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::Arc;
-use std::collections::HashMap;
-use async_graphql::Value;
-use async_graphql::futures_util::future::join_all;
-use iai_callgrind::{library_benchmark, library_benchmark_group, main};
-use tailcall::config::Batch;
-use tailcall::http::{DataLoaderRequest, HttpClient, HttpDataLoader, Response};
-
-#[derive(Clone)]
-struct MockHttpClient {
-  // To keep track of the number of times execute is called
-  request_count: Arc<AtomicUsize>,
-}
-
-#[async_trait::async_trait]
-impl HttpClient for MockHttpClient {
-  async fn execute(&self, _req: reqwest::Request) -> anyhow::Result<Response> {
-    self.request_count.fetch_add(1, Ordering::SeqCst);
-    // You can mock the actual response as per your need
-    Ok(Response::default())
-  }
-}
-
-#[library_benchmark]
-async fn benchmark_data_loader() {
-  let client = Arc::new(MockHttpClient { request_count: Arc::new(AtomicUsize::new(0)) });
-
   let loader = HttpDataLoader {
     client: client.clone(),
     batched: None,
@@ -53,6 +24,7 @@ async fn benchmark_data_loader() {
     0,
     "Only one request should be made for the same key"
   );
+  run_data_loader_benchmark(client).await;
 }
 
 library_benchmark_group!(name = data_loader; benchmarks = benchmark_data_loader);
