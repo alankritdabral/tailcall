@@ -1,6 +1,5 @@
 current_branch=$(git branch --show-current)
 cargo bench --features criterion -- --save-baseline new_branch
-git stash 
 git fetch
 git switch main
 cargo bench --features criterion -- --save-baseline main_branch
