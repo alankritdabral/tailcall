@@ -1,4 +1,11 @@
-echo "critcmp main_branch new_branch"
+current_branch=$(git branch --show-current)
+cargo bench --features criterion -- --save-baseline new_branch
+git stash 
+git fetch
+git switch main
+cargo bench --features criterion -- --save-baseline main_branch
+git switch $current_branch
+echo "$(critcmp main_branch new_branch)"
 critcmp main_branch new_branch | awk 'NR>2 {
     item = $1
     before = $7
