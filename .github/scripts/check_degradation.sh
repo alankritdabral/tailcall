@@ -1,10 +1,10 @@
-current_branch=$(git branch --show-current)
+current_branch=$(git rev-parse --abbrev-ref HEAD)
 git fetch
 git switch main
 cargo bench --features criterion -- --save-baseline main_branch
-git stash
+git branch --show-current
 git switch $current_branch
-git stash apply
+git branch --show-current
 cargo bench --features criterion -- --save-baseline new_branch
 echo "$(critcmp main_branch new_branch)"
 critcmp main_branch new_branch | awk 'NR>2 {
