@@ -1,10 +1,10 @@
 echo "critcmp main_branch new_branch"
 critcmp main_branch new_branch | awk 'NR>2 {
     item = $1
-    before = $7
-    after = $3
-    before_val = ($7 ~ /ns/) ? $7 : ($7 ~ /µs/) ? $7 * 1000 : ($7 ~ /ms/) ? $7 * 1000000 : "invalid"
-    after_val = ($3 ~ /ns/) ? $3 : ($3 ~ /µs/) ? $3 * 1000 : ($3 ~ /ms/) ? $3 * 1000000 : "invalid"
+    before = $3
+    after = $7
+    before_val = ($3 ~ /ns/) ? $3 : ($3 ~ /µs/) ? $3 * 1000 : ($3 ~ /ms/) ? $3 * 1000000 : "invalid"
+    after_val = ($7 ~ /ns/) ? $7 : ($7 ~ /µs/) ? $7 * 1000 : ($7 ~ /ms/) ? $7 * 1000000 : "invalid"
 
     temp1 = before_val
     temp2 = after_val
