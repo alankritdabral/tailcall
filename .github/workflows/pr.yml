@@ -24,7 +24,6 @@ jobs:
       - name: switching 
         run: |
            git branch --show-current
-           git fetch
            echo $(git checkout ${{ github.sha }})
            git branch --show-current
 
