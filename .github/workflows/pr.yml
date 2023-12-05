@@ -22,9 +22,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: switching 
-        run:
-           echo $(git branch) 
-
+        run: |
+           git branch 
+           git fetch
+           echo $(git checkout ${{ github.sha }})
+           echo $(git rev-parse -- abbrev-ref HEAD) 
 
   Check_Degdratation:
     name: Criterion Benchmarks
