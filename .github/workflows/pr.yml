@@ -24,9 +24,7 @@ jobs:
       - name: switching 
         run:
            echo $(git rev-parse -- abbrev-ref HEAD) 
-           git fetch
-           echo $(git checkout ${{ github.sha }})
-           echo $(git rev-parse -- abbrev-ref HEAD) 
+
 
   Check_Degdratation:
     name: Criterion Benchmarks
