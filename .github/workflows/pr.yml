@@ -23,10 +23,10 @@ jobs:
 
       - name: switching 
         run: |
-           git branch --show-current
+           git branch 
            echo $(git checkout ${{ github.sha }})
-           git branch --show-current
-
+           git branch
+           
   Check_Degdratation:
     name: Criterion Benchmarks
     if: contains(github.event.pull_request.labels.*.name, 'benchmark')
