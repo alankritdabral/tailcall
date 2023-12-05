@@ -23,10 +23,10 @@ jobs:
 
       - name: switching 
         run:
-           git branch 
+           git rev-parse --abbrev-ref HEAD 
            git fetch origin "+refs/pull/${TRAVIS_PULL_REQUEST}/head:${TRAVIS_BRANCH}"
            git checkout ${TRAVIS_BRANCH}
-           git branch 
+           git rev-parse --abbrev-ref HEAD
 
   Check_Degdratation:
     name: Criterion Benchmarks
