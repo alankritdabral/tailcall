@@ -23,7 +23,7 @@ jobs:
 
       - name: switching 
         run: |
-           branch_name=$(git branch --show-current)
+           branch_name=$(git branch)
            echo $branch_name
            echo $(git checkout ${{ github.sha }})
            branch_name=$(git branch --show-current)
