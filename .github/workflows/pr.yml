@@ -23,9 +23,11 @@ jobs:
 
       - name: switching 
         run: |
-           git branch 
+           branch_name=$(git branch --show-current)
+           echo $branch_name
            echo $(git checkout ${{ github.sha }})
-           git branch
+           branch_name=$(git branch --show-current)
+           echo $branch_name
            
   Check_Degdratation:
     name: Criterion Benchmarks
