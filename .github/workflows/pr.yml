@@ -24,8 +24,8 @@ jobs:
       - name: switching 
         run:
            git rev-parse -- abbrev-ref HEAD 
-           git fetch origin "+refs/pull/${TRAVIS_PULL_REQUEST}/head:${TRAVIS_BRANCH}"
-           git checkout ${TRAVIS_BRANCH}
+           git fetch
+           git checkout ${{ github.sha }}
            git rev-parse -- abbrev-ref HEAD
 
   Check_Degdratation:
