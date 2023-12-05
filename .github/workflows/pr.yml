@@ -23,7 +23,7 @@ jobs:
 
       - name: switching 
         run:
-           echo $(git rev-parse -- abbrev-ref HEAD) 
+           echo $(git branch) 
 
 
   Check_Degdratation:
