@@ -207,7 +207,7 @@ jobs:
 
       - name: Run Criterion on main
         run: |
-          cargo bench --features iai-callgrind > "benches/iai-callgrind/old_benchmark.txt"
+          cargo bench --features iai-callgrind > "benches/iai-callgrind/new_benchmark.txt"
 
       - name: Switch to main
         run: |
@@ -216,7 +216,7 @@ jobs:
           
       - name: Run Criterion on main
         run: |
-          cargo bench --features iai-callgrind > benches/iai-callgrind/new_benchmark.txt
+          cargo bench --features iai-callgrind > "benches/iai-callgrind/old_benchmark.txt"
 
       - name: Execute iai-callgrind_benchmark.sh
         run: |
