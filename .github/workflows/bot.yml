@@ -220,7 +220,7 @@ jobs:
 
       - name: Execute iai-callgrind_benchmark.sh
         run: |
-          bash .github/scripts/iai-callgrind_benchmark.sh
+          bash .github/scripts/iai_callgrind_benchmark.sh
           body=$(cat FinalOutput.txt)
           echo $body
           echo ::set-output name=body::$(echo $body)
