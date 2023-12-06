@@ -218,14 +218,9 @@ jobs:
         run: |
           cargo bench --features iai-callgrind > benches/iai-callgrind/new_benchmark.txt
 
-      - name: Execute check_degradation.sh
-        run: |
-          bash .github/scripts/iai-callgrind_benchmark.sh
-
       - name: Execute iai-callgrind_benchmark.sh
         run: |
-          chmod +x .github/scripts/compare_build_time.sh
-          bash .github/scripts/compare_build_time.sh
+          bash .github/scripts/iai-callgrind_benchmark.sh
           body=$(cat FinalOutput.txt)
           echo $body
           echo ::set-output name=body::$(echo $body)
