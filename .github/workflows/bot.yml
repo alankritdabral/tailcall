@@ -223,13 +223,12 @@ jobs:
       - name: Execute iai-callgrind_benchmark.sh
         run: |
           bash .github/scripts/iai_callgrind_benchmark.sh
-          CONTENT=$(cat FinalOutput.txt) 
 
       - id: get_comment_body
         name: Get Comment Body
-        working-directory: benches
+        working-directory: benches/iai-callgrind
         run: |
-          body="$(cat iai-callgrind/compare.txt)"
+          body="$(cat compare.txt)"
           delimiter="$(openssl rand -hex 8)"
           echo "body<<$delimiter" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
