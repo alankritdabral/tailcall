@@ -14,19 +14,14 @@ on:
         default: "main"
 
 jobs:
-  comment-on-pr:
+  commit_comment:
     runs-on: ubuntu-latest
-    steps:
-    - name: Check out code
-      uses: actions/checkout@v2
 
-    - name: Comment on PR with File Contents
-      uses: peter-evans/commit-comment@v3
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        commit: ${{ github.sha }}
-        comment: |
-          Changes to the file:
-          \```
-          $(cat a.txt)
-          \```
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Add commit comment
+        uses: peter-evans/commit-comment@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
