@@ -182,8 +182,6 @@ jobs:
         working-directory: benches
         run: |
           body="$(cat critcmp.txt)"
-          delimiter="$(openssl rand -hex 8)"
-          echo "body<<$delimiter" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
           echo "$delimiter" >> $GITHUB_OUTPUT
 
@@ -230,8 +228,6 @@ jobs:
         working-directory: benches/iai-callgrind
         run: |
           body="$(cat FinalOutput.txt)"
-          delimiter="$(openssl rand -hex 8)"
-          echo "body<<$delimiter" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
           echo "$delimiter" >> $GITHUB_OUTPUT
 
