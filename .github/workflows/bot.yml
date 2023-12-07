@@ -227,9 +227,9 @@ jobs:
 
       - id: get_comment_body
         name: Get Comment Body
-        working-directory: benches/iai-callgrind
+        working-directory: benches
         run: |
-          body="$(cat compare.txt)"
+          body="$(cat iai-callgrind/compare.txt)"
           delimiter="$(openssl rand -hex 8)"
           echo "body<<$delimiter" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
