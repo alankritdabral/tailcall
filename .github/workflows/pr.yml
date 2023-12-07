@@ -21,8 +21,9 @@ jobs:
 
       - name: Switch Base Branch
         run: |
-          PR_NUMBER=${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'workflow_run' && github.event.workflow_run.workflow == 'your-other-workflow' && github.event.workflow_run.head_branch }}
-          BASE_BRANCH="your-new-base-branch"
+          PR_HEAD=$(jq -r .head.ref "${GITHUB_EVENT_PATH}")
+          PR_BASE=$(jq -r .base.ref "${GITHUB_EVENT_PATH}")
+          echo $(jq -r .base.ref "${GITHUB_EVENT_PATH}")
 
           # Use the GitHub API to switch the base branch
           curl -X PATCH \
