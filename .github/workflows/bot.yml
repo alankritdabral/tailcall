@@ -219,7 +219,7 @@ jobs:
       - name: Execute iai-callgrind_benchmark.sh
         run: |
           bash .github/scripts/iai_callgrind_benchmark.sh
-          CONTENT=$(cat FinalOutput.txt
+          CONTENT=$(cat FinalOutput.txt) 
           echo "::set-output name=content::$CONTENT"
 
       - id: cat_md
