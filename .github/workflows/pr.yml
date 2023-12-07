@@ -14,9 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Read file content
+        id: read-file
+        run: echo "::set-output name=content::$(cat a.txt)"
+
       - name: Add PR comment
         uses: peter-evans/commit-comment@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repository: alankritdabral/tailcall
-          body: "Your PR comment here"
+          body: ${{ steps.read-file.outputs.content }}
