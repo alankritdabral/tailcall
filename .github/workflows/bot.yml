@@ -222,12 +222,24 @@ jobs:
           CONTENT=$(cat FinalOutput.txt
           echo "::set-output name=content::$CONTENT"
 
-      - name: Add PR comment
+      - id: cat_md
+        name: Cat Markdown
+        working-directory: ci-benchmark
+        run: |
+          cat FinalOutput.txt
+
+      - id: get_comment_body
+        name: Get Comment Body
+        working-directory: benches/iai-callgrind
+        run: |
+          body="$(cat FinalOutput.txt)"
+          delimiter="$(openssl rand -hex 8)"
+          echo "body<<$delimiter" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "$delimiter" >> $GITHUB_OUTPUT
+
+      - name: Create Commit Comment
         uses: peter-evans/commit-comment@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: alankritdabral/tailcall
-          body-path: FinalOutput.txt
-          edit-mode: append
-          append-separator: newline
-          reactions-edit-mode: append
+          sha: ${{github.event.pull_request.head.sha}}
+          body: ${{steps.get_comment_body.outputs.body}}
