@@ -182,7 +182,9 @@ jobs:
         working-directory: benches
         run: |
           body="$(cat critcmp.txt)"
-          echo "$body" >> $GITHUB_OUTPUT
+          delimiter="$(openssl rand -hex 8)"
+          echo "body<<$delimiter" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT     
           echo "$delimiter" >> $GITHUB_OUTPUT
 
       - name: Create Commit Comment
@@ -227,7 +229,9 @@ jobs:
         name: Get Comment Body
         working-directory: benches/iai-callgrind
         run: |
-          body="$(cat FinalOutput.txt)"
+          body="$(cat compare.txt)"
+          delimiter="$(openssl rand -hex 8)"
+          echo "body<<$delimiter" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT
           echo "$delimiter" >> $GITHUB_OUTPUT
 
