@@ -7,24 +7,34 @@ on:
       - main
 
 jobs:
-  build:
+  switch-branch:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Get default branch
-      id: get_branch
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Git
       run: |
-        base_branch=$(jq --raw-output .pull_request.base.ref "$GITHUB_EVENT_PATH")
-        head_branch=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
+        # Ensure we are in the correct directory
+        cd $GITHUB_WORKSPACE
 
-        echo "Base branch: $base_branch"
-        echo "Head branch: $head_branch"
+        # Set Git configuration
+        git config user.email "actions@github.com"
+        git config user.name "GitHub Actions"
 
+        # Extract target branch from the pull request context
         target_branch="${{ github.event.pull_request.base.ref }}"
-        target_branch="${{ github.event.pull_request.base.ref }}"
+
+        echo "Base branch: ${{ github.event.pull_request.base.ref }}"
+        echo "Head branch: ${{ github.event.pull_request.head.ref }}"
         echo "Target branch: $target_branch"
 
-        git fetch
+        # Fetch the latest changes
+        git fetch origin
+
         # Checkout the target branch
         git checkout $target_branch
+
+        # Display the current branch for verification
         git branch
