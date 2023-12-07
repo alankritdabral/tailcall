@@ -225,13 +225,17 @@ jobs:
           echo $body
           echo ::set-output name=body::$(echo $body)
 
-      - uses: peter-evans/commit-comment@v1
-        with:
-          sha: ${{github.sha}}
-          body: |
+      - name: Comment on PR
+        run: |
+          FILE_PATH="FinalOutput.txt" # Specify the file path
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") # Extract PR number using jq
 
-            **🚀 Iai Benchmark:**
+          # Get the content of the file
+          FILE_CONTENT=$(cat "$FILE_PATH")
 
-            |Name |Current| Main|
-            |-----|----| ----|
-             ${{steps.fomat_output.outputs.body}}
+          # Comment on the PR with the file content
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"body": "Changes to the file:\n```markdown\n'"$FILE_CONTENT"'\n```\n"}' \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
