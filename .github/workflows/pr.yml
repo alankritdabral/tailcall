@@ -1,40 +1,35 @@
-name: Switch Base Branch
+name: Compare Branches
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled]
+  push:
     branches:
-      - main
+      - '*'
 
 jobs:
-  switch-branch:
+  compare-branches:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Git
+    - name: Set base branch SHA
+      run: echo "BASE_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+    - name: Set target branch SHA
+      run: echo "TARGET_SHA=$(git rev-parse ${{ env.TARGET_BRANCH }})" >> $GITHUB_ENV
+      env:
+        TARGET_BRANCH: ${{ env.TARGET_BRANCH }}
+
+    - name: Compare branch SHAs
       run: |
-        # Ensure we are in the correct directory
-        cd $GITHUB_WORKSPACE
+        echo "Base SHA: $BASE_SHA"
+        echo "Target SHA: $TARGET_SHA"
 
-        # Set Git configuration
-        git config user.email "actions@github.com"
-        git config user.name "GitHub Actions"
-
-        # Extract target branch from the pull request context
-        target_branch="${{ github.event.pull_request.base.ref }}"
-
-        echo "Base branch: ${{ github.event.pull_request.base.ref }}"
-        echo "Head branch: ${{ github.event.pull_request.head.ref }}"
-        echo "Target branch: $target_branch"
-
-        # Fetch the latest changes
-        git fetch origin
-
-        # Checkout the target branch
-        git checkout $target_branch
-
-        # Display the current branch for verification
-        git branch
+        # Add your comparison logic here
+        if [ "$BASE_SHA" == "$TARGET_SHA" ]; then
+          echo "Branches are the same"
+        else
+          echo "Branches are different"
+          # Add your additional logic for different branches
+        fi
