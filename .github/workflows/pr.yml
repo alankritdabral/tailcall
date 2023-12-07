@@ -14,9 +14,8 @@ on:
         default: "main"
 
 jobs:
-  comment:
+  comment-on-pr:
     runs-on: ubuntu-latest
-
     steps:
     - name: Check out code
       uses: actions/checkout@v2
@@ -26,9 +25,8 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         commit: ${{ github.sha }}
-        path: a.txt # Specify the file path
         comment: |
           Changes to the file:
-          ```markdown
-          ${{ steps.file-contents.outputs.contents }}
-          ```
+          \```
+          $(cat a.txt)
+          \```
