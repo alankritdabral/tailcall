@@ -14,14 +14,8 @@ jobs:
     - name: Get default branch
       id: get_branch
       run: |
-        DEFAULT_BRANCH=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/${{ github.repository }}/branches" \
-          | jq -r '.[] | select(.default == true) | .name')
+        base_branch=$(jq --raw-output .pull_request.base.ref "$GITHUB_EVENT_PATH")
+        head_branch=$(jq --raw-output .pull_request.head.ref "$GITHUB_EVENT_PATH")
 
-        echo "Default branch is: $DEFAULT_BRANCH"
-        echo "::set-output name=default_branch::$DEFAULT_BRANCH"
-
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ steps.get_branch.outputs.default_branch }}
+        echo "Base branch: $base_branch"
+        echo "Head branch: $head_branch"
