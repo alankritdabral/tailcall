@@ -176,20 +176,18 @@ jobs:
       - name: Execute check_degradation.sh
         run: |
           bash .github/scripts/check_degradation.sh
-          body=$(cat benches/critcmp.txt)
-          echo $body
-          echo ::set-output name=body::$(echo $body)
+          CONTENT=$(cat benches/critcmp.txt
+          echo "::set-output name=content::$CONTENT"
 
-      - uses: peter-evans/commit-comment@v1
+      - name: Add PR comment
+        uses: peter-evans/commit-comment@v3
         with:
-          sha: ${{github.sha}}
-          body: |
-
-            **🚀 Iai Benchmark:**
-
-            |Name |Current| Main|
-            |-----|----| ----|
-             ${{steps.fomat_output.outputs.body}}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: alankritdabral/tailcall
+          body-path: benches/critcmp.txt
+          edit-mode: append
+          append-separator: newline
+          reactions-edit-mode: append
 
   Build_time_compare:
     name: iai_callgrind_benchmarks
@@ -221,21 +219,15 @@ jobs:
       - name: Execute iai-callgrind_benchmark.sh
         run: |
           bash .github/scripts/iai_callgrind_benchmark.sh
-          body=$(cat FinalOutput.txt)
-          echo $body
-          echo ::set-output name=body::$(echo $body)
+          CONTENT=$(cat FinalOutput.txt
+          echo "::set-output name=content::$CONTENT"
 
-      - name: Comment on PR
-        run: |
-          FILE_PATH="FinalOutput.txt" # Specify the file path
-          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH") # Extract PR number using jq
-
-          # Get the content of the file
-          FILE_CONTENT=$(cat "$FILE_PATH")
-
-          # Comment on the PR with the file content
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"body": "Changes to the file:\n```markdown\n'"$FILE_CONTENT"'\n```\n"}' \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
+      - name: Add PR comment
+        uses: peter-evans/commit-comment@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: alankritdabral/tailcall
+          body-path: FinalOutput.txt
+          edit-mode: append
+          append-separator: newline
+          reactions-edit-mode: append
