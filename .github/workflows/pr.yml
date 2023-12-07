@@ -14,14 +14,23 @@ on:
         default: "main"
 
 jobs:
-  test:
-    name: test
+  comment:
     runs-on: ubuntu-latest
+
     steps:
-      - name: switching 
-        run: |
-           branch_name=$(git branch)
-           echo $branch_name
-           echo $(git checkout ${{ github.sha }})
-           branch_name=$(git branch --show-current)
-           echo $branch_name
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Comment on PR
+      uses: peter-evans/commit-comment@v3
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: |
+          Changes to the file:
+          \`\`\`markdown
+          ${{ steps.extract-content.outputs.file-content }}
+          \`\`\`
+
+    - name: Extract file content
+      id: extract-content
+      run: echo "::set-output name=file-content::$(cat a.txt)"
