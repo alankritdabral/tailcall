@@ -7,27 +7,21 @@ on:
       - main
 
 jobs:
-  switch-base-branch:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+    - name: Get default branch
+      id: get_branch
+      run: |
+        DEFAULT_BRANCH=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/${{ github.repository }}/branches" \
+          | jq -r '.[] | select(.default == true) | .name')
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
+        echo "Default branch is: $DEFAULT_BRANCH"
+        echo "::set-output name=default_branch::$DEFAULT_BRANCH"
 
-      - name: Switch Base Branch
-        run: |
-          PR_HEAD=$(jq -r .head.ref "${GITHUB_EVENT_PATH}")
-          PR_BASE=$(jq -r .base.ref "${GITHUB_EVENT_PATH}")
-          echo $(jq -r .base.ref "${GITHUB_EVENT_PATH}")
-
-          # Use the GitHub API to switch the base branch
-          curl -X PATCH \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER \
-            -d "{\"base\":\"${BASE_BRANCH}\"}"
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ steps.get_branch.outputs.default_branch }}
