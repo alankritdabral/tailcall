@@ -1,7 +1,8 @@
-name: Commit Comment
+name: commeent
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, labeled]
     branches:
       - main
 
