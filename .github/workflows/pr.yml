@@ -21,9 +21,10 @@ jobs:
         echo "Head branch: $head_branch"
 
         target_branch="${{ github.event.pull_request.base.ref }}"
-
+        target_branch="${{ github.event.pull_request.base.ref }}"
         echo "Target branch: $target_branch"
-        
+
+        git fetch
         # Checkout the target branch
         git checkout $target_branch
-
+        git branch
