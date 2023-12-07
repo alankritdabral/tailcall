@@ -16,7 +16,9 @@ jobs:
 
       - name: Read file content
         id: read-file
-        run: echo "::set-output name=content::$(cat a.txt)"
+        run: |
+          CONTENT=$(cat a.txt)
+          echo "::set-output name=content::$CONTENT"
 
       - name: Add PR comment
         uses: peter-evans/commit-comment@v3
