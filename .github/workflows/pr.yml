@@ -1,17 +1,9 @@
-name: Benchmark
+name: Commit Comment
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled]
+  push:
     branches:
       - main
-
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch to run benchmark on"
-        required: true
-        default: "main"
 
 jobs:
   commit_comment:
@@ -25,7 +17,6 @@ jobs:
         uses: peter-evans/commit-comment@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ secrets.YOUR_OTHER_TOKEN }}  # Add your other token here if needed
           repository: alankritdabral/tailcall
           body-path: a.txt
           edit-mode: append
