@@ -25,3 +25,9 @@ jobs:
         uses: peter-evans/commit-comment@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.YOUR_OTHER_TOKEN }}  # Add your other token here if needed
+          repository: alankritdabral/tailcall
+          body-path: a.txt
+          edit-mode: append
+          append-separator: newline
+          reactions-edit-mode: append
