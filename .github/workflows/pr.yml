@@ -1,10 +1,11 @@
 name: Compare Branches
 
 on:
-  pull:
+  pull_request:
+    types: [opened, synchronize, labeled]
     branches:
-      - '*'
-
+      - main
+      
 jobs:
   compare-branches:
     runs-on: ubuntu-latest
