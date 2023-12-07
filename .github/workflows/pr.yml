@@ -1,10 +1,10 @@
 name: Switch Base Branch
 
 on:
-  workflow_run:
-    workflows: ["your-other-workflow"]
-    types:
-      - completed
+  pull_request:
+    types: [opened, synchronize, labeled]
+    branches:
+      - main
 
 jobs:
   switch-base-branch:
