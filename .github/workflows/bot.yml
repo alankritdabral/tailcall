@@ -149,7 +149,7 @@ jobs:
         with:
           commit_message: "style: apply lint fixes"
 
-  Check_Degdratation:
+  Criterion:
     name: Criterion Benchmarks
     if: contains(github.event.pull_request.labels.*.name, 'benchmark')
     runs-on: ubuntu-latest
@@ -175,13 +175,13 @@ jobs:
 
       - name: Execute check_degradation.sh
         run: |
-          bash .github/scripts/check_degradation.sh
+          bash .github/scripts/check_degradation.sh > table_output.txt && cat table_output.txt
 
       - id: get_comment_body
         name: Get Comment Body
         working-directory: benches
         run: |
-          body="$(cat critcmp.txt)"
+          body="$(cat table_output.txt)"
           delimiter="$(openssl rand -hex 8)"
           echo "body<<$delimiter" >> $GITHUB_OUTPUT
           echo "$body" >> $GITHUB_OUTPUT     
@@ -193,7 +193,7 @@ jobs:
           sha: ${{github.event.pull_request.head.sha}}
           body: ${{steps.get_comment_body.outputs.body}}
 
-  Build_time_compare:
+  Iai_callgrind:
     name: iai_callgrind_benchmarks
     if: contains(github.event.pull_request.labels.*.name, 'benchmark')
     runs-on: ubuntu-latest
