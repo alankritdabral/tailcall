@@ -64,7 +64,7 @@ Thank you for considering contributing to **Tailcall**! This document outlines t
    cargo bench --features criterion -- --save-baseline main_branch
    git checkout -
    cargo bench --features criterion -- --save-baseline new_branch
-   bash .github/scripts/check_degradation.sh
+   bash .github/scripts/criterion_benchmark.sh
 
    ```
 
