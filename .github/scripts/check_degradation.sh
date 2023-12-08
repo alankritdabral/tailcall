@@ -1,3 +1,5 @@
+printf "| Test                          | Base         | PR               | % change   |" >> "benches/critcmp.txt"
+printf "|-------------------------------|--------------|------------------|------------|" >> "benches/critcmp.txt"
 critcmp new_branch main_branch | awk 'NR>2 {
     item = $1
     before = $3
@@ -18,3 +20,4 @@ END {
         exit 1
     }
 }'
+
