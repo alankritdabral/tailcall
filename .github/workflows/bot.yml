@@ -175,6 +175,7 @@ jobs:
 
       - name: Execute check_degradation.sh
         run: |
+          echo -n > benches/critcmp.txt && > table_output.txt
           bash .github/scripts/check_degradation.sh > table_output.txt && cat table_output.txt
 
       - id: get_comment_body
@@ -206,8 +207,9 @@ jobs:
       - name: Install Valgrind
         run: sudo apt-get update && sudo apt-get install valgrind
 
-      - name: Run Criterion on main
+      - name: Run Criterion on branch
         run: |
+          echo -n > benches/iai-callgrind/new_benchmark.txt
           cargo bench --features iai-callgrind > "benches/iai-callgrind/new_benchmark.txt"
 
       - name: Switch to main
@@ -217,10 +219,12 @@ jobs:
           
       - name: Run Criterion on main
         run: |
+          echo -n > benches/iai-callgrind/old_benchmark.txt
           cargo bench --features iai-callgrind > "benches/iai-callgrind/old_benchmark.txt"
 
       - name: Execute iai-callgrind_benchmark.sh
         run: |
+          echo -n > table_output.txt
           bash .github/scripts/iai_callgrind_benchmark.sh > table_output.txt && cat table_output.txt
 
       - id: get_comment_body
