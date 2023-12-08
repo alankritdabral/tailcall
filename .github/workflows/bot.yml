@@ -223,10 +223,18 @@ jobs:
       - name: Execute iai-callgrind_benchmark.sh
         run: |
           bash .github/scripts/iai_callgrind_benchmark.sh > table_output.txt && cat table_output.txt
-  
-      - name: Comment on PR
+
+      - id: get_comment_body
+        name: Get Comment Body
+        run: |
+          body="$(cat table_output.txt)"
+          delimiter="$(openssl rand -hex 8)"
+          echo "body<<$delimiter" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT     
+          echo "$delimiter" >> $GITHUB_OUTPUT
+
+      - name: Create Commit Comment
         uses: peter-evans/commit-comment@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          body: >
-            $(cat table_output.txt)
+          sha: ${{github.event.pull_request.head.sha}}
+          body: ${{steps.get_comment_body.outputs.body}}
