@@ -228,5 +228,5 @@ jobs:
         uses: peter-evans/commit-comment@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            {{`$(cat table_output.txt)`}}
+          body: >
+            $(cat table_output.txt)
