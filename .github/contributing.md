@@ -86,9 +86,7 @@ Thank you for considering contributing to **Tailcall**! This document outlines t
    ```bash
    git checkout main
    cargo bench --features iai-callgrind >> "benches/iai-callgrind/old_benchmark.txt"
-   git stash
    git checkout -
-   git stash apply
    cargo bench --features iai-callgrind >> "benches/iai-callgrind/new_benchmark.txt"
    bash .github/scripts/iai_callgrind_benchmark.sh
 
