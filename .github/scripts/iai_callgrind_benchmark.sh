@@ -43,7 +43,7 @@ for bench in "${benchmarks[@]}"; do
             printf "| %-30s | %-20s | %-20s | %-10.2f |\n" "$attribute" "$value1" "$value2" "$percent_change" >> "benches/iai-callgrind/compare.txt"
         fi
     done
-    echo "----------------------------------"
+    echo "----------------------------------\n"
 done
 
 exit "$fail_ci"
