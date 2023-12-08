@@ -223,12 +223,10 @@ jobs:
       - name: Execute iai-callgrind_benchmark.sh
         run: |
           bash .github/scripts/iai_callgrind_benchmark.sh > table_output.txt && cat table_output.txt
-
+  
       - name: Comment on PR
         uses: peter-evans/commit-comment@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            ```
-            $(cat table_output.txt)
-            ```
+            {{`$(cat table_output.txt)`}}
