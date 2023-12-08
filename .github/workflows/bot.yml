@@ -179,7 +179,6 @@ jobs:
 
       - id: get_comment_body
         name: Get Comment Body
-        working-directory: benches
         run: |
           body="$(cat table_output.txt)"
           delimiter="$(openssl rand -hex 8)"
