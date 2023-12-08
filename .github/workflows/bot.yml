@@ -233,7 +233,7 @@ jobs:
           echo "$body" >> $GITHUB_OUTPUT     
           echo "$delimiter" >> $GITHUB_OUTPUT
 
-      - name: Create Commit Commen
+      - name: Create Commit Comment
         uses: peter-evans/commit-comment@v3
         with:
           sha: ${{github.event.pull_request.head.sha}}
