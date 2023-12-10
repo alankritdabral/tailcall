@@ -227,7 +227,7 @@ jobs:
       - name: Switch to main
         run: |
           git fetch
-          git checkout ${{ github.event.before }}
+          git checkout ${{ steps.determine_base_commit.outputs.base_commit }}
 
       - name: Run iai-callgrind on main
         run: |
