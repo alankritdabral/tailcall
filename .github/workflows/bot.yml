@@ -173,11 +173,13 @@ jobs:
       - name: Install cargo-criterion
         run: cargo install cargo-criterion
 
-      - name: Cache Criterion Benchmarks
+      - name: Restore Cache Criterion Benchmarks
         uses: actions/cache@v2
         with:
           path: benches/main_benchmarks.json
           key: criterion_benchmarks_${{ github.sha }}
+          restore-keys: |
+            criterion_benchmarks_
 
       - name: Run Criterion Benchmarks
         run: cargo criterion --message-format=json > benches/main_benchmarks.json
@@ -187,6 +189,7 @@ jobs:
 
   Criterion_benchmarks:
     name: Compare Criterion benchmarks
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark') || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -201,6 +204,9 @@ jobs:
       - name: Install cargo-criterion
         run: cargo install cargo-criterion
 
+      - name: Install cargo-criterion-table
+        run: cargo install criterion-table
+
       - name: Restore Cache Criterion Benchmarks
         uses: actions/cache@v2
         with:
@@ -212,7 +218,27 @@ jobs:
       - name: Run Criterion Benchmarks
         run: cargo criterion --message-format=json > benches/benchmarks.json
 
-      - name: Print Benchmark Results
+      - name: Manipulate Json Files
         run: |
-          cat benches/main_benchmarks.json
-          cat benches/benchmarks.json
+          bash .github/scripts/benchmarks_json.sh --name base --file benches/main_benchmarks.json
+          bash .github/scripts/benchmarks_json.sh --name change --file benches/benchmarks.json
+
+      - name: Run Criterion Table
+        run: |
+          cat benches/main_benchmarks.json benches/benchmarks.json | criterion-table > benches/BENCHMARKS.md
+
+      - id: get_comment_body
+        name: Get Comment Body
+        working-directory: benches
+        run: |
+          body="$(cat BENCHMARKS.md)"
+          delimiter="$(openssl rand -hex 8)"
+          echo "body<<$delimiter" >> $GITHUB_OUTPUT
+          echo "$body" >> $GITHUB_OUTPUT
+          echo "$delimiter" >> $GITHUB_OUTPUT
+
+      - name: Create Commit Comment
+        uses: peter-evans/commit-comment@v3
+        with:
+          sha: ${{github.event.pull_request.head.sha}}
+          body: ${{steps.get_comment_body.outputs.body}}
