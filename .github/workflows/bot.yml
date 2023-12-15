@@ -185,8 +185,8 @@ jobs:
       - name: Print Benchmark Results
         run: cat benches/main_benchmarks.json
 
-  Cache_Benchmarks_In_Another_Workflow:
-    name: Caching Criterion Benchmarks in Another Workflow
+  Criterion_compare:
+    name: Criterion compare
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
