@@ -173,16 +173,39 @@ jobs:
       - name: Install cargo-criterion
         run: cargo install cargo-criterion
 
+      - name: Cache Criterion Benchmarks
+        uses: actions/cache@v2
+        with:
+          path: benches/main_benchmarks.json
+          key: criterion_benchmarks_${{ github.sha }}
+
+      - name: Run Criterion Benchmarks
+        run: cargo criterion --message-format=json > benches/main_benchmarks.json
+
+      - name: Print Benchmark Results
+        run: cat benches/main_benchmarks.json
+
+  Criterion_benchmarks:
+    name: Compare Criterion benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2 
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true  
+      - name: Install cargo-criterion
+        run: cargo install cargo-criterion  
       - name: Restore Cache Criterion Benchmarks
         uses: actions/cache@v2
         with:
           path: benches/main_benchmarks.json
           key: criterion_benchmarks_${{ github.sha }}
           restore-keys: |
-            criterion_benchmarks_
-
+            criterion_benchmarks_ 
       - name: Run Criterion Benchmarks
-        run: cargo criterion --message-format=json > benches/main_benchmarks.json
-        
+        run: cargo criterion --message-format=json > benches/main_benchmarks.json 
       - name: Print Benchmark Results
         run: cat benches/main_benchmarks.json
