@@ -184,3 +184,33 @@ jobs:
 
       - name: Print Benchmark Results
         run: cat benches/main_benchmarks.json
+
+  Cache_Benchmarks_In_Another_Workflow:
+    name: Caching Criterion Benchmarks in Another Workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Restore Cached Criterion Benchmarks
+        uses: actions/cache@v2
+        with:
+          path: benches/main_benchmarks.json
+          key: criterion_benchmarks_41f0079cb8ad083441b492007ba7ae89f6b4b38b
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Install cargo-criterion
+        run: cargo install cargo-criterion
+
+      - name: Run Criterion Benchmarks
+        run: cargo criterion --message-format=json > benches/benchmarks.json
+
+      - name: Print Benchmark Results
+        run: |
+          cat benches/main_benchmarks.json
+          cat benches/benchmarks.json
