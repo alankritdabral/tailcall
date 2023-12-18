@@ -156,3 +156,62 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "style: apply lint fixes"
+
+  Cache_Benchmarks:
+    name: Caching Criterion benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Print Criterion Benchmarks
+        run: |
+          cargo install cargo-criterion rust-script
+          cargo criterion --message-format=json > benches/main_benchmarks.json
+          rust-script benches/parse_json_benchmark benches/main_benchmarks.json
+
+      - name: Cache Criterion Benchmarks Json
+        uses: actions/cache@v2
+        with:
+          path: benches/main_benchmarks.json
+          key: criterion_benchmarks_${{ github.sha }}
+          restore-keys: |
+            criterion_benchmarks_
+
+  Criterion_compare:
+    name: Comparing Criterion benchmarks
+    if: contains(github.event.pull_request.labels.*.name, 'benchmark') || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Print Criterion Benchmarks
+        run: |
+          cargo install cargo-criterion rust-script
+          cargo criterion --message-format=json > benches/benchmarks.json
+          rust-script benches/parse_json_benchmark benches/benchmarks.json
+
+      - name: Cache Criterion Benchmarks Json
+        uses: actions/cache@v2
+        with:
+          path: benches/main_benchmarks.json
+          key: criterion_benchmarks_${{ github.sha }}
+          restore-keys: |
+            criterion_benchmarks_
+
+      - name: Compare Criterion Benchmarks
+        run: |
+          rust-script benches/criterion_compare benches/main_benchmarks.json benches/benchmarks.json
