@@ -17,12 +17,12 @@ use serde_json::from_str;
 #[allow(dead_code)]
 struct Benchmark {
   id: String,
-  typical: Typical,
+  mean: Mean,
 }
 
 #[derive(Debug, Deserialize)]
 #[allow(dead_code)]
-struct Typical {
+struct Mean {
   estimate: f64,
 }
 
@@ -50,18 +50,49 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     return Err("Mismatch in the number of benchmarks between old and new files".into());
   }
 
-  print_benchmark_comparison(&old_benchmarks, &new_benchmarks);
+  // Specify the output file path
+  let output_file_path = "benches/benchmark.md";
+
+  // Generate the comparison table and write it to the output file
+  let comparison_table = generate_comparison_table(&old_benchmarks, &new_benchmarks)?;
+  fs::write(output_file_path, comparison_table)?;
+
+  // Check for benchmarks exceeding the 10% change threshold
+  let benchmarks_exceeding_threshold: Vec<_> = old_benchmarks
+    .iter()
+    .zip(new_benchmarks.iter())
+    .filter_map(|(old, new)| {
+      let percentage_change = calculate_percentage_change(old.mean.estimate, new.mean.estimate);
+      if percentage_change.abs() > 10.0 {
+        Some(old.id.clone())
+      } else {
+        None
+      }
+    })
+    .collect();
+
+  // If there are benchmarks exceeding the threshold, print their names
+  if !benchmarks_exceeding_threshold.is_empty() {
+    let exceeding_benchmarks_str = benchmarks_exceeding_threshold.join(", ");
+    println!(
+      "Benchmarks exceeding the 10% change threshold: {}",
+      exceeding_benchmarks_str
+    );
+  }
 
   Ok(())
 }
 
-fn print_benchmark_comparison(old_benchmarks: &[Benchmark], new_benchmarks: &[Benchmark]) {
+fn generate_comparison_table(
+  old_benchmarks: &[Benchmark],
+  new_benchmarks: &[Benchmark],
+) -> Result<String, Box<dyn std::error::Error>> {
   let mut comparison_table = prettytable::Table::new();
-  comparison_table.add_row(row!["Benchmark", "Old Estimate", "New Estimate", "Percentage Change",]);
+  comparison_table.add_row(row!["Benchmark", "Base ", "Change", "Percentage Change"]);
 
   for (old, new) in old_benchmarks.iter().zip(new_benchmarks) {
-    let old_estimate = old.typical.estimate;
-    let new_estimate = new.typical.estimate;
+    let old_estimate = old.mean.estimate;
+    let new_estimate = new.mean.estimate;
     let percentage_change = calculate_percentage_change(old_estimate, new_estimate);
 
     comparison_table.add_row(row![
@@ -72,7 +103,8 @@ fn print_benchmark_comparison(old_benchmarks: &[Benchmark], new_benchmarks: &[Be
     ]);
   }
 
-  comparison_table.printstd();
+  // Use `to_string` to convert the table to a string
+  Ok(comparison_table.to_string())
 }
 
 fn calculate_percentage_change(old_value: f64, new_value: f64) -> f64 {
