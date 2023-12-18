@@ -198,7 +198,7 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Cache Criterion Benchmarks Json
+      - name: Restore Cache
         uses: actions/cache@v2
         with:
           path: benches/main_benchmarks.json
