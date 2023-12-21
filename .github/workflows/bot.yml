@@ -176,7 +176,6 @@ jobs:
           cargo criterion --message-format=json > benches/main_benchmarks.json
           echo "Main Benchmarks:" > benches/main_benchmarks.md
           rust-script benches/parse_json_benchmark benches/main_benchmarks.json benches/main_benchmarks.md
-          cat benches/main_benchmarks.md
 
       - name: Cache Criterion Benchmarks Json
         uses: actions/cache@v2
