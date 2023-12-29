@@ -7,8 +7,7 @@ jobs:
   title-check:
     runs-on: ubuntu-latest
     outputs:
-      env: 
-        SUGGESTED_TITLE: ${{ steps.suggest-title.outputs.SUGGESTED_TITLE }}
+      SUGGESTED_TITLE: ${{ steps.suggest-title.outputs.SUGGESTED_TITLE }}
     steps:
       - name: Check PR Title
         id: check-title
@@ -23,7 +22,8 @@ jobs:
       - name: Set Suggested Title
         id: suggest-title
         if: failure()
-        run: echo "SUGGESTED_TITLE=feat(<optional_scope>): <title>" >> $GITHUB_ENV
+        run: |
+          echo "SUGGESTED_TITLE=feat(<optional_scope>): <title>" >> $GITHUB_ENV
 
   suggest-title:
     runs-on: ubuntu-latest
