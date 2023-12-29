@@ -4,22 +4,21 @@ on:
   pull_request:
     paths:
       - '**/*'
-
 jobs:
-  find_changes:
-    runs-on: ubuntu-latest
+ build:
+   runs-on: ubuntu-latest
+   name: Test changed-files
+   steps:
+     - uses: actions/checkout@v2
+       with:
+         fetch-depth: 0
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+     - name: Get changed files
+       id: changed-files
+       uses: tj-actions/[email protected]
 
-      - name: List changed files
-        run: |
-          echo "Changed files:"
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
-
-      - name: Set output
-        id: set_output
-        run: |
-          echo "::set-output name=changed_files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
-          echo "Changed files: ${{ needs.find_changes.outputs.changed_files }}"
+     - name: List all changed files
+       run: |
+         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+           echo "$file was changed"
+         done
