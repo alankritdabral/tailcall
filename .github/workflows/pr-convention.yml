@@ -2,7 +2,8 @@ name: Pull Request Changes
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    paths:
+      - '**/*'
 
 jobs:
   find_changes:
@@ -19,11 +20,6 @@ jobs:
 
       - name: Set output
         id: set_output
-        run: echo "::set-output name=changed_files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
-      
-  print_changes:
-    needs: find_changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print changed files
-        run: echo "Changed files: ${{ needs.find_changes.outputs.changed_files }}"
+        run: |
+          echo "::set-output name=changed_files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
+          echo "Changed files: ${{ needs.find_changes.outputs.changed_files }}"
