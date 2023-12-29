@@ -1,5 +1,4 @@
 name: PR Title Validation
-
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
@@ -7,31 +6,30 @@ on:
 jobs:
   title-check:
     runs-on: ubuntu-latest
+    outputs:
+      env: 
+        SUGGESTED_TITLE: ${{ steps.suggest-title.outputs.SUGGESTED_TITLE }}
     steps:
-      - name: Check PR title
+      - name: Check PR Title
         id: check-title
-        uses: actions/github-script@v4
+        uses: naveenk1223/action-pr-title@master
         with:
-          script: |
-            const prTitle = context.payload.pull_request.title;
-            const regex = /^(feat|fix|docs|style|refactor|test|chore)\((.*)\)?: (.*)$/;
-            if (!regex.test(prTitle)) {
-              return {
-                title: 'Invalid PR title',
-                body: 'Your PR title does not match the expected format `<type>(<optional scope>): <title>`. Please rename it accordingly.'
-              };
-            }
-            return null;
+          regex: '^[a-zA-Z]+(\([a-zA-Z]+\))?: .+'
+          allowed_prefixes: "feat,fix,docs,style,refactor,test,chore,ci,perf,revert"
+          prefix_case_sensitive: false
+          min_length: 1
+          max_length: -1
+          
+      - name: Set Suggested Title
+        id: suggest-title
+        if: failure()
+        run: echo "SUGGESTED_TITLE=feat(<optional_scope>): <title>" >> $GITHUB_ENV
 
-      - name: Post suggestion
-        if: ${{ steps.check-title.outputs.body != null }}
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const suggestion = `Suggested title: ${context.payload.pull_request.title.replace(/^(feat|fix|docs|style|refactor|test|chore)/, 'feat')}`;
-            await github.rest.issues.createComment({
-              issue_number: context.payload.pull_request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `${steps.check-title.outputs.body}\n\n${suggestion}`
-            });
+  suggest-title:
+    runs-on: ubuntu-latest
+    needs: title-check
+    steps:
+      - name: Comment on PR with suggested title
+        run: |
+          echo "Suggested PR title: $SUGGESTED_TITLE"
+          gh pr comment ${{ github.event.number }} --body "The PR title does not follow the required format. Consider using the following suggested title: $SUGGESTED_TITLE"
