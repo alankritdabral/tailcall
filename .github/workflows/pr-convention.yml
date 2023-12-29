@@ -27,4 +27,4 @@ jobs:
           cargo install cargo-criterion rust-script
 
       - name: Check Degradation
-        run: ./scripts/pr_name_check.rs
+        run: rust-script scripts/pr_name_check.rs
