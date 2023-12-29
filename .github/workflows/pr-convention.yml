@@ -9,38 +9,19 @@ jobs:
     outputs:
       SUGGESTED_TITLE: ${{ steps.suggest-title.outputs.SUGGESTED_TITLE }}
     steps:
-      - name: Check PR Title
-        id: check-title
-        uses: naveenk1223/action-pr-title@master
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
-          regex: '^[a-zA-Z]+(\([a-zA-Z]+\))?: .+'
-          allowed_prefixes: "feat,fix,docs,style,refactor,test,chore,ci,perf,revert"
-          prefix_case_sensitive: false
-          min_length: 1
-          max_length: -1
-          
-      - name: Set Suggested Title
-        id: suggest-title
-        if: failure()
+          toolchain: stable
+          override: true
+          suggested_title="$type( suggested title: $SUGGESTED_TITLE"
+
+      - name: Install rust-script
         run: |
-          # Extract the current PR title
-          current_title="${{ github.event.pull_request.title }}"
-     
-          # Parse the current PR title
-          IFS=':' read -r -a parts <<< "$current_title"
-          type="${parts[0]}"
-          description="${parts[1]}"
-     
-          # Generate a new title
-          suggested_title="$type(new_scope): $description"
-     
-          # Set the new title as an output
-          echo "SUGGESTED_TITLE=$suggested_title" >> $GITHUB_ENV
-  suggest-title:
-    runs-on: ubuntu-latest
-    needs: title-check
-    steps:
-      - name: Comment on PR with suggested title
-        run: |
-          echo "Suggested PR title: $SUGGESTED_TITLE"
-          gh pr comment ${{ github.event.number }} --body "The PR title does not follow the required format. Consider using the following suggested title: $SUGGESTED_TITLE"
+          cargo install cargo-criterion rust-script
+
+      - name: Check Degradation
+        run: ./scripts/pr_name_check.rs
