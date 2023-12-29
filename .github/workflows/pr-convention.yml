@@ -2,8 +2,7 @@ name: Pull Request Changes
 
 on:
   pull_request:
-    paths:
-      - '**/*'
+    types: [opened, edited, synchronize, reopened]
 
 jobs:
   find_changes:
