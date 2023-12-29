@@ -15,12 +15,6 @@ jobs:
          curl -s -X GET -G $URL | jq -r '.[] | .filename' >> $GITHUB_ENV
          echo 'EOF' >> $GITHUB_ENV
 
-     - name: Fetch PR files (Action)
-       id: file_changes
-       uses: trilom/file-changes-action@v1
-       with:
-         githubToken: ${{ secrets.GITHUB_TOKEN }}
-
      - name: Display file changes
        run: |
          echo "Files changed (API): $FILES"
