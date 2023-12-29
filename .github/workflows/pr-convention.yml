@@ -23,8 +23,19 @@ jobs:
         id: suggest-title
         if: failure()
         run: |
-          echo "SUGGESTED_TITLE=feat(<optional_scope>): <title>" >> $GITHUB_ENV
-
+          # Extract the current PR title
+          current_title="${{ github.event.pull_request.title }}"
+     
+          # Parse the current PR title
+          IFS=':' read -r -a parts <<< "$current_title"
+          type="${parts[0]}"
+          description="${parts[1]}"
+     
+          # Generate a new title
+          suggested_title="$type(new_scope): $description"
+     
+          # Set the new title as an output
+          echo "SUGGESTED_TITLE=$suggested_title" >> $GITHUB_ENV
   suggest-title:
     runs-on: ubuntu-latest
     needs: title-check
