@@ -6,6 +6,9 @@ on:
 jobs:
   title-check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     outputs:
       SUGGESTED_TITLE: ${{ steps.suggest-title.outputs.SUGGESTED_TITLE }}
     steps:
@@ -24,4 +27,4 @@ jobs:
           cargo install cargo-criterion rust-script
 
       - name: Check Degradation
-        run: rust-script scripts/pr_name_check
+        run: ./scripts/pr_name_check.rs
