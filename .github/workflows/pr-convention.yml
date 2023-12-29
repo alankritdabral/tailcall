@@ -1,24 +1,28 @@
-name: Pull Request Changes
+name: PR Files Changed
 
 on:
-  pull_request:
-    paths:
-      - '**/*'
+ pull_request:
+   types: [opened, synchronize]
+
 jobs:
- build:
+ list-files:
    runs-on: ubuntu-latest
-   name: Test changed-files
    steps:
-     - uses: actions/checkout@v2
-     
-     - name: list files
+     - name: Fetch PR files (API)
        run: |
          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-         echo $FILES
-       
-     - name: Get file changes
+         echo "FILES=$FILES" >> $GITHUB_ENV
+
+     - name: Fetch PR files (Action)
        id: file_changes
        uses: trilom/file-changes-action@v1
        with:
          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: Display file changes
+       run: |
+         echo "Files changed (API): $FILES"
+         echo "Added files: ${{ steps.file_changes.outputs.added }}"
+         echo "Modified files: ${{ steps.file_changes.outputs.modified }}"
+         echo "Deleted files: ${{ steps.file_changes.outputs.deleted }}"
