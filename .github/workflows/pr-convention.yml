@@ -1,29 +1,21 @@
 name: PR Files Changed
 
 on:
- pull_request:
-  types: [opened, synchronize]
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
- list-files:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Fetch PR files (API)
-      run: |
-        URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-        echo 'FILES<<EOF' >> $GITHUB_ENV
-        curl -s -X GET -G $URL | jq -r '.[] | .filename' >> $GITHUB_ENV
-        echo 'EOF' >> $GITHUB_ENV
+  list-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch PR files
+        uses: trilom/file-changes-action@v1
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Fetch PR files (Action)
-      id: file_changes
-      uses: trilom/file-changes-action@v1
-      with:
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Display file changes
-      run: |
-        echo "Files changed (API): $FILES"
-        echo "Added files: ${{ steps.file_changes.outputs.added }}"
-        echo "Modified files: ${{ steps.file_changes.outputs.modified }}"
-        echo "Deleted files: ${{ steps.file_changes.outputs.deleted }}"
+      - name: Display file changes
+        run: |
+          echo "Files changed: ${{ steps.file_changes.outputs.files }}"
+          echo "Added files: ${{ steps.file_changes.outputs.added }}"
+          echo "Modified files: ${{ steps.file_changes.outputs.modified }}"
+          echo "Deleted files: ${{ steps.file_changes.outputs.deleted }}"
