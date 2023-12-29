@@ -12,3 +12,23 @@ jobs:
           regex: '^[a-zA-Z]+(\([a-zA-Z]+\))?: .+'
           allowed_prefixes: "feat,fix,docs,style,refactor,test,chore,ci,perf,revert"
           prefix_case_sensitive: false
+
+      - name: Comment on PR with suggested title
+        if: failure()
+        run: |
+          SUGGESTED_TITLE="feat(<optional_scope>): <title>"
+          echo "The PR title does not follow the required format. Consider using the following suggested title: $SUGGESTED_TITLE"
+          echo "::set-output name=SUGGESTED_TITLE::$SUGGESTED_TITLE"
+    
+  suggest-title:
+    runs-on: ubuntu-latest
+    needs: title-check
+    steps:
+      - name: Get suggested title from previous step
+        id: suggested-title
+        run: echo "SUGGESTED_TITLE=${{ needs.title-check.outputs.SUGGESTED_TITLE }}" >> $GITHUB_ENV
+      
+      - name: Comment on PR with suggested title
+        run: |
+          echo "Suggested PR title: $SUGGESTED_TITLE"
+          gh pr comment ${{ github.event.number }} --body "The PR title does not follow the required format. Consider using the following suggested title: $SUGGESTED_TITLE"
