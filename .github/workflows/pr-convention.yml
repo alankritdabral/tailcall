@@ -30,7 +30,7 @@ jobs:
           script: |
             const suggestion = `Suggested title: ${context.payload.pull_request.title.replace(/^(feat|fix|docs|style|refactor|test|chore)/, 'feat')}`;
             await github.rest.issues.createComment({
-              issue_number: context.payload.pull_request.number,  // Use payload.pull_request.number instead of context.issue.number
+              issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `${steps.check-title.outputs.body}\n\n${suggestion}`
