@@ -1,35 +1,37 @@
 name: PR Title Validation
+
 on:
- pull_request:
-   types: [opened, edited, synchronize, reopened]
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
 
 jobs:
- title-check:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Check PR title
-       id: check-title
-       uses: actions/github-script@v4
-       with:
-         script: |
-           const prTitle = context.payload.pull_request.title;
-           const regex = /^(feat|fix|docs|style|refactor|test|chore)\((.*)\)?: (.*)$/;
-           if (!regex.test(prTitle)) {
-             return {
-               title: 'Invalid PR title',
-               body: 'Your PR title does not match the expected format `<type>(<optional scope>): <title>`. Please rename it accordingly.'
-             };
-           }
-           return null;
-     - name: Post suggestion
-       if: ${{ steps.check-title.outputs.body != null }}
-       uses: actions/github-script@v4
-       with:
-         script: |
-           const suggestion = `Suggested title: ${context.payload.pull_request.title.replace(/^(feat|fix|docs|style|refactor|test|chore)/, 'feat')}`;
-           await github.rest.issues.createComment({
-             issue_number: context.issue.number,
-             owner: context.repo.owner,
-             repo: context.repo.repo,
-             body: `${steps.check-title.outputs.body}\n\n${suggestion}`
-           });
+  title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        id: check-title
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            const regex = /^(feat|fix|docs|style|refactor|test|chore)\((.*)\)?: (.*)$/;
+            if (!regex.test(prTitle)) {
+              return {
+                title: 'Invalid PR title',
+                body: 'Your PR title does not match the expected format `<type>(<optional scope>): <title>`. Please rename it accordingly.'
+              };
+            }
+            return null;
+
+      - name: Post suggestion
+        if: ${{ steps.check-title.outputs.body != null }}
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const suggestion = `Suggested title: ${context.payload.pull_request.title.replace(/^(feat|fix|docs|style|refactor|test|chore)/, 'feat')}`;
+            await github.rest.issues.createComment({
+              issue_number: context.payload.pull_request.number,  // Use payload.pull_request.number instead of context.issue.number
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${steps.check-title.outputs.body}\n\n${suggestion}`
+            });
