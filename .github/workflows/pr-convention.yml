@@ -1,30 +1,30 @@
-name: PR Title Validation
+name: Pull Request Changes
+
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    paths:
+      - '**/*'
 
 jobs:
-  title-check:
+  find_changes:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-    outputs:
-      SUGGESTED_TITLE: ${{ steps.suggest-title.outputs.SUGGESTED_TITLE }}
+
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          suggested_title="$type( suggested title: $SUGGESTED_TITLE"
-
-      - name: Install rust-script
+      - name: List changed files
         run: |
-          cargo install cargo-criterion rust-script
+          echo "Changed files:"
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
 
-      - name: Check Degradation
-        run: rust-script scripts/pr_name_check.rs
+      - name: Set output
+        id: set_output
+        run: echo "::set-output name=changed_files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
+      
+  print_changes:
+    needs: find_changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print changed files
+        run: echo "Changed files: ${{ needs.find_changes.outputs.changed_files }}"
