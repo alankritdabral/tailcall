@@ -19,3 +19,8 @@ jobs:
           echo "Added files: ${{ steps.file_changes.outputs.added }}"
           echo "Modified files: ${{ steps.file_changes.outputs.modified }}"
           echo "Deleted files: ${{ steps.file_changes.outputs.deleted }}"
+
+      - uses: actions/clubhouse-pr@v2
+        with:
+          ghToken: ${{ secrets.GITHUB_TOKEN }}
+          chToken: ${{ secrets.CLUBHOUSE_API_TOKEN
