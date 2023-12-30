@@ -2,7 +2,9 @@ name: PR Files Changed
 
 on:
   pull_request:
-
+    types: [opened, synchronize, labeled]
+    branches:
+      - main
 jobs:
   list-files:
     runs-on: ubuntu-latest
