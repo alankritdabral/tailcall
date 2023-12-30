@@ -26,6 +26,7 @@ jobs:
           allowed_prefixes: "feat,fix,docs,style,refactor,test,chore,ci,perf,revert"
           prefix_case_sensitive: false
 
+      - name: nee new 
       - uses: actions/clubhouse-pr@v2
         with:
           ghToken: ${{ secrets.GITHUB_TOKEN }}
