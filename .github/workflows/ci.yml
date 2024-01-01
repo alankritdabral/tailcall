@@ -127,7 +127,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           gh pr edit ${{ github.event.number }} \
-            --remove-label "bug,docc,chore"
+            --remove-label "bug,docs,chore"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
