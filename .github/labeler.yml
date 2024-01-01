@@ -1,23 +1,31 @@
-chore:
-  - any:
-      - changed-files:
-          - any-glob-to-any-file: ["*.yml", "*.conf", "*.sbt", "*.json", "*.xml", "Dockerfile"]
-      - base-branch: ['/chore\/.+/', '/refactor\/.+/', '/maintenance\/.+/']
-      - title: ["/chore/i", "/refactor/i"]
-
-fix:
-  - any:
-      - base-branch: ['/fix\/.+/', '/hotfix\/.+/', '/bugfix\/.+/', '/patch\/.+/']
-      - title: ["/fix/i", "/hotfix/i", "/bugfix/i", "/patch/i"]
-
-feature:
-  - any:
-      - base-branch: ['/feat\/.+/', '/feature\/.+/', '/enhancement\/.+/', '/new\/.+/']
-      - title: ["/feat/i", "/feature/i", "/enhancement/i", "/new/i"]
-
-docs:
-  - any:
-      - changed-files: 
-          - any-glob-to-any-file: ["*.md", "*.txt", "*.rst", "*.wiki", "*.html"]
-      - base-branch: ['/doc\/.+/', '/docs\/.+/']
-      - title: ["/doc/i", "/docs/i"]
+documentation:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'doc/**/*'
+    - any-glob-to-any-file: 'examples/**/*'
+    - any-glob-to-any-file: 'examples_trame/**/*'
+    - any-glob-to-any-file: './*.md'
+maintenance:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: '.github/**/*'
+    - any-glob-to-any-file: 'codecov.yml'
+    - any-glob-to-any-file: '.flake8'
+    - any-glob-to-any-file: '.coveragerc'
+    - any-glob-to-any-file: '.codecimate.yml'
+    - any-glob-to-any-file: 'Makefile'
+    - any-glob-to-any-file: 'ignore_words.txt'
+    - any-glob-to-any-file: 'mypy.ini'
+    - any-glob-to-any-file: 'pyproject.toml'
+    - any-glob-to-any-file: '.pre-commit-config.yaml'
+dependencies:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'requirements*'
+    - any-glob-to-any-file: 'environment.yml'
+    - any-glob-to-any-file: '.pre-commit-config.yaml'
+docker:
+- any:
+  - changed-files:
+    - any-glob-to-any-file: 'docker/**/*'
+    - any-glob-to-any-file: '.dockerignore'
