@@ -3,10 +3,15 @@ on:
 - pull_request_target
 
 jobs:
-  triage:
+  labeler:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/labeler@v5
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Label pull request
+      uses: actions/labeler@v4
       with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        sync-labels: true
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        configuration-path: .github/labeler.yml
