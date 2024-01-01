@@ -113,11 +113,19 @@ jobs:
       - name: Checkout Current Branch (Fast)
         uses: actions/checkout@v4
 
+      - name: Remove labels in preparation for autolabeler
+        if: github.event_name == 'pull_request'
+        run: |
+          gh pr edit ${{ github.event.number }} \
+            --remove-label "Release/chore,Release/docs,Release/bug,Release/other"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release drafter
       - id: create_release
         uses: release-drafter/release-drafter@09c613e259eb8d4e7c81c2cb00618eb5fc4575a7
         if: (github.event_name == 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         with:
-          commitish: main
           config-name: release-drafter.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
