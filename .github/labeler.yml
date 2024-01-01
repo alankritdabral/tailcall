@@ -1,54 +1,34 @@
-rules:
-  - label: "type: chore"
-    files:
-      - "*.yml"
-      - "*.conf"
-      - "*.sbt"
-      - "*.json"
-      - "*.xml"
-      - "Dockerfile"
-    branch:
-      - '/chore\/.+/'
-      - '/refactor\/.+/'
-      - '/maintenance\/.+/'
-    title:
-      - /chore/i
-      - /refactor/i
+areas:
+- area/**
 
-  - label: "type: fix"
-    branch:
-      - '/fix\/.+/'
-      - '/hotfix\/.+/'
-      - '/bugfix\/.+/'
-      - '/patch\/.+/'
-    title:
-      - /fix/i
-      - /hotfix/i
-      - /bugfix/i
-      - /patch/i
+characters:
+- code/characterClasses/**
 
-  - label: "type: feature"
-    branch:
-      - '/feat\/.+/'
-      - '/feature\/.+/'
-      - '/enhancement\/.+/'
-      - '/new\/.+/'
-    title:
-      - /feat/i
-      - /feature/i
-      - /enhancement/i
-      - /new/i
+tests:
+- tests/**
 
-  - label: "type: docs"
-    files:
-      - "*.md"
-      - "*.txt"
-      - "*.rst"
-      - "*.wiki"
-      - "*.html"
-    branch:
-      - '/doc\/.+/'
-      - '/docs\/.+/'
-    title:
-      - /doc/i
-      - /docs/i
+admin:
+- admin/**
+
+docs:
+- docs/**
+
+core:
+- code/**
+
+setup:
+- Makefile
+- '**/*.sql'
+- '**/*.sh'
+
+dev-install:
+- dev-install.sh
+
+db:
+- db/**
+
+db-rift:
+- db/rift/**
+
+db-rift-core:
+- db/rift_core/**
