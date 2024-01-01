@@ -102,7 +102,7 @@ jobs:
       - name: Run Lint Script
         run: ./lint.sh --mode=check
 
-  update_release_draft:
+  draft_release:
     if: ${{ (github.event_name == 'pull_request') || !contains(github.event.head_commit.message, 'Bump Helm chart versions') }}
     name: Autolabeler and release drafter
     permissions:
