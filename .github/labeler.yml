@@ -1,17 +1,53 @@
-# .github/labeler.yml
+- label: "type: chore"
+  files:
+    - "*.yml"
+    - "*.conf"
+    - "*.sbt"
+    - "*.json"
+    - "*.xml"
+    - "Dockerfile"
+  branch:
+    - '/chore\/.+/'
+    - '/refactor\/.+/'
+    - '/maintenance\/.+/'
+  title:
+    - /chore/i
+    - /refactor/i
 
-# Define label rules based on branch names
-branches:
-  - label: feature
-    pattern: feature/*
-  - label: bug
-    pattern: bug/*
-  # Add more branch-based rules as needed
+- label: "type: fix"
+  branch:
+    - '/fix\/.+/'
+    - '/hotfix\/.+/'
+    - '/bugfix\/.+/'
+    - '/patch\/.+/'
+  title:
+    - /fix/i
+    - /hotfix/i
+    - /bugfix/i
+    - /patch/i
 
-# Define label rules based on pull request titles
-titles:
-  - label: enhancement
-    pattern: /\[ENHANCEMENT\]/
-  - label: documentation
-    pattern: /\[DOCS\]/
-  # Add more title-based rules as needed
+- label: "type: feature"
+  branch:
+    - '/feat\/.+/'
+    - '/feature\/.+/'
+    - '/enhancement\/.+/'
+    - '/new\/.+/'
+  title:
+    - /feat/i
+    - /feature/i
+    - /enhancement/i
+    - /new/i
+
+- label: "type: docs"
+  files:
+    - "*.md"
+    - "*.txt"
+    - "*.rst"
+    - "*.wiki"
+    - "*.html"
+  branch:
+    - '/doc\/.+/'
+    - '/docs\/.+/'
+  title:
+    - /doc/i
+    - /docs/i
