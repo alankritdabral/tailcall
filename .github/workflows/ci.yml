@@ -132,7 +132,7 @@ jobs:
           # To achive consistent results with different branches
           # Source: https://github.com/release-drafter/release-drafter/issues/1061#issuecomment-1032888355
           commitish: "${{ github.ref_name }}"
-          config-name: draft-image-release-config.yml
+          config-name: release-drafter.yml
         #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
