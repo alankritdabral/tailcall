@@ -1,23 +1,13 @@
-chore:
-  - any:
-      - changed-files:
-        - any-glob-to-any-file: ["*.yml", "*.conf", "*.sbt", "*.json", "*.xml", "Dockerfile"]
-      - base-branch: ['/chore\/.+/', '/refactor\/.+/', '/maintenance\/.+/']
-      - title: ["/chore/i", "/refactor/i"]
+# .github/labeler.yml
+rules:
+  - label: bug
+    branches:
+      - bugfix/*
+    titles:
+      - '.*bug.*'
 
-fix:
-  - any:
-      - base-branch: ['/fix\/.+/', '/hotfix\/.+/', '/bugfix\/.+/', '/patch\/.+/']
-      - title: ["/fix/i", "/hotfix/i", "/bugfix/i", "/patch/i"]
-
-feature:
-  - any:
-      - base-branch: ['/feat\/.+/', '/feature\/.+/', '/enhancement\/.+/', '/new\/.+/']
-      - title: ["/feat/i", "/feature/i", "/enhancement/i", "/new/i"]
-
-docs:
-  - any:
-      - changed-files: 
-        - any-glob-to-any-file: ["*.md", "*.txt", "*.rst", "*.wiki", "*.html"]
-      - base-branch: ['/doc\/.+/', '/docs\/.+/']
-      - title: ["/doc/i", "/docs/i"]
+  - label: feature
+    branches:
+      - feature/*
+    titles:
+      - '.*feature.*'
