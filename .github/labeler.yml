@@ -2,7 +2,7 @@ chore:
   - any:
       - changed-files:
           - any-glob-to-any-file: ["*.yml", "*.conf", "*.sbt", "*.json", "*.xml", "Dockerfile"]
-          - base-branch: ['/chore\/.+/', '/refactor\/.+/', '/maintenance\/.+/']
+      - base-branch: ['/chore\/.+/', '/refactor\/.+/', '/maintenance\/.+/']
       - title: ["/chore/i", "/refactor/i"]
 
 fix:
