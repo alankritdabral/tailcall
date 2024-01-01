@@ -123,14 +123,6 @@ jobs:
             README.md
           sparse-checkout-cone-mode: false
 
-      - name: Remove labels in preparation for autolabeler
-        if: github.event_name == 'pull_request'
-        run: |
-          gh pr edit ${{ github.event.number }} \
-            --remove-label "bug,docs,chore"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # Drafts your next Release notes as Pull Requests are merged into "main"
       - name: Release drafter
         uses: release-drafter/release-drafter@09c613e259eb8d4e7c81c2cb00618eb5fc4575a7 # v5.25.0
