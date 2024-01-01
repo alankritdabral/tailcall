@@ -1,18 +1,22 @@
 chore:
-  - changed-files:
-      - AnyGlobToAnyFile: ["*.yml", "*.conf", "*.sbt", "*.json", "*.xml", "Dockerfile"]
-      - base-branch: ['/chore\/.+/', '/refactor\/.+/', '/maintenance\/.+/']
-  - title: ["/chore/i", "/refactor/i"]
+  - any:
+      - changed-files:
+          - AnyGlobToAnyFile: ["*.yml", "*.conf", "*.sbt", "*.json", "*.xml", "Dockerfile"]
+          - base-branch: ['/chore\/.+/', '/refactor\/.+/', '/maintenance\/.+/']
+      - title: ["/chore/i", "/refactor/i"]
 
 fix:
-  - base-branch: ['/fix\/.+/', '/hotfix\/.+/', '/bugfix\/.+/', '/patch\/.+/']
-  - title: ["/fix/i", "/hotfix/i", "/bugfix/i", "/patch/i"]
+  - any:
+      - base-branch: ['/fix\/.+/', '/hotfix\/.+/', '/bugfix\/.+/', '/patch\/.+/']
+      - title: ["/fix/i", "/hotfix/i", "/bugfix/i", "/patch/i"]
 
 feature:
-  - base-branch: ['/feat\/.+/', '/feature\/.+/', '/enhancement\/.+/', '/new\/.+/']
-  - title: ["/feat/i", "/feature/i", "/enhancement/i", "/new/i"]
+  - any:
+      - base-branch: ['/feat\/.+/', '/feature\/.+/', '/enhancement\/.+/', '/new\/.+/']
+      - title: ["/feat/i", "/feature/i", "/enhancement/i", "/new/i"]
 
 docs:
-  - changed-files: ["*.md", "*.txt", "*.rst", "*.wiki", "*.html"]
-  - base-branch: ['/doc\/.+/', '/docs\/.+/']
-  - title: ["/doc/i", "/docs/i"]
+  - any:
+      - changed-files: ["*.md", "*.txt", "*.rst", "*.wiki", "*.html"]
+      - base-branch: ['/doc\/.+/', '/docs\/.+/']
+      - title: ["/doc/i", "/docs/i"]
