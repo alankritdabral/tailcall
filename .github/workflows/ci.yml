@@ -123,7 +123,7 @@ jobs:
 
       - name: Release drafter
       - id: create_release
-        uses: release-drafter/release-drafter@09c613e259eb8d4e7c81c2cb00618eb5fc4575a7
+        uses: release-drafter/release-drafter@v5
         if: (github.event_name == 'pull_request') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
         with:
           config-name: release-drafter.yml
