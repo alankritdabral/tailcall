@@ -8,3 +8,11 @@
   - changed-files:
     - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
   - head-branch: ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
+
+  prTitlePattern: "^Maintenance:(.*)"
+prBodyPattern: "(fixes #[0-9]+)"
+branches:
+ - "^Maintenance/.*"
+labels:
+ - "type: feature"
+
