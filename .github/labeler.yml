@@ -8,3 +8,8 @@
   - changed-files:
     - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
   - head-branch: ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
+
+"type: feature": ['/feat\/.+/','/feature\/.+/','/enhancement\/.+/','/new\/.+/']
+"type: fix": ['/fix\/.+/','/hotfix\/.+/','/bugfix\/.+/','/patch\/.+/']
+"type: chore" : ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
+"type: docs" :  ['/doc\/.+/','/docs\/.+/']
