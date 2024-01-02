@@ -1,54 +1,48 @@
-name: Label Pull Requests
-
+name: "Auto PR Labeler"
 on:
-  pull_request_target:
-    types:
-      - opened
-      - synchronize
+ pull_request_target:
+   types: [opened, synchronize]
 
 jobs:
-  label_pull_requests:
-    runs-on: ubuntu-latest
+ label:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Auto label PR
+       uses: actions/github-script@v5
+       with:
+         script: |
+           const { owner, repo } = context.repo;
+           const prNumber = context.issue.number;
+           const changedFiles = await github.paginate(
+             github.rest.pulls.listFiles,
+             { owner, repo, pull_number: prNumber },
+             res => res.data
+           );
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+           // Define your labeling rules here
+           const rules = {
+             'frontend/*': 'frontend',
+             'backend/*': 'backend',
+             '*': 'documentation',
+           };
 
-    - name: Add labels
-      uses: actions-ecosystem/action-add-labels@v1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        labels: |
-          - name: "type: chore"
-            pattern: |
-              chore
-              refactor
-              maintenance
-          - name: "type: fix"
-            pattern: |
-              fix
-              hotfix
-              bugfix
-              patch
-          - name: "type: feature"
-            pattern: |
-              feat
-              feature
-              enhancement
-              new
-          - name: "type: docs"
-            pattern: |
-              doc
-              docs
-        files: |
-          - "*.yml"
-          - "*.conf"
-          - "*.sbt"
-          - "*.json"
-          - "*.xml"
-          - "Dockerfile"
-          - "*.md"
-          - "*.txt"
-          - "*.rst"
-          - "*.wiki"
-          - "*.html"
+           let labelsToAdd = [];
+           for (const rule in rules) {
+             const label = rules[rule];
+             const regex = new RegExp(`^${rule}`);
+             for (const file of changedFiles) {
+               if (regex.test(file.filename)) {
+                labelsToAdd.push(label);
+                break;
+               }
+             }
+           }
+
+           if (labelsToAdd.length > 0) {
+             await github.rest.issues.update({
+               owner,
+               repo,
+               issue_number: prNumber,
+               labels: labelsToAdd,
+             });
+           }
