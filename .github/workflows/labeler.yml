@@ -1,17 +1,28 @@
-# .github/workflows/labeler.yml
-name: "Pull Request Labeler"
+name: Label Pull Requests
+
 on:
-- pull_request_target
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
- labeler:
-   permissions:
-     contents: read
-     pull-requests: write
-   runs-on: ubuntu-latest
-   steps:
-   - uses: actions/labeler@v5
-   - uses: TimonVS/pr-labeler-action@v4
-     with:
-      repo-token: ${{ secrets.GITHUB_TOKEN }}
-      configuration-path: .github/labeler.yml
+  label_pull_requests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+       toolchain: stable
+       override: true
+
+    - name: Build and run Rust script
+      run: |
+       cargo install cargo-criterion rust-script
+       rust-script scripts/label_pr
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
