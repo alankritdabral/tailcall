@@ -1,48 +1,48 @@
 name: "Auto PR Labeler"
 on:
- pull_request_target:
-   types: [opened, synchronize]
+ pull_request:
+  types: [opened, synchronize]
 
 jobs:
  label:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Auto label PR
-       uses: actions/github-script@v5
-       with:
-         script: |
-           const { owner, repo } = context.repo;
-           const prNumber = context.issue.number;
-           const changedFiles = await github.paginate(
-             github.rest.pulls.listFiles,
-             { owner, repo, pull_number: prNumber },
-             res => res.data
-           );
+  runs-on: ubuntu-latest
+  steps:
+    - name: Auto label PR
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          const prNumber = context.issue.number;
+          const changedFiles = await github.paginate(
+            github.rest.pulls.listFiles,
+            { owner, repo, pull_number: prNumber },
+            res => res.data
+          );
 
-           // Define your labeling rules here
-           const rules = {
-             'frontend/*': 'frontend',
-             'backend/*': 'backend',
-             '*': 'documentation',
-           };
+          // Define your labeling rules here
+          const rules = {
+            'frontend/*': 'frontend',
+            'backend/*': 'backend',
+            'docs/*': 'documentation',
+          };
 
-           let labelsToAdd = [];
-           for (const rule in rules) {
-             const label = rules[rule];
-             const regex = new RegExp(`^${rule}`);
-             for (const file of changedFiles) {
-               if (regex.test(file.filename)) {
-                labelsToAdd.push(label);
-                break;
-               }
-             }
-           }
+          let labelsToAdd = [];
+          for (const rule in rules) {
+            const label = rules[rule];
+            const regex = new RegExp(`^${rule.replace('*', '.*')}$`);
+            for (const file of changedFiles) {
+              if (regex.test(file.filename)) {
+               labelsToAdd.push(label);
+               break;
+              }
+            }
+          }
 
-           if (labelsToAdd.length > 0) {
-             await github.rest.issues.update({
-               owner,
-               repo,
-               issue_number: prNumber,
-               labels: labelsToAdd,
-             });
-           }
+          if (labelsToAdd.length > 0) {
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: prNumber,
+              labels: labelsToAdd,
+            });
+          }
