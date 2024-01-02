@@ -120,6 +120,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           config-name: release-drafter.yml
+          disable-autolabeler: true
 
       - name: Set Output for Later Jobs
         id: set_output
