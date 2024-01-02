@@ -1,60 +1,9 @@
-# .github/labeler.yml
-feature:
- - branches:
-     - '/feat\/.+/'
-   titles:
-     - /feat/i
- - branches:
-     - '/feature\/.+/'
-   titles:
-     - /feature/i
- - branches:
-     - '/enhancement\/.+/'
-   titles:
-     - /enhancement/i
- - branches:
-     - '/new\/.+/'
-   titles:
-     - /new/i
+"type: docs":
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ["*.md","*.txt","*.rst","*.wiki","*.html"]
 
-fix:
- - branches:
-     - '/fix\/.+/'
-   titles:
-     - /fix/i
- - branches:
-     - '/hotfix\/.+/'
-   titles:
-     - /hotfix/i
- - branches:
-     - '/bugfix\/.+/'
-   titles:
-     - /bugfix/i
- - branches:
-     - '/patch\/.+/'
-   titles:
-     - /patch/i
-
-docs:
- - branches:
-     - '/doc\/.+/'
-   titles:
-     - /doc/i
- - branches:
-     - '/docs\/.+/'
-   titles:
-     - /docs/i
-
-chore:
- - branches:
-     - '/chore\/.+/'
-   titles:
-     - /chore/i
- - branches:
-     - '/refactor\/.+/'
-   titles:
-     - /refactor/i
- - branches:
-     - '/maintenance\/.+/'
-   titles:
-     - /maintenance/i
+"type: chore":
+- any:
+  - changed-files:
+    - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
