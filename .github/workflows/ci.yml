@@ -121,6 +121,7 @@ jobs:
         with:
           commitish: "${{ github.ref_name }}"
           config-name: release-drafter.yml
+          disable-autolabeler: true
 
       - name: Set Output for Later Jobs
         id: set_output
