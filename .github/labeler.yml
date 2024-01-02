@@ -7,4 +7,4 @@
 - any:
   - changed-files:
     - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
-  - head-branch: ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/','/hello\/.+/']
+  - head-branch: ['/hello\/.+/', '/hello\/.+/','/hello\/.+/','/hello\/.+/']
