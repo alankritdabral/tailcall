@@ -1,7 +1,7 @@
 name: Label Pull Requests
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - synchronize
@@ -12,17 +12,43 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
+    - name: Add labels
+      uses: actions-ecosystem/action-add-labels@v1
       with:
-       toolchain: stable
-       override: true
-
-    - name: Build and run Rust script
-      run: |
-       cargo install cargo-criterion rust-script
-       rust-script scripts/label_pr
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        labels: |
+          - name: "type: chore"
+            pattern: |
+              chore
+              refactor
+              maintenance
+          - name: "type: fix"
+            pattern: |
+              fix
+              hotfix
+              bugfix
+              patch
+          - name: "type: feature"
+            pattern: |
+              feat
+              feature
+              enhancement
+              new
+          - name: "type: docs"
+            pattern: |
+              doc
+              docs
+        files: |
+          - "*.yml"
+          - "*.conf"
+          - "*.sbt"
+          - "*.json"
+          - "*.xml"
+          - "Dockerfile"
+          - "*.md"
+          - "*.txt"
+          - "*.rst"
+          - "*.wiki"
+          - "*.html"
