@@ -1,9 +1,9 @@
-"type: docs":
+"type: docs": ['/doc\/.+/','/docs\/.+/']
 - any:
   - changed-files:
     - any-glob-to-any-file: ["*.md","*.txt","*.rst","*.wiki","*.html"]
 
-"type: chore":
+"type: chore": ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
 - any:
   - changed-files:
     - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
@@ -11,5 +11,3 @@
 
 "type: feature": ['/feat\/.+/','/feature\/.+/','/enhancement\/.+/','/new\/.+/']
 "type: fix": ['/fix\/.+/','/hotfix\/.+/','/bugfix\/.+/','/patch\/.+/']
-"type: chore" : ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
-"type: docs" :  ['/doc\/.+/','/docs\/.+/']
