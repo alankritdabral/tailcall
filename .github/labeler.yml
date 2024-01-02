@@ -1,0 +1,34 @@
+# .github/labeler.yml
+feature:
+ - branch: '/feat\/.+/'
+   title: /feat/i
+ - branch: '/feature\/.+/'
+   title: /feature/i
+ - branch: '/enhancement\/.+/'
+   title: /enhancement/i
+ - branch: '/new\/.+/'
+   title: /new/i
+
+fix:
+ - branch: '/fix\/.+/'
+   title: /fix/i
+ - branch: '/hotfix\/.+/'
+   title: /hotfix/i
+ - branch: '/bugfix\/.+/'
+   title: /bugfix/i
+ - branch: '/patch\/.+/'
+   title: /patch/i
+
+docs:
+ - branch: '/doc\/.+/'
+   title: /doc/i
+ - branch: '/docs\/.+/'
+   title: /docs/i
+
+chore:
+ - branch: '/chore\/.+/'
+   title: /chore/i
+ - branch: '/refactor\/.+/'
+   title: /refactor/i
+ - branch: '/maintenance\/.+/'
+   title: /maintenance/i
