@@ -3,7 +3,7 @@
 //! ```cargo
 //! [dependencies]
 //! hubcaps = "0.11.0"
-//! regex = "1.5.4"}
+//! regex = "1.5.4"
 //! ```
 
 use hubcaps::pulls::Pulls;
