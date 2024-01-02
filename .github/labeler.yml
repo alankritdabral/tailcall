@@ -2,6 +2,8 @@
 - any:
   - changed-files:
     - any-glob-to-any-file: ["*.md","*.txt","*.rst","*.wiki","*.html"]
+  - head-branch: ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/','/hello\/.+/']
+
 
 "type: chore":
 - any:
