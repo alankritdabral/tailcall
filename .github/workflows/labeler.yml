@@ -10,10 +10,10 @@ jobs:
       - uses: actions-ecosystem/action-remove-labels@v1
         with:
           labels: |
-            "type: chore"
-            "type: docs"
-            "type: fix"           
-            "type: feature"
+            type: chore
+            type: docs
+            type: fix          
+            type: feature
 
   labeler:
     permissions:
