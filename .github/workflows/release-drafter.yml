@@ -2,15 +2,13 @@ name: Release Drafter
 
 on:
   schedule:
-    - cron: '*/1 * * * *'  # Run every minute
-  pull_request:
-    types:
-      - opened
-      - synchronize
-  issues:
-    types:
-      - opened
-      - edited
+    - cron: '*/1 * * * *'
+  push:
+    branches:
+      - "**"
+    paths-ignore: ["docs/**", "**.md"]
+  release:
+    types: [published]
 
 permissions:
   contents: read
