@@ -1,13 +1,12 @@
-"type: docs": ['/doc\/.+/','/docs\/.+/']
+"type: docs": 
 - any:
+  - head-branch: ['/fix\/.+/','/hotfix\/.+/','/bugfix\/.+/','/patch\/.+/']
   - changed-files:
     - any-glob-to-any-file: ["*.md","*.txt","*.rst","*.wiki","*.html"]
 
-"type: chore": ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
+"type: chore": 
 - any:
+  - head-branch: ['^chore', 'chore','/chore\/.+/','/chore\/.+/','/chore\/.+/','/chore\/.+/']
   - changed-files:
     - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
   - head-branch: ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
-
-"type: feature": ['/feat\/.+/','/feature\/.+/','/enhancement\/.+/','/new\/.+/']
-"type: fix": ['/fix\/.+/','/hotfix\/.+/','/bugfix\/.+/','/patch\/.+/']
