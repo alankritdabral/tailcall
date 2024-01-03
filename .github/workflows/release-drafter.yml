@@ -1,10 +1,16 @@
 name: Release Drafter
 
 on:
-  release:
-    types: [published]
-  pull_request_target:
-    types: [opened, reopened, synchronize]
+  schedule:
+    - cron: '*/1 * * * *'  # Run every minute
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  issues:
+    types:
+      - opened
+      - edited
 
 permissions:
   contents: read
@@ -12,10 +18,7 @@ permissions:
 jobs:
   update_release_draft:
     permissions:
-      # write permission is required to create a github release
       contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
