@@ -1,0 +1,13 @@
+name: Another Workflow
+on: pull_request
+jobs:
+  use_previous_output:
+    needs: Scheduled Workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get previous output
+        id: previous_output
+        run: echo "::set-output name=create_release_name::${{ needs.Scheduled Workflow.outputs.create_release_name }}"
+      - name: Use previous output
+        run: |
+          echo "Previous release name: ${{ steps.previous_output.outputs.create_release_name }}"

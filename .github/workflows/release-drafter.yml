@@ -1,28 +1,38 @@
-name: Release Drafter CI
+name: Release Drafter
 
 on:
- schedule:
-   - cron: '* * * * *'
- issues:
-   types: [opened, edited, closed]
- pull_request:
-   types: [opened, edited, closed]
+  schedule:
+    - cron: "*/5 * * * *"
+  pull_request_target:
+    branches:
+      - "**"
+    paths-ignore: ["docs/**", "**.md"]
+  release:
+    types: [published]
 
 permissions:
- issues: write
- pull-requests: write
+  contents: read
 
 jobs:
- release_drafter:
-   name: Run Release Drafter
-   runs-on: ubuntu-latest
-   steps:
-     - name: Checkout repository
-       uses: actions/checkout@v4
+  update_release_draft:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Current Branch (Fast)
+        uses: actions/checkout@v4
 
-     - name: Run Release Drafter
-       uses: release-drafter/release-drafter@v5
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       with:
-         config-name: release-drafter.yml
+      - id: create_release
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Output for Later Jobs
+        id: set_output
+        run: |
+          echo "create_release_name=${{ steps.create_release.outputs.name }}" >> $GITHUB_OUTPUT
+          echo "create_release_id=${{ steps.create_release.outputs.id }}" >> $GITHUB_OUTPUT
+    outputs:
+      create_release_name: ${{ steps.set_output.outputs.create_release_name }}
+      create_release_id: ${{ steps.set_output.outputs.create_release_id }}
