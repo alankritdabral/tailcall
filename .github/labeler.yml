@@ -12,6 +12,7 @@
 
 "type: fix": 
 - any:
+  - 'fix'
   - head-branch: ['^fix','^hotfix','^bugfix','^patch']
 
 "type: feature": 
