@@ -193,7 +193,7 @@ jobs:
       pull-requests: write
     env:
       GITHUB_TOKEN: ${{secrets.GITHUBTOKEN}}
-      APP_VERSION: ${{ (github.event_name == 'release' && github.event.action == 'published') && github.event.release.tag_name }}
+      APP_VERSION: ${{ (github.event_name == 'release' && github.event.action == 'published') && github.event.release.tag_name || needs.draft_release.outputs.create_release_name }}
 
     steps:
       - name: Checkout Current Branch (Fast)
@@ -207,7 +207,7 @@ jobs:
 
       - name: Build
         env:
-          APP_VERSION: ${{ (github.event_name == 'release' && github.event.action == 'published') && github.event.release.tag_name }}
+          APP_VERSION: ${{ (github.event_name == 'release' && github.event.action == 'published') && github.event.release.tag_name || needs.draft_release.outputs.create_release_name}}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         uses: actions-rs/cargo@v1
         with:
