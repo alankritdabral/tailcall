@@ -1,0 +1,27 @@
+name: Release Drafter
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Run every minute
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  issues:
+    types:
+      - opened
+      - edited
+
+permissions:
+  contents: read
+
+jobs:
+  update_release_draft:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
