@@ -1,53 +1,38 @@
-  - label: "type: chore"
-    files:
-      - "*.yml"
-      - "*.conf"
-      - "*.sbt"
-      - "*.json"
-      - "*.xml"
-      - "Dockerfile"
-    branch:
-      - '/chore\/.+/'
-      - '/refactor\/.+/'
-      - '/maintenance\/.+/'
-    title:
-      - /chore/i
-      - /refactor/i
+# This file contains regexes for automatically adding labels based on issue/PR titles,
+# for use with https://github.com/github/issue-labeler.
 
-  - label: "type: fix"
-    branch:
-      - '/fix\/.+/'
-      - '/hotfix\/.+/'
-      - '/bugfix\/.+/'
-      - '/patch\/.+/'
-    title:
-      - /fix/i
-      - /hotfix/i
-      - /bugfix/i
-      - /patch/i
+array types:
+  - 'array types'
 
-  - label: "type: feature"
-    branch:
-      - '/feat\/.+/'
-      - '/feature\/.+/'
-      - '/enhancement\/.+/'
-      - '/new\/.+/'
-    title:
-      - /feat/i
-      - /feature/i
-      - /enhancement/i
-      - /new/i
+Benchmarks:
+  - 'fix'
 
-  - label: "type: docs"
-    files:
-      - "*.md"
-      - "*.txt"
-      - "*.rst"
-      - "*.wiki"
-      - "*.html"
-    branch:
-      - '/doc\/.+/'
-      - '/docs\/.+/'
-    title:
-      - /doc/i
-      - /docs/i
+Build issues:
+  - 'BLD'
+
+CI:
+  - 'CI'
+
+defect:
+  - '(BUG|FIX)'
+
+deprecated:
+  - 'DEP'
+
+Documentation:
+  - 'DOC'
+
+DX:
+  - 'DEV'
+
+enhancement:
+  - 'ENH'
+
+maintenance:
+  - '(MAINT|TST)'
+
+query:
+  - '(Q|q)uery'
+
+RFC:
+  - 'RFC'
