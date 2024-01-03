@@ -2,8 +2,11 @@
 # for use with https://github.com/github/issue-labeler.
 
 array types:
-  - 'fix'
-
+      - /fix/i
+      - /hotfix/i
+      - /bugfix/i
+      - /patch/i
+      
 Benchmarks:
   - 'BENCH'
 
