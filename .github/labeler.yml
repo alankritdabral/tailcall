@@ -9,7 +9,6 @@
   - head-branch: ['/chore\/.+/','/refactor\/.+/','/maintenance\/.+/']
   - changed-files:
     - any-glob-to-any-file: ["*.yml","*.conf","*.sbt","*.json","*.xml","Dockerfile"]
-  - head-branch: ['/chore\/.+/', '/refactor\/.+/','/maintenance\/.+/']
 
 "type: docs": 
 - any:
