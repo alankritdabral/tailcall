@@ -14,10 +14,19 @@ jobs:
 
     # label based on PR title
     - uses: github/issue-labeler@v3.3
-      if: github.repository == 'scipy/scipy'
       with:
         configuration-path: .github/pr_label.yml
         include-title: 1
         include-body: 0
         enable-versioned-regex: 0
         repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: github/issue-labeler@v3.3 #May not be the latest version
+      with:
+        configuration-path: .github/pr_label.yml
+        include-body: 0
+        enable-versioned-regex: 0
+        repo-token: ${{ github.token }}
