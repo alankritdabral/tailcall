@@ -3,7 +3,7 @@ name: Release Drafter
 on:
   schedule:
     - cron: '*/1 * * * *'
-  push:
+  pull_request_target:
     branches:
       - "**"
     paths-ignore: ["docs/**", "**.md"]
