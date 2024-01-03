@@ -4,6 +4,17 @@ on:
   pull_request_target
 
 jobs:
+  remove_label:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v2
+     - name: Remove label
+       uses: actions-ecosystem/action-remove-labels@v1
+       with:
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         label: "type: docs"
+         
   labeler:
     permissions:
       contents: read
