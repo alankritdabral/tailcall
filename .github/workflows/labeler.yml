@@ -13,10 +13,10 @@ jobs:
       - name: Run Labeler
         uses: actions/labeler@v5
         with:
-         repo-token: ${{ secrets.GITHUB_TOKEN }}
-         sync-labels: true
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          sync-labels: true
          
-    # label based on PR title
+      # label based on PR title
       - uses: github/issue-labeler@v3.3
         with:
           configuration-path: .github/pr_label.yml
@@ -26,14 +26,24 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           sync-labels: true
 
-      - name: Remove Labels
-        uses: actions-ecosystem/action-remove-labels@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: |
-            type: chore
-            type: docs
-            type: fix          
-            type: feature
-        env:
-          CURRENT_LABELS: ${{ steps.labeler.outputs.all-labels }}
+  remove-unused-labels:
+    runs-on: ubuntu-latest
+    needs: labeler
+    steps:
+      - name: Get current labels
+        run: |
+          current_labels=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/labels" | \
+            jq -r '.[].name')
+          echo "Current labels: $current_labels"
+      
+      - name: Remove unused labels
+        run: |
+          unused_labels="chore docs fix feature"
+          for label in $unused_labels; do
+            if [[ ! "$current_labels" =~ "$label" ]]; then
+              echo "Removing label: $label"
+              curl -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels/$label"
+            fi
+          done
