@@ -10,3 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/labeler@v5
+
+    # label based on PR title
+    - uses: github/issue-labeler@v3.3
+      if: github.repository == 'scipy/scipy'
+      with:
+        configuration-path: .github/pr_label.yml
+        include-title: 1
+        include-body: 0
+        enable-versioned-regex: 0
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
