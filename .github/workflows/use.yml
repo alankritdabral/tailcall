@@ -1,14 +1,10 @@
-name: Call a reusable workflow and use its outputs
+name: Second Workflow
 
-on:
- workflow_dispatch:
+on: [push]
 
 jobs:
- job1:
-   uses: AlooDon/tailcall/.github/workflows/release-drafter.yml@v1
-
  job2:
-   runs-on: ubuntu-latest
    needs: job1
+   runs-on: ubuntu-latest
    steps:
-     - run: echo ${{ needs.job1.outputs.firstword }} ${{ needs.job1.outputs.secondword }}
+     - run: echo ${{ needs.job1.outputs.firstOutput }}
