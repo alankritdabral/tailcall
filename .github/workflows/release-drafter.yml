@@ -4,9 +4,9 @@ on: [push]
 
 jobs:
  job1:
-   runs-on: ubuntu-latest
-   steps:
-     - id: step1
-       run: echo "::set-output name=firstOutput::Hello, World!"
-   outputs:
-     firstOutput: ${{ steps.step1.outputs.firstOutput }}
+  runs-on: ubuntu-latest
+  steps:
+    - id: step1
+      run: echo "::set-output name=firstOutput::Hello, World!"
+  outputs:
+    firstOutput: ${{ steps.step1.outputs.firstOutput }}
