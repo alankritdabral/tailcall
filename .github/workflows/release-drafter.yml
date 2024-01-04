@@ -1,24 +1,12 @@
-name: Reusable workflow
+name: First Workflow
 
-on:
- workflow_call:
-   outputs:
-     firstword:
-       description: "The first output string"
-       value: ${{ jobs.example_job.outputs.output1 }}
-     secondword:
-       description: "The second output string"
-       value: ${{ jobs.example_job.outputs.output2 }}
+on: [push]
 
 jobs:
- example_job:
-   name: Generate output
+ job1:
    runs-on: ubuntu-latest
-   outputs:
-     output1: ${{ steps.step1.outputs.firstword }}
-     output2: ${{ steps.step2.outputs.secondword }}
    steps:
      - id: step1
-       run: echo "firstword=hello" >> $GITHUB_OUTPUT
-     - id: step2
-       run: echo "secondword=world" >> $GITHUB_OUTPUT
+       run: echo "::set-output name=firstOutput::Hello, World!"
+   outputs:
+     firstOutput: ${{ steps.step1.outputs.firstOutput }}
