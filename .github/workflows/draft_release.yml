@@ -1,6 +1,9 @@
 name: Draft Release 
 
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
   workflow_call:
     inputs:
       draft:
