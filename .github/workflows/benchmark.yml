@@ -139,8 +139,8 @@ jobs:
       - name: Check Degradation
         run: ./scripts/criterion_compare.rs  benches/main_benchmarks.json benches/benchmarks.json check
 
-  benchmark_with_bencher:    
-    name: Continuous Benchmarking with Bencher
+  Track_Benchmark_With_Bencher:    
+    name: Track Benchmark with Bencher
     permissions:
       pull-requests: write
       contents: write
