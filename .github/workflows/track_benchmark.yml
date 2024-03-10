@@ -24,6 +24,10 @@ jobs:
           uses: actions/checkout@v4
           with:
             ref: ${{ github.event.pull_request.head.sha }}
+          
+        - name: Convert Cache into json
+          run: |
+            cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
 
         - uses: bencherdev/bencher@main
         - name: Track base Benchmarks
