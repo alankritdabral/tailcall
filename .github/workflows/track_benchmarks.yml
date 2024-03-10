@@ -22,7 +22,7 @@ jobs:
       BENCHER_TESTBED: localhost
       BENCHER_ADAPTER: rust_criterion
       BASE_BENCHMARK_RESULTS: benches/track_benchmark.json
-    steps:  
+    steps:
       - name: Check out code
         uses: actions/checkout@v4
         with:
@@ -32,7 +32,7 @@ jobs:
       #   run: |
       #     cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
 
-      - name: Install Bencher CLI    
+      - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
       - name: Benchmark PR
