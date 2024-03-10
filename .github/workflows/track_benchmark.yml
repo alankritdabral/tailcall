@@ -32,7 +32,6 @@ jobs:
 
             bencher run \
             --branch 'main' \
-            --token '$BENCHER_API_TOKEN' \
             --ci-id '${{ github.event.pull_request.number }}' \
             --github-actions "${{ secrets.GITHUB_TOKEN }}" \
             --err \
