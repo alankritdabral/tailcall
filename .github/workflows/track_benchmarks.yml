@@ -36,7 +36,7 @@ jobs:
       - name: Benchmark PR
         env:
           BENCHER_BRANCH: main
-          BENCHER_TESTBED: benchmarking-runner
+          BENCHER_TESTBED: ubuntu-latest-${{ matrix.backend }}
         run: |
           bencher run \
           --if-branch '${{ github.event.pull_request.head.ref }}' \
