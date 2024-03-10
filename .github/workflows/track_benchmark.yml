@@ -32,25 +32,5 @@ jobs:
             export FEATURE_BRANCH=feature-branch-$(git rev-parse --short HEAD)
             
             bencher run \
-            --github-actions "${{ secrets.GITHUB_TOKEN }}" \
+            --token "${{ secrets.BENCHER_API_TOKEN }}" \
             --file "$BASE_BENCHMARK_RESULTS"
-        - name: Create PR threshold
-          run: |
-            bencher threshold create \
-            --project "$BENCHER_PROJECT" \
-            --branch '${{ env.PR_HEAD }}' \
-            --testbed "$BENCHER_TESTBED" \
-            --measure latency \
-            --test t \
-            --upper-boundary ${{ env.UPPER_BOUNDARY }} \
-            --token yJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc \
-        - name: Track PR Benchmarks
-          run: |
-            bencher run \
-            --branch '${{ env.PR_HEAD }}' \
-            --token yJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc \
-            --ci-id '${{ env.PR_ID }}' \
-            --ci-number '${{ env.PR_NUMBER }}' \
-            --github-actions "${{ secrets.GITHUB_TOKEN }}" \
-            --err \
-            --file "$PR_BENCHMARK_RESULTS"
