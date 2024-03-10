@@ -1,8 +1,13 @@
+name: Track Benchmark
+
 on:
     push:
       branches: main
+    pull_request:
+      paths-ignore: ["docs/**", "**.md"]
+      types: [opened, reopened, synchronize, labeled]
 
-  jobs:
+jobs:
     benchmark_with_bencher:
       name: Continuous Benchmarking with Bencher
       runs-on: ubuntu-latest
