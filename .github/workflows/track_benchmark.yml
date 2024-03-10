@@ -24,11 +24,37 @@ jobs:
         - uses: bencherdev/bencher@main
         - name: Track Benchmarks with Bencher
           run: |
+            git checkout feature-branch
+
+            export FEATURE_BRANCH=feature-branch-$(git rev-parse --short HEAD)
+            
+            export BENCHER_API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc
+            
+            git checkout main
+            
             bencher run \
-            --branch "$GITHUB_REF_NAME" \
-            --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc \
-            --adapter json \
-            --if-branch feat/added-bencher-dev \
+            --project tailcall \
+            --if-branch "$FEATURE_BRANCH" \
+            --else-branch \
             --testbed localhost \
+            --iter 3 \
+            "bencher mock"
+            
+            git checkout feature-branch
+            
+            bencher threshold create \
+            --project tailcall \
+            --branch "$FEATURE_BRANCH" \
+            --testbed localhost \
+            --measure latency \
+            --test t \
+            --upper-boundary 0.95
+            
+            bencher run \
+            --project tailcall \
+            --branch "$FEATURE_BRANCH" \
+            --testbed localhost \
+            --iter 3 \
+            --fold min \
             --err \
             "bencher mock"
