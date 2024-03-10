@@ -30,6 +30,12 @@ jobs:
         run: |
           cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
       
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Install Criterion
+        run: cargo install cargo-criterion
+
       - name: Install Bencher CLI    
         uses: bencherdev/bencher@main
 
