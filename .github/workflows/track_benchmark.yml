@@ -26,7 +26,7 @@ jobs:
         - name: Track base Benchmarks
           run: |
             bencher run \
-            --branch '${{ env.PR_HEAD }}' \
+            --branch 'main' \
             --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s\
             --ci-id '${{ github.event.pull_request.number }}' \
             --github-actions "${{ secrets.GITHUB_TOKEN }}" \
