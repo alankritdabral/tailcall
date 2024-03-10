@@ -24,7 +24,7 @@ jobs:
         - uses: bencherdev/bencher@main
         - name: Track Benchmarks with Bencher
           run: |
-            git checkout feat/added-bencher-dev
+            git checkout
 
             export FEATURE_BRANCH=feature-branch-$(git rev-parse --short HEAD)
             
