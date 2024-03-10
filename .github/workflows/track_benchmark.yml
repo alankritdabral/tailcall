@@ -29,8 +29,6 @@ jobs:
         - name: Track base Benchmarks
           run: |
             bencher run \
-            --if-branch '${{ env.PR_HEAD }}' \
-            --else-branch \
             --token yJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc \
             --file "$BASE_BENCHMARK_RESULTS"
         - name: Create PR threshold
