@@ -103,6 +103,12 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+    env:
+      BENCHER_PROJECT: tailcall
+      BENCHER_ADAPTER: rust_criterion
+      BENCHER_TESTBED: ubuntu-latest
+      PR_BENCHMARK_RESULTS:  benches/change_benchmarks.md
+      BASE_BENCHMARK_RESULTS: benches/benchmarks.json
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -133,3 +139,12 @@ jobs:
 
       - name: Check Degradation
         run: ./scripts/criterion_compare.rs  benches/main_benchmarks.json benches/benchmarks.json check
+
+      - uses: bencherdev/bencher@main
+      - name: Track Benchmarks with Bencher
+        run: |
+          bencher run \
+          --branch "$GITHUB_REF_NAME" \
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --err \
+          "bencher mock"
