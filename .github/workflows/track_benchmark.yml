@@ -8,8 +8,11 @@ on:
       types: [opened, reopened, synchronize, labeled]
 
 jobs:
-    benchmark_with_bencher:
+    benchmark_with_bencher:    
       name: Continuous Benchmarking with Bencher
+      permissions:
+        pull-requests: write
+        contents: write
       runs-on: ubuntu-latest
       env:
         BENCHER_PROJECT: tailcall
