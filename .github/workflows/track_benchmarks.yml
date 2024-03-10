@@ -32,7 +32,7 @@ jobs:
             cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
 
         - name: Show Seceret
-          run: echo ${{ secrets.MY_SECRET_KEY }}
+          run: echo ${{ secrets.BENCHER_API_TOKEN }}
           
         - uses: bencherdev/bencher@main
         - name: Track base Benchmarks
