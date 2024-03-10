@@ -28,4 +28,10 @@ jobs:
             --branch "$GITHUB_REF_NAME" \
             --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc \
             --err \
-            "bencher mock"
+            --adapter json \
+            --if-branch feature-branch \
+            --else-if-branch main \
+            --else-branch \
+            --testbed localhost \
+            --err \
+            "bencher mock"`
