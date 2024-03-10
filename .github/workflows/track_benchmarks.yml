@@ -20,16 +20,7 @@ jobs:
     env:
       BENCHER_PROJECT: tailcall
       BENCHER_ADAPTER: rust_criterion
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Convert Cache into Proper Json
-        run: |
-          cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
-      
+    steps:  
       - name: Install Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
 
