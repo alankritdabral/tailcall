@@ -22,15 +22,6 @@ jobs:
             ref: ${{ github.event.pull_request.head.sha }}
 
         - uses: bencherdev/bencher@main
-        - name: Track Benchmarks with Bencher
-          run: |
-            git checkout
-
-            export FEATURE_BRANCH=feature-branch-$(git rev-parse --short HEAD)
-            
-            export BENCHER_API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjo2MDA1MDIxMDgzLCJpYXQiOjE3MTAwNTM3ODgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.NYbyDLA7aJN6535_YUjIPN1TsMbZc86qxhGKFgkXVkc
-            
-            git checkout main
             
         - name: Track base Benchmarks
           run: |
