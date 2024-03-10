@@ -1,13 +1,9 @@
 name: Track Benchmark
 
 on:
-  push:
-    paths-ignore: ["docs/**", "**.md"]
-    branches:
-      - main
-  pull_request:
-    paths-ignore: ["docs/**", "**.md"]
-    types: [opened, reopened, synchronize, labeled]
+    push:
+      branches: main
+
 jobs:
     benchmark_with_bencher:    
       name: Continuous Benchmarking with Bencher
@@ -26,17 +22,16 @@ jobs:
           with:
             ref: ${{ github.event.pull_request.head.sha }}
           
-        - name: Convert Cache into json
+        - name: Convert Cache into Proper Json
           run: |
             cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
 
         - uses: bencherdev/bencher@main
         - name: Track base Benchmarks
           run: |
-            export BENCHER_API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s
-
             bencher run \
             --branch 'main' \
+            --token "${{ secrets.BENCHER_API_TOKEN }}" \
             --ci-id '${{ github.event.pull_request.number }}' \
             --github-actions "${{ secrets.GITHUB_TOKEN }}" \
             --err \
