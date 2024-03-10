@@ -71,11 +71,10 @@ jobs:
 
   Cache_Benchmarks:
     name: Cache Micro Benchmarks result
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main')
     permissions:
       pull-requests: write
       contents: write
-    runs-on: ubuntu-latest
+    runs-on: benchmarking-runner
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -96,19 +95,19 @@ jobs:
           path: benches/main_benchmarks.json
           key: criterion_benchmarks_${{ github.sha }}
 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: json-artifact
+          path: benches/main_benchmarks.json
+
   Criterion_Compare:
     name: Comparing Micro Benchmarks
     if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark')"
-    runs-on: ubuntu-latest
+    runs-on: benchmarking-runner
     permissions:
       pull-requests: write
       contents: write
-    env:
-      BENCHER_PROJECT: tailcall
-      BENCHER_ADAPTER: rust_criterion
-      BENCHER_TESTBED: ubuntu-latest
-      PR_BENCHMARK_RESULTS:  benches/change_benchmarks.md
-      BASE_BENCHMARK_RESULTS: benches/benchmarks.json
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -140,11 +139,33 @@ jobs:
       - name: Check Degradation
         run: ./scripts/criterion_compare.rs  benches/main_benchmarks.json benches/benchmarks.json check
 
-      - uses: bencherdev/bencher@main
-      - name: Track Benchmarks with Bencher
+  benchmark_with_bencher:    
+    name: Continuous Benchmarking with Bencher
+    permissions:
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    env:
+      BENCHER_PROJECT: tailcall
+      BENCHER_TESTBED: ubuntu-latest
+      BENCHER_ADAPTER: json
+      BASE_BENCHMARK_RESULTS: benches/main_benchmarks.json
+    steps:
+      - name: Download Text File
+        uses: actions/download-artifact@v4
+        with:
+          name: json-artifact
+
+      - name: Convert Artifact
         run: |
+          cat benches/main_benchmarks.json | jq -s 'map(select(.id and .mean and .slope and .median) | {id: .id, mean: .mean, slope: .slope, median: .median})' > benches/track_benchmark.json
+      - uses: bencherdev/bencher@main
+      - name: Track base Benchmarks
+        run: |
+          export BENCHER_API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s
           bencher run \
-          --branch "$GITHUB_REF_NAME" \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --branch 'main' \
+          --ci-id '${{ github.event.pull_request.number }}' \
+          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
-          "bencher mock"
+          --file "$BASE_BENCHMARK_RESULTS"
