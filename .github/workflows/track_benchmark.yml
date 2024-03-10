@@ -33,4 +33,4 @@ jobs:
             --else-branch \
             --testbed localhost \
             --err \
-            "bencher mock"`
+            "bencher mock"
