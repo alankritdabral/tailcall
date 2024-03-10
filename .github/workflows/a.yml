@@ -2,8 +2,12 @@ name: File Workflow
 
 on:
   push:
+    paths-ignore: ["docs/**", "**.md"]
     branches:
       - main
+  pull_request:
+    paths-ignore: ["docs/**", "**.md"]
+    types: [opened, reopened, synchronize, labeled]
 
 jobs:
   job_a:
