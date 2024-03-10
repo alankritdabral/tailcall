@@ -1,0 +1,338 @@
+[
+  {
+    "id": "test_data_loader",
+    "mean": {
+      "estimate": 630667.6882350676,
+      "lower_bound": 628129.7253670326,
+      "upper_bound": 633584.8660735167,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 631426.3404359391,
+      "lower_bound": 628349.1204290852,
+      "upper_bound": 635025.5690516749,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 627786.95508658,
+      "lower_bound": 626972.7692099568,
+      "upper_bound": 629004.8482142857,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/value.root",
+    "mean": {
+      "estimate": 31.667870159532516,
+      "lower_bound": 31.41233632323435,
+      "upper_bound": 31.967238976701754,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 31.290279680356452,
+      "lower_bound": 31.189573976594666,
+      "upper_bound": 31.40597216178152,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 31.245403247038176,
+      "lower_bound": 31.160852170266303,
+      "upper_bound": 31.314671314741037,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/value.nested.existing",
+    "mean": {
+      "estimate": 39.265882552741,
+      "lower_bound": 38.89354551190914,
+      "upper_bound": 39.71138666809612,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 38.79228373134815,
+      "lower_bound": 38.6401438002214,
+      "upper_bound": 38.99126863701705,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 38.630777837096204,
+      "lower_bound": 38.57333993050112,
+      "upper_bound": 38.66860374184523,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/value.missing",
+    "mean": {
+      "estimate": 27.419479266808725,
+      "lower_bound": 27.189949064332982,
+      "upper_bound": 27.694442834951435,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 27.08716390728108,
+      "lower_bound": 27.0247966701396,
+      "upper_bound": 27.15635383089909,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 27.01463384753493,
+      "lower_bound": 26.97289614720643,
+      "upper_bound": 27.088634227121535,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/value.nested.missing",
+    "mean": {
+      "estimate": 33.851106215793514,
+      "lower_bound": 33.55048450571851,
+      "upper_bound": 34.21046685568483,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 33.351510845297874,
+      "lower_bound": 33.27616872726034,
+      "upper_bound": 33.4392458003954,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 33.24937325178871,
+      "lower_bound": 33.20705166319201,
+      "upper_bound": 33.309964099437785,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/args.root",
+    "mean": {
+      "estimate": 30.364730625568562,
+      "lower_bound": 30.165778331665436,
+      "upper_bound": 30.60332313786419,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 30.02828600473686,
+      "lower_bound": 29.967064269274974,
+      "upper_bound": 30.0987158598645,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 29.962958910736926,
+      "lower_bound": 29.89822040267049,
+      "upper_bound": 30.072451175567764,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/args.nested.existing",
+    "mean": {
+      "estimate": 37.78441526810983,
+      "lower_bound": 37.416201449242166,
+      "upper_bound": 38.23558347436916,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 37.2164687711944,
+      "lower_bound": 37.09412818576211,
+      "upper_bound": 37.3620506460856,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 37.13775380765368,
+      "lower_bound": 37.069712153606126,
+      "upper_bound": 37.2397224068097,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/args.missing",
+    "mean": {
+      "estimate": 25.657879488651325,
+      "lower_bound": 25.458471149026618,
+      "upper_bound": 25.88860090622767,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 25.284229851339713,
+      "lower_bound": 25.22359443478446,
+      "upper_bound": 25.353960609495555,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 25.239968135190765,
+      "lower_bound": 25.168884237139196,
+      "upper_bound": 25.32121544143565,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/args.nested.missing",
+    "mean": {
+      "estimate": 32.53877176466486,
+      "lower_bound": 32.27151683266515,
+      "upper_bound": 32.8562504277929,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 32.11924291778472,
+      "lower_bound": 32.03436492503745,
+      "upper_bound": 32.2182296023023,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 32.01857843066286,
+      "lower_bound": 31.96942061022553,
+      "upper_bound": 32.086477447420926,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/headers.existing",
+    "mean": {
+      "estimate": 35.610263173390216,
+      "lower_bound": 35.36474689752345,
+      "upper_bound": 35.903555476111286,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 35.27297191952966,
+      "lower_bound": 35.16900409083198,
+      "upper_bound": 35.39842791639509,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 35.14495013972129,
+      "lower_bound": 35.07805810508998,
+      "upper_bound": 35.23261978876836,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/headers.missing",
+    "mean": {
+      "estimate": 35.23976214062523,
+      "lower_bound": 34.79517128674866,
+      "upper_bound": 35.716386174653294,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 36.26557529889814,
+      "lower_bound": 35.553589284317646,
+      "upper_bound": 36.89934852586813,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 33.94623046382239,
+      "lower_bound": 33.77307007733181,
+      "upper_bound": 34.39159522028502,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/vars.existing",
+    "mean": {
+      "estimate": 13.941773291942539,
+      "lower_bound": 13.807476247965614,
+      "upper_bound": 14.07772488573819,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 13.655053682822487,
+      "lower_bound": 13.483941225031293,
+      "upper_bound": 13.820506965884142,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 13.98352362111974,
+      "lower_bound": 13.899685342124895,
+      "upper_bound": 14.108584347321282,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "input/vars.missing",
+    "mean": {
+      "estimate": 13.315395350872606,
+      "lower_bound": 13.223275906996792,
+      "upper_bound": 13.409732563278766,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 13.35418322449876,
+      "lower_bound": 13.268263387107641,
+      "upper_bound": 13.434295584681957,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 13.336126024881466,
+      "lower_bound": 13.251616447032035,
+      "upper_bound": 13.410577241060349,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "test_batched_body",
+    "mean": {
+      "estimate": 2826.401363990841,
+      "lower_bound": 2789.619664725076,
+      "upper_bound": 2866.6321495923385,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 2746.234104520808,
+      "lower_bound": 2732.034258756847,
+      "upper_bound": 2763.5263483429985,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 2728.8831364581365,
+      "lower_bound": 2718.5550189465707,
+      "upper_bound": 2747.4486339202967,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "with_mustache_literal",
+    "mean": {
+      "estimate": 863.3804652054076,
+      "lower_bound": 852.5937427665483,
+      "upper_bound": 874.4744890516257,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 836.3730951874116,
+      "lower_bound": 826.2794850730181,
+      "upper_bound": 848.0532776671816,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 855.1810230810368,
+      "lower_bound": 831.3593510914781,
+      "upper_bound": 876.797092642797,
+      "unit": "ns"
+    }
+  },
+  {
+    "id": "with_mustache_expressions",
+    "mean": {
+      "estimate": 1296.4326151221799,
+      "lower_bound": 1278.791155389351,
+      "upper_bound": 1316.663644479466,
+      "unit": "ns"
+    },
+    "slope": {
+      "estimate": 1287.8445974674255,
+      "lower_bound": 1271.3008656328605,
+      "upper_bound": 1305.7391256641602,
+      "unit": "ns"
+    },
+    "median": {
+      "estimate": 1254.782832257809,
+      "lower_bound": 1247.0107279693486,
+      "upper_bound": 1269.6518469532357,
+      "unit": "ns"
+    }
+  }
+]
