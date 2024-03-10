@@ -1,0 +1,26 @@
+on:
+    push:
+      branches: main
+
+  jobs:
+    benchmark_with_bencher:
+      name: Continuous Benchmarking with Bencher
+      runs-on: ubuntu-latest
+      env:
+        BENCHER_PROJECT: tailcall
+        BENCHER_TESTBED: ubuntu-latest
+        BENCHER_ADAPTER: json
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v4ii
+          with:
+            ref: ${{ github.event.pull_request.head.sha }}
+
+        - uses: bencherdev/bencher@main
+        - name: Track Benchmarks with Bencher
+          run: |
+            bencher run \
+            --branch "$GITHUB_REF_NAME" \
+            --token "${{ secrets.BENCHER_API_TOKEN }}" \
+            --err \
+            "bencher mock"
