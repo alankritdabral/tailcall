@@ -20,7 +20,7 @@ jobs:
     env:
       BENCHER_PROJECT: tailcall
       BENCHER_TESTBED: localhost
-      BENCHER_ADAPTER: json
+      BENCHER_ADAPTER: rust_criterion
       BASE_BENCHMARK_RESULTS: benches/track_benchmark.json
     steps:  
       - name: Check out code
