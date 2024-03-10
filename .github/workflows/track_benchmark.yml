@@ -15,6 +15,9 @@ jobs:
         BENCHER_PROJECT: tailcall
         BENCHER_TESTBED: ubuntu-latest
         BENCHER_ADAPTER: json
+        PR_BENCHMARK_RESULTS: benches/benchmarks.json 
+        BASE_BENCHMARK_RESULTS: benches/main_benchmarks.json
+        UPPER_BOUNDARY: 0.90
       steps:
         - name: Check out code
           uses: actions/checkout@v4
