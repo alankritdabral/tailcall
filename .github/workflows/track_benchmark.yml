@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BENCHER_PROJECT: tailcall-2192953494
-      BENCHER_ADAPTER: json
+      BENCHER_ADAPTER: rust_criterion
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -27,10 +27,6 @@ jobs:
       - name: Install rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Criterion
-        run: |
-          cargo install cargo-criterion
-
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
@@ -38,4 +34,4 @@ jobs:
         run: |
           bencher run \
           --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s \
-          'cargo criterion'
+          'cargo bench'
