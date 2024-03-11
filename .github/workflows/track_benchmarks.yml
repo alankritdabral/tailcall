@@ -35,4 +35,4 @@ jobs:
       - name: Benchmark PR
         env:
           BENCHER_BRANCH: main
-        run:  bencher run --project tailcall "$BASE_BENCHMARK_RESULTS"
+        run:  bencher run --project tailcall-1982174612 "$BASE_BENCHMARK_RESULTS"
