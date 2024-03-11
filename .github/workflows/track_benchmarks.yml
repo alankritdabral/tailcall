@@ -18,15 +18,15 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     env:
-      BENCHER_PROJECT: tailcall
-      BENCHER_TESTBED: localhost
+      BENCHER_PROJECT: saul-goodman
+      BENCHER_TESTBED: benchmarking-runner
       BENCHER_ADAPTER: rust_criterion
       BASE_BENCHMARK_RESULTS: benches/track_benchmark.json
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+      # - name: Check out code
+      #   uses: actions/checkout@v4
+      #   with:
+      #     ref: ${{ github.event.pull_request.head.sha }}
 
       # - name: Convert Cache into Proper Json
       #   run: |
@@ -43,7 +43,7 @@ jobs:
           --if-branch '${{ github.event.pull_request.head.ref }}' \
           --else-if-branch '${{ github.event.pull_request.base.ref }}' \
           --else-if-branch main \
-          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s \
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$BASE_BENCHMARK_RESULTS"
