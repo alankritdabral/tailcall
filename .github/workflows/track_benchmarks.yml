@@ -7,8 +7,6 @@ on:
       - main
   pull_request:
     paths-ignore: ["docs/**", "**.md"]
-    branches:
-      - main
 
 jobs:
   track_benchmark_with_bencher:
