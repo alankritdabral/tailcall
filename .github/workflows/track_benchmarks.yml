@@ -38,12 +38,4 @@ jobs:
       - name: Benchmark PR
         env:
           BENCHER_BRANCH: main
-        run: |
-          bencher run \
-          --if-branch '${{ github.event.pull_request.head.ref }}' \
-          --else-if-branch '${{ github.event.pull_request.base.ref }}' \
-          --else-if-branch main \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" \
-          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
-          --err \
-          --file "$BASE_BENCHMARK_RESULTS"
+        run:  bencher run --project tailcall "$BASE_BENCHMARK_RESULTS"
