@@ -36,5 +36,6 @@ jobs:
         env:
           BENCHER_BRANCH: main
         run: |
+          export BENCHER_API_TOKEN= "$BENCHER_API_TOKEN"
           bencher project create --name tailcall --url https://github.com/alankritdabral/tailcall alankritdabral
           bencher run --project tailcall "$BASE_BENCHMARK_RESULTS"
