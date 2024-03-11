@@ -21,8 +21,6 @@ jobs:
       BASE_BENCHMARK_RESULTS: benches/track_benchmark.json
     steps:
       - uses: actions/checkout@v4
-      - name: Install Stable Toolchain
-        uses: actions-rust-lang/setup-rust-toolchain@v1
 
       # - name: Check out code
       #   uses: actions/checkout@v4
@@ -41,4 +39,4 @@ jobs:
           BENCHER_BRANCH: main
         run: |
           export BENCHER_API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s
-          bencher run --project tailcall-2192953494 "cargo bench"
+          bencher run --project tailcall-2192953494 "benches/track_benchmark.json"
