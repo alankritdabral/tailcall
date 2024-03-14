@@ -2,6 +2,7 @@
 FROM rust:slim-buster AS builder
 
 WORKDIR /prod
+
 # Copy manifests and the graphql file
 COPY Cargo.lock Cargo.toml examples/jsonplaceholder.graphql docker.sh ./
 
@@ -20,8 +21,6 @@ RUN apt-get update && apt-get install -y pkg-config libssl-dev python g++ git ma
 # Copy the rest of the source code
 COPY . .
 
-RUN chmod +x docker.sh && ./docker.sh
-
 # Compile the project
 RUN RUST_BACKTRACE=1 cargo build --release
 
@@ -31,6 +30,10 @@ FROM fedora:41 AS runner
 # Copy necessary files from the builder stage
 COPY --from=builder /prod/target/release/tailcall /bin
 COPY --from=builder /prod/jsonplaceholder.graphql /jsonplaceholder.graphql
+
+# Install tailcall globally (latest version)
+RUN docker pull ghcr.io/tailcallhq/tailcall/tc-server
+RUN docker run -p 8080:8080 -p 8081:8081 ghcr.io/tailcallhq/tailcall/tc-server
 
 ENV TAILCALL_LOG_LEVEL=error
 CMD ["/bin/tailcall", "start", "jsonplaceholder.graphql"]
