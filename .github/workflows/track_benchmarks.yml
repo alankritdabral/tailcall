@@ -32,4 +32,4 @@ jobs:
 
       - name: Track base Benchmarks
         run: |
-          bencher run --token "${{ secrets.BENCHER_API_TOKEN }}" 'cargo bench'
+          bencher run --token "${ secrets.BENCHER_API_TOKEN }" 'cargo bench'
