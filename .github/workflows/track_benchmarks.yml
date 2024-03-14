@@ -31,7 +31,7 @@ jobs:
         run: |
           bencher run \
           --project tailcall-2192953494 \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --token ${{ secrets.BENCHER_API_TOKEN }} \
           --adapter rust_criterion \
           --err \
           'cargo bench'
