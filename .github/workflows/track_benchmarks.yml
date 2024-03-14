@@ -15,9 +15,6 @@ jobs:
       pull-requests: write
       contents: write
     runs-on: ubuntu-latest
-    env:
-      BENCHER_PROJECT: tailcall-2192953494
-      BENCHER_ADAPTER: rust_criterion
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -32,4 +29,9 @@ jobs:
 
       - name: Track base Benchmarks
         run: |
-          bencher run --token "${ secrets.BENCHER_API_TOKEN }" 'cargo bench'
+          bencher run \
+          --project tailcall-2192953494 \
+          --token "${ secrets.BENCHER_API_TOKEN }" \
+          --adapter rust_criterion \
+          --err \
+          'cargo bench'
