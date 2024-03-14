@@ -33,6 +33,5 @@ jobs:
       - name: Track base Benchmarks
         run: |
           bencher run \
-          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           'cargo bench'
