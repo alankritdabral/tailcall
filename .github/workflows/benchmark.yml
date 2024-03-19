@@ -79,21 +79,18 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Install Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
       - name: Run Benchmarks
         run: |
-          script/main_benchmarks.json | jq -s '.' > script/main_benchmarks.json
+          scripts/main_benchmarks.json | jq -s '.' > scripts/main_benchmarks.json
           bencher run \
           --project tailcall-2192953494 \
           --branch main \
           --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s \
           --adapter rust_criterion \
-          --file script/main_benchmarks.json
+          --file scripts/main_benchmarks.json
           cat benches/main_benchmarks.md
 
       - name: Cache Criterion Benchmarks Json
