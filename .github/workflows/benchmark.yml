@@ -88,12 +88,11 @@ jobs:
       - name: Run Benchmarks
         run: |
           bencher run \
-          --project tailcall \
+          --project tailcall-2192953494 \
           --branch main \
-          --testbed benchmarking-runner \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s \
           --adapter rust_criterion \
-          --file jq 'select(.reason == "benchmark-complete") | {id, median, mean, slope}' main_benchmarks.json
+          --file jq 'select(.reason == "benchmark-complete") | {id, median, mean, slope}' scripts/main_benchmarks.json
           cat benches/main_benchmarks.md
 
       - name: Cache Criterion Benchmarks Json
