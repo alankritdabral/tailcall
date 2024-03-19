@@ -91,7 +91,7 @@ jobs:
           --project tailcall-2192953494 \
           --branch main \
           --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s \
-          --adapter json \
+          --adapter rust_criterion \
           jq 'select(.reason == "benchmark-complete") | {id, median, mean, slope}' scripts/main_benchmarks.json > benches/clear.json
           'cargo bench'  >a.txt
           cat benches/main_benchmarks.md
