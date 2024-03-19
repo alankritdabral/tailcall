@@ -87,12 +87,13 @@ jobs:
 
       - name: Run Benchmarks
         run: |
+          script/main_benchmarks.json | jq -s '.' > script/main_benchmarks.json
           bencher run \
           --project tailcall-2192953494 \
           --branch main \
           --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxNzIwMDYyMTI4LCJpYXQiOjE3MTAwNjIxMjgsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.0QUtYqWgPtyYV8d6SsK2m4hNoa88r6aSI6Ojupatd3s \
           --adapter rust_criterion \
-          'cargo bench' > a.txt
+          --file script/main_benchmarks.json
           cat benches/main_benchmarks.md
 
       - name: Cache Criterion Benchmarks Json
