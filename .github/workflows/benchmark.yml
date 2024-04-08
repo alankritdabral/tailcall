@@ -141,7 +141,8 @@ jobs:
         run: |
           bencher run \
           --branch '${{ github.head_ref }}' \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" 
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --file "$PR_BENCHMARK_RESULTS"
 
       - name: Create PR threshold
         run: |
@@ -153,6 +154,7 @@ jobs:
           --test t \
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
+
       - name: Track PR Benchmarks
         run: |
           bencher run \
@@ -163,6 +165,3 @@ jobs:
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$PR_BENCHMARK_RESULTS"
-
-#          --ci-id '${{ env.PR_ID }}' \
-#          --ci-number '${{ env.PR_NUMBER }}' \
