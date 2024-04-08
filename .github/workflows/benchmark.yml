@@ -111,9 +111,9 @@ jobs:
       pull-requests: write
       contents: write
     env:
-      BENCHER_PROJECT: tailcall-2192953494
+      BENCHER_PROJECT: tailcall-hehe
       BENCHER_ADAPTER: rust_criterion
-      BENCHER_TESTBED: benchmarking-runner-12
+      BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
       # This is the confidence interval for the t-test Threshold
@@ -140,6 +140,7 @@ jobs:
       - name: Create branch for threshold
         run: |
           bencher run \
+          --project "$BENCHER_PROJECT" \
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$PR_BENCHMARK_RESULTS"
