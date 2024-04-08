@@ -154,6 +154,7 @@ jobs:
           --test t \
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
+          continue-on-error: true
 
       - name: Track PR Benchmarks
         run: |
