@@ -132,18 +132,18 @@ jobs:
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --branch '${{ github.head_ref }}' \
+          --project tailcall-2192953494 \
+          --branch feature-branch \
           --testbed benchmarking-runner-12 \
-          --token "${{ secrets.BENCHER_API_TOKEN }}"
           --measure latency \
           --test t \
           --upper-boundary 0.90 \
-          tailcall-2192953494
+          --token "${{ secrets.BENCHER_API_TOKEN }}"
 
       - name: Track PR Benchmarks
         run: |
           bencher run \
-          --branch '${{ github.head_ref }}' \
+          --branch feature-branch \
           --adapter rust_criterion \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
