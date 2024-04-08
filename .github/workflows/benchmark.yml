@@ -139,12 +139,13 @@ jobs:
 
       - name: Get latest commit
         run: |
-          commit={${{ github.event.pull_request.base.sha }}:0:7}
+          commit="${{ github.event.pull_request.base.sha }}"
+          new={$commit0:7}
 
       - name: Track base benchmarks
         run: |
           bencher run \
-          --if-branch '${{ github.head_ref }}_$commit' \
+          --if-branch '${{ github.head_ref }}_${commit}' \
           --else-branch \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
@@ -152,7 +153,7 @@ jobs:
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --if-branch '${{ github.head_ref }}_$commit' \
+          --if-branch '${{ github.head_ref }}_${commit}' \
           --testbed "$BENCHER_TESTBED" \
           --measure latency \
           --test t \
@@ -162,7 +163,7 @@ jobs:
       - name: Track PR Benchmarks
         run: |
           bencher run \
-          --if-branch '${{ github.head_ref }}_$commit' \
+          --if-branch '${{ github.head_ref }}_${commit}' \
           --ci-number '${{github.event.number}}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
