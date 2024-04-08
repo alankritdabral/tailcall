@@ -139,6 +139,7 @@ jobs:
 
       - name: Track base benchmarks
         run: |
+          git rev-list ${{ github.head_ref }}.. --count
           bencher run \
           --if-branch '${{ github.head_ref }}_${{ github.event.pull_request.base.sha }}' \
           --else-branch \
