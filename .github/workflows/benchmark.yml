@@ -139,9 +139,8 @@ jobs:
 
       - name: Track base benchmarks
         run: |
-          git rev-list ${{ github.head_ref }}.. --count
           bencher run \
-          --if-branch '${{ github.head_ref }}_${{ github.event.pull_request.base.sha }}' \
+          --if-branch '${{ github.head_ref }}_{${{ github.event.pull_request.base.sha }}:0:7}' \
           --else-branch \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
@@ -149,7 +148,7 @@ jobs:
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --branch '${{ github.head_ref }}_${{ github.event.pull_request.base.sha }}' \
+          --if-branch '${{ github.head_ref }}_{${{ github.event.pull_request.base.sha }}:0:7}' \
           --testbed "$BENCHER_TESTBED" \
           --measure latency \
           --test t \
@@ -160,7 +159,7 @@ jobs:
       - name: Track PR Benchmarks
         run: |
           bencher run \
-          --branch '${{ github.head_ref }}_${{ github.event.pull_request.base.sha }}' \
+          --if-branch '${{ github.head_ref }}_{${{ github.event.pull_request.base.sha }}:0:7}' \
           --ci-number '${{github.event.number}}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
