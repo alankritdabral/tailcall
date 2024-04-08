@@ -140,16 +140,16 @@ jobs:
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
-      # - name: Create PR threshold
-      #   run: |
-      #     bencher threshold create \
-      #     --project "$BENCHER_PROJECT" \
-      #     --branch '${{ github.head_ref }}' \
-      #     --testbed "$BENCHER_TESTBED" \
-      #     --measure latency \
-      #     --test t \
-      #     --upper-boundary ${{ env.UPPER_BOUNDARY }} \
-      #     --token "${{ secrets.BENCHER_API_TOKEN }}"
+      - name: Create PR threshold
+        run: |
+          bencher threshold create \
+          --project "$BENCHER_PROJECT" \
+          --branch '${{ github.head_ref }}' \
+          --testbed "$BENCHER_TESTBED" \
+          --measure latency \
+          --test t \
+          --upper-boundary ${{ env.UPPER_BOUNDARY }} \
+          --token "${{ secrets.BENCHER_API_TOKEN }}"
       - name: Track PR Benchmarks
         run: |
           bencher run \
