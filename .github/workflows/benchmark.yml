@@ -88,7 +88,7 @@ jobs:
           bencher run \
           --project tailcall-2192953494 \
           --branch main \
-          --testbed benchmarking-runner \
+          --testbed benchmarking-runner-12 \
           --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
           --adapter rust_criterion \
           --file benches/base.txt
@@ -134,7 +134,7 @@ jobs:
           bencher threshold create \
           --project tailcall-2192953494 \
           --branch '${{ github.head_ref }}' \
-          --testbed benchmarking-runner \
+          --testbed benchmarking-runner-12 \
           --adapter rust_criterion \
           --measure latency \
           --test t \
