@@ -117,8 +117,6 @@ jobs:
       pull-requests: write
       contents: write
     env:
-      BENCHER_PROJECT: tailcall-hehe
-      BENCHER_ADAPTER: rust_criterion
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
