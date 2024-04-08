@@ -145,7 +145,7 @@ jobs:
       - name: Track base benchmarks
         run: |
           bencher run \
-          --if-branch '${{ github.head_ref }}_${commit}' \
+          --if-branch ${commit} \
           --else-branch \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
