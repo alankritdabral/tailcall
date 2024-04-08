@@ -150,12 +150,13 @@ jobs:
           --test t \
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
-
       - name: Track PR Benchmarks
         run: |
           bencher run \
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --ci-id 10 \
+          --ci-number 20 \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$PR_BENCHMARK_RESULTS"
