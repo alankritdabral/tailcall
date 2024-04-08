@@ -116,7 +116,7 @@ jobs:
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
-      UPPER_BOUNDARY: 0.85
+      UPPER_BOUNDARY: 0.6
     steps:
       - name: Check out code
         uses: actions/checkout@v4
