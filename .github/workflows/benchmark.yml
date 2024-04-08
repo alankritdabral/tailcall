@@ -146,7 +146,6 @@ jobs:
           --branch '${{ github.head_ref }}' \
           --adapter rust_criterion \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
-          --ci-number '${{ github.event.pull_request.number }}' \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file benches/change.txt
