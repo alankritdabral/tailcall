@@ -92,7 +92,7 @@ jobs:
           bencher run \
           --project tailcall-2192953494 \
           --branch main \
-          --testbed benchmarking-runner \
+          --testbed benchmarking-runner-12 \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --adapter rust_criterion \
           --file benches/base.txt
@@ -138,7 +138,7 @@ jobs:
           bencher threshold create \
           --project tailcall-2192953494 \
           --branch '${{ github.head_ref }}' \
-          --testbed benchmarking-runner \
+          --testbed benchmarking-runner-12 \
           --adapter rust_criterion \
           --measure latency \
           --test t \
