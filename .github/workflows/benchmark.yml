@@ -163,7 +163,7 @@ jobs:
 
       - name: Track PR Benchmarks
         run: |
-          bencher run \
+          bencher run  \
           --branch '${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
