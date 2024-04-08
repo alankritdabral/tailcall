@@ -140,16 +140,14 @@ jobs:
       - name: Track base benchmarks
         run: |
           bencher run \
+          --project "$BENCHER_PROJECT" \
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
-          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
-          --err \
           --file "$BASE_BENCHMARK_RESULTS"
 
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --project "$BENCHER_PROJECT" \
           --branch '${{ github.head_ref }}' \
           --testbed "$BENCHER_TESTBED" \
           --measure latency \
