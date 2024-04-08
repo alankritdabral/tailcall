@@ -137,13 +137,14 @@ jobs:
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
-      - name: Create branch for threshold
+      - name: Track base benchmarks
         run: |
           bencher run \
-          --project "$BENCHER_PROJECT" \
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
-          --file "$PR_BENCHMARK_RESULTS"
+          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
+          --err \
+          --file "$BASE_BENCHMARK_RESULTS"
 
       - name: Create PR threshold
         run: |
@@ -161,8 +162,6 @@ jobs:
           bencher run \
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
-          --ci-id 10 \
-          --ci-number 20 \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$PR_BENCHMARK_RESULTS"
