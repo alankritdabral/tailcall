@@ -120,7 +120,7 @@ jobs:
       # Adjust this value to lower to make the test more sensitive to changes
       # Adjust this value to higher to make the test less sensitive to changes
       # https://bencher.dev/docs/explanation/thresholds/#t-test-threshold-upper-boundary
-      UPPER_BOUNDARY: 0.98
+      UPPER_BOUNDARY: 0.10
     steps:
       - name: Check out code
         uses: actions/checkout@v4
