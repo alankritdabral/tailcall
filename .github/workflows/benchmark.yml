@@ -117,6 +117,8 @@ jobs:
       pull-requests: write
       contents: write
     env:
+      BENCHER_PROJECT: tailcall-hehe
+      BENCHER_ADAPTER: rust_criterion
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
@@ -134,9 +136,9 @@ jobs:
           key: criterion_benchmarks_${{ github.event.pull_request.base.sha }}
           fail-on-cache-miss: true
 
-      # - name: Run and track Benchmarks
-      #   run: |
-      #     cargo bench > benches/change.txt
+      - name: Run Benchmarks
+        run: |
+          cargo bench > benches/change.txt
 
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
@@ -153,10 +155,9 @@ jobs:
         run: |
           bencher threshold create \
           --branch '${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}' \
-          --testbed "$BENCHER_TESTBED" \
           --measure latency \
           --test percentage \
-          --upper-boundary ${{ env.UPPER_BOUNDARY }} \
+          --upper-boundary $UPPER_BOUNDARY \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
 
       - name: Track PR Benchmarks
