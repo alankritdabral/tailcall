@@ -1,0 +1,422 @@
+
+running 313 tests
+test async_cache::tests::test_concurrent_access ... ignored
+test async_cache::tests::test_no_key ... ignored
+test async_cache::tests::test_with_failure ... ignored
+test async_cache::tests::test_with_key ... ignored
+test async_cache::tests::test_with_multi_get ... ignored
+test async_cache::tests::test_with_multi_get_failure ... ignored
+test async_graphql_hyper::tests::test_to_rest_response_batch ... ignored
+test async_graphql_hyper::tests::test_to_rest_response_single ... ignored
+test async_graphql_hyper::tests::test_to_rest_response_with_error ... ignored
+test auth::basic::tests::verify_auth_failure ... ignored
+test auth::basic::tests::verify_correct_password_testuser1 ... ignored
+test auth::basic::tests::verify_correct_password_testuser2 ... ignored
+test auth::basic::tests::verify_correct_password_testuser3 ... ignored
+test auth::basic::tests::verify_missing_credentials ... ignored
+test auth::basic::tests::verify_wrong_password ... ignored
+test auth::context::tests::validate_request_basic_auth_correct_password ... ignored
+test auth::context::tests::validate_request_basic_auth_wrong_password ... ignored
+test auth::context::tests::validate_request_jwt_auth_valid_token ... ignored
+test auth::context::tests::validate_request_missing_credentials ... ignored
+test auth::jwt::jwks::tests::test_decode_optional_kid ... ignored
+test auth::jwt::jwks::tests::test_decode_required_kid ... ignored
+test auth::jwt::jwt_verify::tests::aud::validate_aud_defined ... ignored
+test auth::jwt::jwt_verify::tests::aud::validate_aud_not_defined ... ignored
+test auth::jwt::jwt_verify::tests::iss::validate_iss_defined ... ignored
+test auth::jwt::jwt_verify::tests::iss::validate_iss_not_defined ... ignored
+test auth::jwt::jwt_verify::tests::validate_token_aud ... ignored
+test auth::jwt::jwt_verify::tests::validate_token_iss ... ignored
+test auth::verify::tests::verify_and_correct_password ... ignored
+test auth::verify::tests::verify_and_wrong_password ... ignored
+test auth::verify::tests::verify_any_correct_password ... ignored
+test auth::verify::tests::verify_any_jwt_valid_token ... ignored
+test auth::verify::tests::verify_any_wrong_password ... ignored
+test auth::verify::tests::verify_correct_password ... ignored
+test auth::verify::tests::verify_wrong_password ... ignored
+test blueprint::auth::tests::and_basic_with_basic ... ignored
+test blueprint::auth::tests::and_basic_with_jwt ... ignored
+test blueprint::auth::tests::and_nested_and_with_jwt ... ignored
+test blueprint::cors::tests::test_allow_origin_to_header ... ignored
+test blueprint::operators::grpc::tests::try_from_grpc_method ... ignored
+test blueprint::operators::grpc::tests::try_from_grpc_method_invalid ... ignored
+test blueprint::server::tests::test_try_from_default ... ignored
+test blueprint::telemetry::tests::test_validate_graph_ref ... ignored
+test cache::tests::test_native_chrono_cache_set_get ... ignored
+test cli::error::tests::test_cli_error_identity ... ignored
+test cli::error::tests::test_empty_string ... ignored
+test cli::error::tests::test_from_validation ... ignored
+test cli::error::tests::test_generic_error ... ignored
+test cli::error::tests::test_no_newline ... ignored
+test cli::error::tests::test_title ... ignored
+test cli::error::tests::test_title_description ... ignored
+test cli::error::tests::test_title_description_trace ... ignored
+test cli::error::tests::test_title_trace_caused_by ... ignored
+test cli::error::tests::test_title_trace_multiple_caused_by ... ignored
+test cli::error::tests::test_validation_error_identity ... ignored
+test cli::error::tests::test_with_newline ... ignored
+test cli::error::tests::test_zero_margin ... ignored
+test cli::error::tests::test_zero_margin_with_newline ... ignored
+test cli::javascript::js_request::tests::test_js_request_to_reqwest_request ... ignored
+test cli::javascript::js_request::tests::test_reqwest_request_to_js_request ... ignored
+test cli::javascript::js_response::test::test_from_js_response ... ignored
+test cli::javascript::js_response::test::test_js_response_with_defaults ... ignored
+test cli::javascript::js_response::test::test_to_js_response ... ignored
+test cli::javascript::js_response::test::test_unusual_headers ... ignored
+test cli::runtime::env::tests::test_get_existing_var ... ignored
+test cli::runtime::env::tests::test_get_non_existing_var ... ignored
+test cli::runtime::env::tests::test_init_with_env_vars ... ignored
+test cli::runtime::file::tests::test_read_error ... ignored
+test cli::runtime::file::tests::test_write_and_read_file ... ignored
+test cli::runtime::file::tests::test_write_error ... ignored
+test cli::runtime::http::tests::test_native_http_get_request ... ignored
+test config::config::tests::test_field_has_or_not_batch_resolver ... ignored
+test config::config::tests::test_from_sdl_empty ... ignored
+test config::config::tests::test_graphql_directive_name ... ignored
+test config::key_values::tests::test_default_keyvalues ... ignored
+test config::key_values::tests::test_deref ... ignored
+test config::key_values::tests::test_deserialize_empty_keyvalues ... ignored
+test config::key_values::tests::test_deserialize_non_empty_keyvalues ... ignored
+test config::key_values::tests::test_merge_with_both_empty ... ignored
+test config::key_values::tests::test_merge_with_current_empty ... ignored
+test config::key_values::tests::test_merge_with_other_empty ... ignored
+test config::key_values::tests::test_merge_with_overlapping_keys ... ignored
+test config::key_values::tests::test_merge_with_unique_keys ... ignored
+test config::key_values::tests::test_serialize_empty_keyvalues ... ignored
+test config::key_values::tests::test_serialize_non_empty_keyvalues ... ignored
+test config::n_plus_one::tests::test_nplusone_batched_resolvers ... ignored
+test config::n_plus_one::tests::test_nplusone_cycles ... ignored
+test config::n_plus_one::tests::test_nplusone_cycles_with_resolvers ... ignored
+test config::n_plus_one::tests::test_nplusone_nested_non_list ... ignored
+test config::n_plus_one::tests::test_nplusone_nested_resolvers ... ignored
+test config::n_plus_one::tests::test_nplusone_nested_resolvers_non_list_resolvers ... ignored
+test config::n_plus_one::tests::test_nplusone_nested_resolvers_without_resolvers ... ignored
+test config::n_plus_one::tests::test_nplusone_resolvers ... ignored
+test config::reader::reader_tests::test_all ... ignored
+test config::reader::reader_tests::test_local_files ... ignored
+test config::reader::reader_tests::test_relative_path ... ignored
+test config::reader::reader_tests::test_script_loader ... ignored
+test config::reader_context::tests::path_string ... ignored
+test config::telemetry::tests::merge_right ... ignored
+test data_loader::data_loader::tests::test_dataloader ... ignored
+test data_loader::data_loader::tests::test_dataloader_dead_lock ... ignored
+test data_loader::data_loader::tests::test_dataloader_disable_all_cache ... ignored
+test data_loader::data_loader::tests::test_dataloader_disable_cache ... ignored
+test data_loader::data_loader::tests::test_dataloader_load_empty ... ignored
+test data_loader::data_loader::tests::test_dataloader_with_cache ... ignored
+test data_loader::data_loader::tests::test_dataloader_with_cache_hashmap_fnv ... ignored
+test data_loader::data_loader::tests::test_duplicate_keys ... ignored
+test directive::tests::test_to_const_directive ... ignored
+test generator::from_proto::test::test_config_from_sdl ... ignored
+test generator::from_proto::test::test_from_proto ... ignored
+test generator::from_proto::test::test_from_proto_no_pkg_file ... ignored
+test generator::from_proto::test::test_from_proto_no_service_file ... ignored
+test generator::from_proto::test::test_get_value_enum ... ignored
+test generator::from_proto::test::test_get_value_message ... ignored
+test generator::from_proto::test::test_get_value_query_name ... ignored
+test generator::from_proto::test::test_insert_and_get_enum ... ignored
+test generator::from_proto::test::test_insert_and_get_message ... ignored
+test generator::from_proto::test::test_insert_and_get_non_existing ... ignored
+test generator::from_proto::test::test_required_types ... ignored
+test generator::generator::test::test_read_all ... ignored
+test generator::source::tests::test_detect ... ignored
+test generator::source::tests::test_ends_with ... ignored
+test generator::source::tests::test_ext ... ignored
+test generator::source::tests::test_from_str ... ignored
+test graphql::data_loader::tests::test_collect_request_bodies ... ignored
+test graphql::request_template::tests::test_cache_key_collision ... ignored
+test graphql::request_template::tests::test_query_with_args ... ignored
+test graphql::request_template::tests::test_query_without_args ... ignored
+test grpc::data_loader_request::tests::dataloader_req_batch_headers ... ignored
+test grpc::data_loader_request::tests::dataloader_req_empty_headers ... ignored
+test grpc::protobuf::tests::convert_value ... ignored
+test grpc::protobuf::tests::greetings_proto_file ... ignored
+test grpc::protobuf::tests::method_not_found ... ignored
+test grpc::protobuf::tests::news_proto_file ... ignored
+test grpc::protobuf::tests::news_proto_file_multiple_messages ... ignored
+test grpc::protobuf::tests::service_not_found ... ignored
+test grpc::protobuf::tests::unknown_file ... ignored
+test grpc::request_template::tests::request_with_body ... ignored
+test grpc::request_template::tests::request_with_empty_body ... ignored
+test grpc::request_template::tests::test_grpc_cache_key_collision ... ignored
+test helpers::body::tests::body_parse_success ... ignored
+test helpers::body::tests::no_body ... ignored
+test helpers::headers::tests::not_valid_due_to_utf8 ... ignored
+test helpers::headers::tests::valid_headers ... ignored
+test helpers::url::tests::parse_url ... ignored
+test http::cache::tests::test_cache_visibility_private ... ignored
+test http::cache::tests::test_cache_visibility_public ... ignored
+test http::cache::tests::test_max_age_none ... ignored
+test http::cache::tests::test_max_age_some ... ignored
+test http::cache::tests::test_min_ttl ... ignored
+test http::data_loader_request::tests::test_clone_trait ... ignored
+test http::data_loader_request::tests::test_different_http_methods ... ignored
+test http::data_loader_request::tests::test_different_urls ... ignored
+test http::data_loader_request::tests::test_differing_number_of_headers ... ignored
+test http::data_loader_request::tests::test_hash_endpoint_key ... ignored
+test http::data_loader_request::tests::test_mismatched_header_names ... ignored
+test http::data_loader_request::tests::test_mismatched_header_values ... ignored
+test http::data_loader_request::tests::test_partial_eq_not_equal ... ignored
+test http::data_loader_request::tests::test_partial_eq_trait ... ignored
+test http::data_loader_request::tests::test_with_endpoint_key_with_headers ... ignored
+test http::data_loader_request::tests::test_with_endpoint_key_with_headers_ne ... ignored
+test http::request_context::test::test_is_batching_enabled_default ... ignored
+test http::request_context::test::test_update_cache_visibility_private ... ignored
+test http::request_context::test::test_update_cache_visibility_public ... ignored
+test http::request_context::test::test_update_max_age_greater_than_existing ... ignored
+test http::request_context::test::test_update_max_age_less_than_existing ... ignored
+test http::request_context::test::test_update_max_age_no_existing_value ... ignored
+test http::request_handler::test::test_create_allowed_headers ... ignored
+test http::request_template::tests::cache_key::test_body_diff ... ignored
+test http::request_template::tests::cache_key::test_headers_diff ... ignored
+test http::request_template::tests::cache_key::test_url_diff ... ignored
+test http::request_template::tests::endpoint::test_from_endpoint ... ignored
+test http::request_template::tests::endpoint::test_from_endpoint_template ... ignored
+test http::request_template::tests::endpoint::test_from_endpoint_template_few_null_value ... ignored
+test http::request_template::tests::endpoint::test_from_endpoint_template_few_null_value_mixed ... ignored
+test http::request_template::tests::endpoint::test_from_endpoint_template_null_value ... ignored
+test http::request_template::tests::endpoint::test_from_endpoint_template_with_query_null_value ... ignored
+test http::request_template::tests::endpoint::test_headers_forward ... ignored
+test http::request_template::tests::form_encoded_url::test_with_json_body ... ignored
+test http::request_template::tests::form_encoded_url::test_with_json_body_nested ... ignored
+test http::request_template::tests::form_encoded_url::test_with_json_template ... ignored
+test http::request_template::tests::form_encoded_url::test_with_mustache_literal ... ignored
+test http::request_template::tests::form_encoded_url::test_with_string ... ignored
+test http::request_template::tests::test_body ... ignored
+test http::request_template::tests::test_body_encoding_application_json ... ignored
+test http::request_template::tests::test_body_template ... ignored
+test http::request_template::tests::test_header_encoding_application_json ... ignored
+test http::request_template::tests::test_header_encoding_application_x_www_form_urlencoded ... ignored
+test http::request_template::tests::test_header_template ... ignored
+test http::request_template::tests::test_headers ... ignored
+test http::request_template::tests::test_method ... ignored
+test http::request_template::tests::test_url ... ignored
+test http::request_template::tests::test_url_path ... ignored
+test http::request_template::tests::test_url_path_template ... ignored
+test http::request_template::tests::test_url_path_template_multi ... ignored
+test http::request_template::tests::test_url_query_params ... ignored
+test http::request_template::tests::test_url_query_params_template ... ignored
+test http::showcase::tests::works_with_file ... ignored
+test json::json_like::tests::test_gather_path_matches ... ignored
+test json::json_like::tests::test_gather_path_matches_nested ... ignored
+test json::json_like::tests::test_group_by_key ... ignored
+test json::json_like::tests::test_group_by_numeric_key ... ignored
+test json::json_schema::tests::test_compare_enum ... ignored
+test json::json_schema::tests::test_compare_enum_value ... ignored
+test json::json_schema::tests::test_from_protobuf_conversion ... ignored
+test json::json_schema::tests::test_null_key ... ignored
+test json::json_schema::tests::test_validate_invalid_object ... ignored
+test json::json_schema::tests::test_validate_string ... ignored
+test json::json_schema::tests::test_validate_valid_object ... ignored
+test lambda::evaluation_context::tests::test_numeric_path ... ignored
+test lambda::evaluation_context::tests::test_path_not_found ... ignored
+test lambda::evaluation_context::tests::test_path_value ... ignored
+test lambda::logic::tests::test_is_truthy ... ignored
+test mustache::tests::parse::parse_env_name ... ignored
+test mustache::tests::parse::parse_env_with_underscores ... ignored
+test mustache::tests::parse::single_curly_brackets ... ignored
+test mustache::tests::parse::test_mixed ... ignored
+test mustache::tests::parse::test_new_number ... ignored
+test mustache::tests::parse::test_parse_expression_with_invalid_input ... ignored
+test mustache::tests::parse::test_parse_expression_with_valid_input ... ignored
+test mustache::tests::parse::test_parse_segments_mixed ... ignored
+test mustache::tests::parse::test_parse_segments_only_expression ... ignored
+test mustache::tests::parse::test_parse_segments_only_literal ... ignored
+test mustache::tests::parse::test_single_literal ... ignored
+test mustache::tests::parse::test_single_template ... ignored
+test mustache::tests::parse::test_to_string ... ignored
+test mustache::tests::parse::test_unfinished_expression ... ignored
+test mustache::tests::parse::test_with_spaces ... ignored
+test mustache::tests::render::test_json_like ... ignored
+test mustache::tests::render::test_json_like_static ... ignored
+test mustache::tests::render::test_query_params_template ... ignored
+test mustache::tests::render::test_render_mixed ... ignored
+test mustache::tests::render::test_render_preserves_spaces ... ignored
+test mustache::tests::render::test_render_with_missing_path ... ignored
+test mustache::tests::render_graphql::test_render_mixed ... ignored
+test mustache::tests::render_graphql::test_render_with_missing_path ... ignored
+test path::tests::evaluation_context::path_to_graphql_string ... ignored
+test path::tests::evaluation_context::path_to_string ... ignored
+test proto_reader::test_proto_config::test_nested_imports ... ignored
+test proto_reader::test_proto_config::test_proto_no_pkg ... ignored
+test proto_reader::test_proto_config::test_resolve ... ignored
+test rest::directive::tests::directive_to_rest_without_method - should panic ... ignored
+test rest::directive::tests::directive_to_rest_without_path - should panic ... ignored
+test rest::directive::tests::test_directive_to_rest_methods ... ignored
+test rest::directive::tests::test_directive_to_rest_should_fail ... ignored
+test rest::endpoint::tests::matches::test_invalid_query_param ... ignored
+test rest::endpoint::tests::matches::test_invalid_url_param ... ignored
+test rest::endpoint::tests::matches::test_method_not_match ... ignored
+test rest::endpoint::tests::matches::test_path_not_match ... ignored
+test rest::endpoint::tests::matches::test_query_params_optional ... ignored
+test rest::endpoint::tests::matches::test_valid ... ignored
+test rest::endpoint::tests::test_endpoint ... ignored
+test rest::endpoint::tests::test_multiple_queries ... ignored
+test rest::endpoint::tests::test_remove_rest_directives ... ignored
+test rest::endpoint::tests::test_rest ... ignored
+test scalar::date::test::test_date ... ignored
+test scalar::date::test::test_invalid_date ... ignored
+test scalar::date::test::test_invalid_value ... ignored
+test scalar::email::test::test_email_invalid ... ignored
+test scalar::email::test::test_email_invalid_const_value ... ignored
+test scalar::email::test::test_email_valid_req_resp ... ignored
+test scalar::phone::test::test_invalid_phone_number ... ignored
+test scalar::phone::test::test_invalid_value ... ignored
+test scalar::phone::test::test_phone_number ... ignored
+test scalar::test::assert_scalar_types ... ignored
+test scalar::url::test::test_invalid_url ... ignored
+test scalar::url::test::test_invalid_value ... ignored
+test scalar::url::test::test_url ... ignored
+test serde_value_ext::tests::test_mustache_arr_obj ... ignored
+test serde_value_ext::tests::test_mustache_arr_obj_arr ... ignored
+test serde_value_ext::tests::test_mustache_or_value_is_const ... ignored
+test serde_value_ext::tests::test_render_value ... ignored
+test serde_value_ext::tests::test_render_value_arr ... ignored
+test serde_value_ext::tests::test_render_value_arr_template ... ignored
+test serde_value_ext::tests::test_render_value_nested ... ignored
+test serde_value_ext::tests::test_render_value_nested_bool ... ignored
+test serde_value_ext::tests::test_render_value_nested_float ... ignored
+test serde_value_ext::tests::test_render_value_nested_str ... ignored
+test serde_value_ext::tests::test_render_value_null ... ignored
+test try_fold::tests::test_1_3_failure_left ... ignored
+test try_fold::tests::test_1_3_failure_right ... ignored
+test try_fold::tests::test_2_3_failure ... ignored
+test try_fold::tests::test_and ... ignored
+test try_fold::tests::test_both_failure ... ignored
+test try_fold::tests::test_one_failure ... ignored
+test try_fold::tests::test_order ... ignored
+test try_fold::tests::test_transform ... ignored
+test try_fold::tests::test_transform_valid ... ignored
+test try_fold::tests::test_try_all ... ignored
+test try_fold::tests::test_try_all_1_3_fail ... ignored
+test try_fold::tests::test_update ... ignored
+test valid::cause::tests::test_display ... ignored
+test valid::error::tests::test_error_display_formatting ... ignored
+test valid::error::tests::test_from_serde_error ... ignored
+test valid::valid::tests::test_and_then_fail ... ignored
+test valid::valid::tests::test_and_then_success ... ignored
+test valid::valid::tests::test_fail ... ignored
+test valid::valid::tests::test_foreach_fail ... ignored
+test valid::valid::tests::test_foreach_succeed ... ignored
+test valid::valid::tests::test_ok ... ignored
+test valid::valid::tests::test_ok_ok_cause ... ignored
+test valid::valid::tests::test_to_result ... ignored
+test valid::valid::tests::test_trace ... ignored
+test valid::valid::tests::test_validate_all ... ignored
+test valid::valid::tests::test_validate_all_ques ... ignored
+test valid::valid::tests::test_validate_both_both_fail ... ignored
+test valid::valid::tests::test_validate_both_first_fail ... ignored
+test valid::valid::tests::test_validate_both_ok ... ignored
+test valid::valid::tests::test_validate_both_second_fail ... ignored
+test valid::valid::tests::test_validate_fold_err ... ignored
+test valid::valid::tests::test_validate_fold_ok ... ignored
+test valid::valid::tests::test_validate_or_both_ok ... ignored
+test valid::valid::tests::test_validate_or_first_fail ... ignored
+test valid::valid::tests::test_validate_or_second_fail ... ignored
+
+test result: ok. 0 passed; 0 failed; 313 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+test_data_loader        time:   [639.80 µs 641.01 µs 642.31 µs]
+Found 9 outliers among 100 measurements (9.00%)
+  1 (1.00%) low severe
+  1 (1.00%) low mild
+  4 (4.00%) high mild
+  3 (3.00%) high severe
+
+input/value.root        time:   [36.021 ns 36.188 ns 36.369 ns]
+Found 4 outliers among 100 measurements (4.00%)
+  1 (1.00%) high mild
+  3 (3.00%) high severe
+
+input/value.nested.existing
+                        time:   [41.551 ns 41.715 ns 41.882 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  4 (4.00%) low mild
+  2 (2.00%) high mild
+  7 (7.00%) high severe
+
+input/value.missing     time:   [27.807 ns 27.885 ns 27.971 ns]
+Found 10 outliers among 100 measurements (10.00%)
+  2 (2.00%) high mild
+  8 (8.00%) high severe
+
+input/value.nested.missing
+                        time:   [33.766 ns 33.873 ns 33.990 ns]
+Found 8 outliers among 100 measurements (8.00%)
+  1 (1.00%) high mild
+  7 (7.00%) high severe
+
+input/args.root         time:   [41.257 ns 41.373 ns 41.505 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  5 (5.00%) high mild
+  8 (8.00%) high severe
+
+input/args.nested.existing
+                        time:   [49.430 ns 49.570 ns 49.736 ns]
+Found 10 outliers among 100 measurements (10.00%)
+  4 (4.00%) high mild
+  6 (6.00%) high severe
+
+input/args.missing      time:   [28.454 ns 28.537 ns 28.634 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  11 (11.00%) high severe
+
+input/args.nested.missing
+                        time:   [35.097 ns 35.203 ns 35.328 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  3 (3.00%) high mild
+  8 (8.00%) high severe
+
+input/headers.existing  time:   [36.000 ns 36.109 ns 36.238 ns]
+Found 12 outliers among 100 measurements (12.00%)
+  3 (3.00%) high mild
+  9 (9.00%) high severe
+
+input/headers.missing   time:   [34.861 ns 34.967 ns 35.086 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  6 (6.00%) high mild
+  5 (5.00%) high severe
+
+input/vars.existing     time:   [11.251 ns 11.291 ns 11.336 ns]
+Found 15 outliers among 100 measurements (15.00%)
+  6 (6.00%) high mild
+  9 (9.00%) high severe
+
+input/vars.missing      time:   [10.617 ns 10.649 ns 10.685 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  3 (3.00%) high mild
+  10 (10.00%) high severe
+
+test_batched_body       time:   [2.8274 µs 2.8369 µs 2.8482 µs]
+Found 17 outliers among 100 measurements (17.00%)
+  9 (9.00%) high mild
+  8 (8.00%) high severe
+
+group_by                time:   [675.44 ns 677.55 ns 679.97 ns]
+Found 10 outliers among 100 measurements (10.00%)
+  4 (4.00%) high mild
+  6 (6.00%) high severe
+
+test_batched_body       time:   [2.3232 ms 2.3327 ms 2.3432 ms]
+                        change: [+81355% +81924% +82469%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 14 outliers among 100 measurements (14.00%)
+  11 (11.00%) high mild
+  3 (3.00%) high severe
+
+with_mustache_literal   time:   [799.02 ns 801.77 ns 804.95 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  5 (5.00%) high mild
+  6 (6.00%) high severe
+
+with_mustache_expressions
+                        time:   [1.2839 µs 1.2880 µs 1.2931 µs]
+Found 13 outliers among 100 measurements (13.00%)
+  3 (3.00%) high mild
+  10 (10.00%) high severe
+
