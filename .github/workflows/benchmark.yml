@@ -84,6 +84,7 @@ jobs:
           cargo install cargo-criterion rust-script
           echo "PR number = ${{ github.event.pull_request.number }}"
           echo "PR number = ${{ github.ref }}"
+          echo "Branch name is $GIT_BRANCH"
 
       - name: Cache Criterion Benchmarks Json
         uses: actions/cache@v4
