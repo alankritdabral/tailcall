@@ -71,6 +71,7 @@ jobs:
 
   Track_and_Cache_Benchmarks:
     name: Track and Cache Micro Benchmarks
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main')
     permissions:
       pull-requests: write
       contents: write
@@ -79,17 +80,20 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
       - name: Run and track Benchmarks
         run: |
-          echo "hello ${{ secrets.HELLO }}"
+          cargo bench > benches/base.txt
           bencher run \
           --project tailcall-2192953494 \
           --branch main \
           --testbed benchmarking-runner-12 \
-          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --adapter rust_criterion \
           --file benches/base.txt
 
@@ -139,7 +143,7 @@ jobs:
           --measure latency \
           --test t \
           --upper-boundary 0.90 \
-          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
+          --token "${{ secrets.BENCHER_API_TOKEN }}"
 
       - name: Track PR Benchmarks
         run: |
@@ -147,6 +151,6 @@ jobs:
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --ci-number '${{ github.event.pull_request.number }}' \
-          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
+          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file benches/change.txt
