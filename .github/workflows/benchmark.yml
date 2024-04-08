@@ -88,7 +88,7 @@ jobs:
           --project tailcall-2192953494 \
           --branch main \
           --testbed benchmarking-runner \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --token "${{ github.BENCHER_API_TOKEN }}" \
           --adapter rust_criterion \
           --file benches/base.txt
 
