@@ -84,11 +84,12 @@ jobs:
 
       - name: Run and track Benchmarks
         run: |
+          echo "hello ${{ secrets.HELLO }}"
           bencher run \
           --project tailcall-2192953494 \
           --branch main \
           --testbed benchmarking-runner \
-          --token "${{ secrets.HELLO }}" \
+          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
           --adapter rust_criterion \
           --file benches/base.txt
 
@@ -138,7 +139,7 @@ jobs:
           --measure latency \
           --test t \
           --upper-boundary 0.90 \
-          --token "${{ secrets.BENCHER_API_TOKEN }}"
+          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
 
       - name: Track PR Benchmarks
         run: |
@@ -146,6 +147,6 @@ jobs:
           --branch '${{ github.head_ref }}' \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --ci-number '${{ github.event.pull_request.number }}' \
-          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
+          --token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhcGlfa2V5IiwiZXhwIjoxODEwNDE3NzU0LCJpYXQiOjE3MTA0MTc3NTQsImlzcyI6ImJlbmNoZXIuZGV2Iiwic3ViIjoiZGFicmFsYWxhbmtyaXRAZ21haWwuY29tIiwib3JnIjpudWxsfQ.ET5NU6zbaBVyBcp5cAz0VzO_wSLKFTIueuYzebfMOJk \
           --err \
           --file benches/change.txt
