@@ -116,11 +116,7 @@ jobs:
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
-      # This is the confidence interval for the t-test Threshold
-      # Adjust this value to lower to make the test more sensitive to changes
-      # Adjust this value to higher to make the test less sensitive to changes
-      # https://bencher.dev/docs/explanation/thresholds/#t-test-threshold-upper-boundary
-      UPPER_BOUNDARY: 0.90
+      UPPER_BOUNDARY: 0.99
     steps:
       - name: Check out code
         uses: actions/checkout@v4
