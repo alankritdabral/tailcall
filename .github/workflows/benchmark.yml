@@ -116,7 +116,7 @@ jobs:
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
-      UPPER_BOUNDARY: 0.98
+      UPPER_BOUNDARY: 0.10
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -147,7 +147,7 @@ jobs:
           --branch '${{ github.head_ref }}_${{ github.event.pull_request.head.sha }}' \
           --testbed "$BENCHER_TESTBED" \
           --measure latency \
-          --test t \
+          --test Percentage \
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
 
