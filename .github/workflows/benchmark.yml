@@ -132,13 +132,13 @@ jobs:
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --project tailcall-2192953494 \
           --branch '${{ github.head_ref }}' \
           --testbed benchmarking-runner-12 \
+          --token "${{ secrets.BENCHER_API_TOKEN }}"
           --measure latency \
           --test t \
           --upper-boundary 0.90 \
-          --token "${{ secrets.BENCHER_API_TOKEN }}"
+          tailcall-2192953494
 
       - name: Track PR Benchmarks
         run: |
