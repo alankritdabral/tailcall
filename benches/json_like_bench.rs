@@ -5,7 +5,7 @@ use tailcall::json::JsonLike;
 fn benchmark_batched_body(c: &mut Criterion) {
     c.bench_function("test_batched_body", |b| {
         b.iter(|| {
-            let mut input = json!({
+            let input = json!({
                 "data": [
                     {"user": {"id": "1"}},
                     {"user": {"id": "2"}},
