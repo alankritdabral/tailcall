@@ -52,5 +52,5 @@ fn benchmark_group_by(c: &mut Criterion) {
     });
 }
 
-criterion_group!(benches,benchmark_batched_body,benchmark_group_by);
+criterion_group!(benches, benchmark_batched_body, benchmark_group_by);
 criterion_main!(benches);
