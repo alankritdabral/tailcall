@@ -114,7 +114,7 @@ jobs:
 
   Criterion_Compare:
     name: Comparing Micro Benchmarks
-    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark') && github.event_name == 'pull_request_target')"
+    if: "(contains(github.event.pull_request.labels.*.name, 'ci: benchmark') && github.event_name == 'pull_request_target')"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
