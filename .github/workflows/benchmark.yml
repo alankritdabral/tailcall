@@ -16,7 +16,7 @@ concurrency:
 jobs:
   macro_benchmark:
     name: Macro Benchmarks
-    if: "contains(github.event.label.name == 'ci: benchmark') || github.event_name == 'push'"
+    if: "contains(github.event.label.name, 'ci: benchmark') || github.event_name == 'push'"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -111,7 +111,7 @@ jobs:
 
   Criterion_Compare:
     name: Comparing Micro Benchmarks
-    if: "contains(github.event.label.name == 'ci: benchmark')"
+    if: "github.event.label.name == 'ci: benchmark'"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
