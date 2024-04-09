@@ -170,7 +170,3 @@ jobs:
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$PR_BENCHMARK_RESULTS"
-
-          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
-          --err \
-          --file "$PR_BENCHMARK_RESULTS"
