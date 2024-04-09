@@ -122,6 +122,7 @@ jobs:
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
+      BRANCH_NAME: ${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}
       UPPER_BOUNDARY: 0.10
     steps:
       - name: Check out code
@@ -146,7 +147,7 @@ jobs:
       - name: Track base benchmarks
         run: |
           bencher run \
-          --if-branch '${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}' \
+          --if-branch "$BRANCH_NAME" \
           --else-branch \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
@@ -154,7 +155,7 @@ jobs:
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --branch '${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}' \
+          --branch "$BRANCH_NAME" \
           --testbed "$BENCHER_TESTBED" \
           --measure latency \
           --test percentage \
@@ -163,9 +164,13 @@ jobs:
 
       - name: Track PR Benchmarks
         run: |
-          bencher run  \
-          --branch '${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}' \
+          bencher run \
+          --branch "$BRANCH_NAME" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
+          --err \
+          --file "$PR_BENCHMARK_RESULTS"
+
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$PR_BENCHMARK_RESULTS"
