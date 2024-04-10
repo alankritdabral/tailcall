@@ -18,14 +18,16 @@ fn benchmark_batched_body(c: &mut Criterion) {
                 ]
             });
 
-            black_box(
-                serde_json::to_value(tailcall::json::gather_path_matches(
-                    &input,
-                    &["data".into(), "user".into(), "id".into()],
-                    vec![],
-                ))
-                .unwrap(),
-            );
+            for _ in 0..1000 {
+                black_box(
+                    serde_json::to_value(tailcall::json::gather_path_matches(
+                        &input,
+                        &["data".into(), "user".into(), "id".into()],
+                        vec![],
+                    ))
+                    .unwrap(),
+                );
+            }
         })
     });
 }
@@ -43,7 +45,9 @@ fn benchmark_group_by(c: &mut Criterion) {
     c.bench_function("group_by", |b| {
         b.iter(|| {
             let binding = ["data".into(), "type".into()];
-            black_box(input.group_by(&binding));
+            for _ in 0..1000 {
+                black_box(input.group_by(&binding));
+            }
         })
     });
 }
