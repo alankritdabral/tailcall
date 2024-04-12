@@ -71,7 +71,6 @@ jobs:
 
   Track_and_Cache_Benchmarks:
     name: Track and Cache Micro Benchmarks
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main')
     permissions:
       pull-requests: write
       contents: write
