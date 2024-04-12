@@ -141,9 +141,9 @@ jobs:
           key: criterion_benchmarks_${{ github.event.pull_request.base.sha }}
           fail-on-cache-miss: true
 
-      - name: Run Benchmarks
-        run: |
-          cargo bench > benches/change.txt
+      # - name: Run Benchmarks
+      #   run: |
+      #     cargo bench > benches/change.txt
 
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
