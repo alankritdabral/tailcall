@@ -147,7 +147,7 @@ jobs:
           --branch-reset \
           --testbed "$BENCHER_TESTBED \
           --adapter "BENCHER_ADAPTER" \
-          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --token ${{ secrets.BENCHER_API_TOKEN }} \
           --file "$BASE_BENCHMARK_RESULTS"
 
       - name: Create PR threshold
