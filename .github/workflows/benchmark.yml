@@ -137,6 +137,10 @@ jobs:
           key: criterion_benchmarks_${{ github.event.pull_request.base.sha }}
           fail-on-cache-miss: true
 
+      - name: Run Benchmarks
+        run: |
+          cargo bench > benches/change.txt
+
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
@@ -161,10 +165,6 @@ jobs:
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
 
-      # - name: Run Benchmarks
-      #   run: |
-      #     cargo bench > benches/change.txt
-
       - name: Track PR Benchmarks
         run: |
           bencher run \
@@ -175,4 +175,4 @@ jobs:
           --adapter "$BENCHER_ADAPTER" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
-          --file "$BASE_BENCHMARK_RESULTS"
+          --file "$PR_BENCHMARK_RESULTS"
