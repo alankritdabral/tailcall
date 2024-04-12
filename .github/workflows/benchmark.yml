@@ -148,10 +148,6 @@ jobs:
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
 
-      - name: Run Benchmarks
-        run: |
-          cargo bench > benches/change.txt
-
       - name: Create PR threshold
         run: |
           bencher threshold create \
@@ -161,6 +157,10 @@ jobs:
           --test percentage \
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
           --token "${{ secrets.BENCHER_API_TOKEN }}"
+
+      - name: Run Benchmarks
+        run: |
+          cargo bench > benches/change.txt
 
       - name: Track PR Benchmarks
         run: |
