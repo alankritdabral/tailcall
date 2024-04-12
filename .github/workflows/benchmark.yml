@@ -94,10 +94,10 @@ jobs:
 
       - name: Run and track Benchmarks
         run: |
+          cargo bench > benches/base.txt
           bencher run \
           --project "$BENCHER_PROJECT" \
           --branch main \
-          --branch-reset \
           --testbed "$BENCHER_TESTBED" \
           --adapter "$BENCHER_ADAPTER" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
