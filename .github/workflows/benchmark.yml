@@ -102,7 +102,7 @@ jobs:
         run: |
           bencher run \
           --project "$BENCHER_PROJECT" \
-          --branch-reset main \
+          --branch main \
           --testbed "$BENCHER_TESTBED" \
           --adapter "$BENCHER_ADAPTER" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
