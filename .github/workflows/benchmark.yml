@@ -143,11 +143,12 @@ jobs:
       - name: Track base benchmarks
         run: |
           bencher run \
+          --project "$BENCHER_PROJECT" \
           --branch "$BRANCH_NAME" \
           --branch-reset \
           --testbed "$BENCHER_TESTBED \
           --adapter "BENCHER_ADAPTER" \
-          --token ${{ secrets.BENCHER_API_TOKEN }} \
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
 
       - name: Create PR threshold
@@ -167,6 +168,7 @@ jobs:
       - name: Track PR Benchmarks
         run: |
           bencher run \
+          --project "$BENCHER_PROJECT" \
           --branch "$BRANCH_NAME" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --testbed "$BENCHER_TESTBED \
