@@ -5,7 +5,7 @@ on:
     paths-ignore: ["docs/**", "**.md"]
     branches:
       - main
-  pull_request_target:
+  pull_request:
     paths-ignore: ["docs/**", "**.md"]
     types: [opened, reopened, synchronize, labeled]
 
@@ -92,9 +92,15 @@ jobs:
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
+      - name: Restore file
+        uses: actions/cache@v4
+        with:
+          path: benches/base.txt
+          key: criterion_benchmarks_${{ github.event.pull_request.base.sha }}
+          fail-on-cache-miss: true
+
       - name: Run and track Benchmarks
         run: |
-          cargo bench > benches/base.txt
           bencher run \
           --project "$BENCHER_PROJECT" \
           --branch-reset main \
@@ -111,7 +117,6 @@ jobs:
 
   Criterion_Compare:
     name: Comparing Micro Benchmarks
-    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark')"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
