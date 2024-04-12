@@ -147,7 +147,7 @@ jobs:
           --branch "$BRANCH_NAME" \
           --branch-reset \
           --testbed "$BENCHER_TESTBED" \
-          --adapter "BENCHER_ADAPTER" \
+          --adapter "$BENCHER_ADAPTER" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
 
@@ -172,7 +172,7 @@ jobs:
           --branch "$BRANCH_NAME" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --testbed "$BENCHER_TESTBED \
-          --adapter "BENCHER_ADAPTER" \
+          --adapter "$BENCHER_ADAPTER" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$BASE_BENCHMARK_RESULTS"
