@@ -16,7 +16,7 @@ concurrency:
 jobs:
   macro_benchmark:
     name: Macro Benchmarks
-    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark')  || github.event_name == 'push'"
+    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark') || github.event_name == 'push'"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -97,7 +97,7 @@ jobs:
           cargo bench > benches/base.txt
           bencher run \
           --project "$BENCHER_PROJECT" \
-          --branch-reset main \
+          --branch main \
           --testbed "$BENCHER_TESTBED" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --adapter "$BENCHER_ADAPTER" \
