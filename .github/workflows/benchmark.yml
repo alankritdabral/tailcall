@@ -137,20 +137,20 @@ jobs:
           key: criterion_benchmarks_${{ github.event.pull_request.base.sha }}
           fail-on-cache-miss: true
 
-      - name: Run Benchmarks
-        run: |
-          cargo bench > benches/change.txt
-
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
       - name: Track base benchmarks
         run: |
           bencher run \
-          --branch-reset "$BRANCH_NAME" \
+          --branch "$BRANCH_NAME" \
           --else-branch \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
+
+      - name: Run Benchmarks
+        run: |
+          cargo bench > benches/change.txt
 
       - name: Create PR threshold
         run: |
