@@ -16,7 +16,7 @@ concurrency:
 jobs:
   macro_benchmark:
     name: Macro Benchmarks
-    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark')  || github.event_name == 'push'"
+    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark') || github.event_name == 'push'"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -85,25 +85,18 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      # - name: Install Rust
-      #   uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
 
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
 
-      - name: Restore file
-        uses: actions/cache@v4
-        with:
-          path: benches/base.txt
-          key: criterion_benchmarks_988cea3a6229cb183323e7bb073a129bf4bb2a39
-          fail-on-cache-miss: true
-
       - name: Run and track Benchmarks
         run: |
+          cargo bench > benches/base.txt
           bencher run \
           --project "$BENCHER_PROJECT" \
           --branch main \
-          --branch-reset \
           --testbed "$BENCHER_TESTBED" \
           --adapter "$BENCHER_ADAPTER" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
@@ -117,6 +110,7 @@ jobs:
 
   Criterion_Compare:
     name: Comparing Micro Benchmarks
+    if: "contains(github.event.pull_request.labels.*.name, 'ci: benchmark')  || github.event_name == 'push'"
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -142,9 +136,9 @@ jobs:
           key: criterion_benchmarks_${{ github.event.pull_request.base.sha }}
           fail-on-cache-miss: true
 
-      # - name: Run Benchmarks
-      #   run: |
-      #     cargo bench > benches/change.txt
+      - name: Run Benchmarks
+        run: |
+          cargo bench > benches/change.txt
 
       - name: Install Bencher CLI
         uses: bencherdev/bencher@main
