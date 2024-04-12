@@ -144,7 +144,9 @@ jobs:
         run: |
           bencher run \
           --branch "$BRANCH_NAME" \
-          --else-branch \
+          --branch-reset \
+          --testbed "$BENCHER_TESTBED \
+          --adapter "BENCHER_ADAPTER" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
 
@@ -165,8 +167,10 @@ jobs:
       - name: Track PR Benchmarks
         run: |
           bencher run \
-          --branch-reset "$BRANCH_NAME" \
+          --branch "$BRANCH_NAME" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --testbed "$BENCHER_TESTBED \
+          --adapter "BENCHER_ADAPTER" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
           --file "$BASE_BENCHMARK_RESULTS"
