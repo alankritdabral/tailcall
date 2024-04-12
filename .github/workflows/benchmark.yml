@@ -5,7 +5,7 @@ on:
     paths-ignore: ["docs/**", "**.md"]
     branches:
       - main
-  pull_request_target:
+  pull_request:
     paths-ignore: ["docs/**", "**.md"]
     types: [opened, reopened, synchronize, labeled]
 
@@ -97,7 +97,7 @@ jobs:
           cargo bench > benches/base.txt
           bencher run \
           --project "$BENCHER_PROJECT" \
-          --branch main \
+          --branch-reset main \
           --testbed "$BENCHER_TESTBED" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --adapter "$BENCHER_ADAPTER" \
@@ -122,7 +122,7 @@ jobs:
       BENCHER_TESTBED: benchmarking-runner-hehe
       PR_BENCHMARK_RESULTS: benches/change.txt
       BASE_BENCHMARK_RESULTS: benches/base.txt
-      BRANCH_NAME: ${{ github.head_ref }}_commit_${{ github.event.pull_request.head.sha }}
+      BRANCH_NAME: ${{ github.head_ref }}
       UPPER_BOUNDARY: 0.10
     steps:
       - name: Check out code
@@ -147,7 +147,7 @@ jobs:
       - name: Track base benchmarks
         run: |
           bencher run \
-          --if-branch "$BRANCH_NAME" \
+          --branch-reset "$BRANCH_NAME" \
           --else-branch \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --file "$BASE_BENCHMARK_RESULTS"
@@ -155,7 +155,7 @@ jobs:
       - name: Create PR threshold
         run: |
           bencher threshold create \
-          --branch "$BRANCH_NAME" \
+          --branch-reset "$BRANCH_NAME" \
           --testbed "$BENCHER_TESTBED" \
           --measure latency \
           --test percentage \
@@ -165,7 +165,7 @@ jobs:
       - name: Track PR Benchmarks
         run: |
           bencher run \
-          --branch "$BRANCH_NAME" \
+          --branch-reset "$BRANCH_NAME" \
           --token "${{ secrets.BENCHER_API_TOKEN }}" \
           --github-actions "${{ secrets.GITHUB_TOKEN }}" \
           --err \
