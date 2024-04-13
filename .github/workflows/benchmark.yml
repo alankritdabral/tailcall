@@ -167,7 +167,7 @@ jobs:
           --measure latency \
           --test percentage \
           --upper-boundary ${{ env.UPPER_BOUNDARY }} \
-          --token "$BENCHER_API_TOKEN" \
+          --token "$BENCHER_API_TOKEN"
 
       - name: Track PR Benchmarks
         run: |
