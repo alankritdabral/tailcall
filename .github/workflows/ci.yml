@@ -151,11 +151,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: taiki-e/install-action@cargo-llvm-cov
-      - uses: actions/setup-node@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
-      - run: npm install -g prettier
+          node-version: "20.11.0"
+      - name: Install Prettier
+        run: npm i -g prettier
       - run: prettier --version
       - run: cd tailcall-prettier
 
