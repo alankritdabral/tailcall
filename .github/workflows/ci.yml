@@ -165,7 +165,7 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Run Cargo Test
-        run:
+        run: |
           cd tailcall-prettier
           cargo test
 
