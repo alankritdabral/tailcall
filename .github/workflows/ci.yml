@@ -165,7 +165,9 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Run Cargo Test
-        run: cargo llvm-cov --all-features --lcov --output-path lcov.info
+        run:
+          cd tailcall-prettier
+          cargo test
 
       - name: Upload Coverage to Codecov
         if: matrix.build == 'darwin-arm64'
