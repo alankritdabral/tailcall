@@ -151,7 +151,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: taiki-e/install-action@cargo-llvm-cov
-      - run: cd tailcall-prettier
 
       - name: Install Node.js
         uses: actions/setup-node@v4
