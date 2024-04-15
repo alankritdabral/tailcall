@@ -151,6 +151,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: taiki-e/install-action@cargo-llvm-cov
+      - run: cd tailcall-prettier
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -158,8 +159,6 @@ jobs:
           node-version: "20.11.0"
       - name: Install Prettier
         run: npm i -g prettier
-      - run: prettier --version
-      - run: cd tailcall-prettier
 
       - name: Install Stable Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -167,7 +166,7 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Run Cargo Test
-        run: cargo test
+        run: cargo llvm-cov --all-features --lcov --output-path lcov.info
 
       - name: Upload Coverage to Codecov
         if: matrix.build == 'darwin-arm64'
