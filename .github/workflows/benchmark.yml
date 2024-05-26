@@ -80,7 +80,7 @@ jobs:
             --project tailcall-hehe \
             --token '${{ secrets.BENCHER_API_TOKEN }}' \
             --branch '${{ github.head_ref }}' \
-            --testbed benchmarking-runner \
+            --testbed benchmarking-runner-hehe \
             --adapter json \
             --err \
             --file "ci-benchmark/results.json"
