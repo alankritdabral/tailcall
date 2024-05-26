@@ -77,10 +77,10 @@ jobs:
       - name: Push to Bencher.dev
         run: |
             bencher run \
-            --project tailcall \
+            --project tailcall-hehe \
             --token '${{ secrets.BENCHER_API_TOKEN }}' \
             --branch '${{ github.head_ref }}' \
-            --testbed ubuntu-latest \
+            --testbed benchmarking-runner \
             --adapter json \
             --err \
             --file "results.json"
