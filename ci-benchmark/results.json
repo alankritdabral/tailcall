@@ -1,26 +1,23 @@
 {
-  "benchmark1": {
-    "test1": {
-      "value": 25.3,
-      "lower_value": 20.0,
-      "upper_value": 30.0
+  "test_name": "ci-benchmark",
+  "threads": 4,
+  "connections": 100,
+  "stats": {
+    "latency": {
+      "avg": "6.70ms",
+      "stdev": "1.90ms",
+      "max": "36.72ms",
+      "deviation": "71.69%"
     },
-    "test2": {
-      "value": 15.6,
-      "lower_value": 10.5,
-      "upper_value": 20.5
+    "requests_per_second": {
+      "avg": 3750.0,
+      "stdev": 157.32,
+      "max": 4110.0,
+      "deviation": "80.83%"
     }
   },
-  "benchmark2": {
-    "testA": {
-      "value": 42.1,
-      "lower_value": 40.0,
-      "upper_value": 45.0
-    },
-    "testB": {
-      "value": 38.4,
-      "lower_value": 35.0,
-      "upper_value": 40.0
-    }
-  }
+  "total_requests": 448482,
+  "data_transferred": "2.25GB",
+  "requests_per_second_overall": 14941.99,
+  "min_latency": "36.72ms"
 }
