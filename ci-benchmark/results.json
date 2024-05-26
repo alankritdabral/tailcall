@@ -1,27 +1,26 @@
 {
-  "$id": "https://bencher.dev/bmf.json",
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "type": "object",
-  "patternProperties": {
-    ".+": {
-      "type": "object",
-      "patternProperties": {
-        ".+": {
-          "type": "object",
-          "properties": {
-            "value": {
-              "type": "number"
-            },
-            "lower_value": {
-              "type": "number"
-            },
-            "upper_value": {
-              "type": "number"
-            }
-          },
-          "required": ["value"]
-        }
-      }
+  "benchmark1": {
+    "test1": {
+      "value": 25.3,
+      "lower_value": 20.0,
+      "upper_value": 30.0
+    },
+    "test2": {
+      "value": 15.6,
+      "lower_value": 10.5,
+      "upper_value": 20.5
+    }
+  },
+  "benchmark2": {
+    "testA": {
+      "value": 42.1,
+      "lower_value": 40.0,
+      "upper_value": 45.0
+    },
+    "testB": {
+      "value": 38.4,
+      "lower_value": 35.0,
+      "upper_value": 40.0
     }
   }
 }
