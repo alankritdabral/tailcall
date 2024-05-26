@@ -83,5 +83,5 @@ jobs:
             --testbed benchmarking-runner \
             --adapter json \
             --err \
-            --file "results.json"
+            --file "ci-benchmark/results.json"
             --github-actions '${{ secrets.GITHUB_TOKEN }}' \
