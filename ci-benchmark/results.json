@@ -18,13 +18,13 @@
       "value": 448482
     },
     "data_transferred": {
-      "value": "2.25GB"
+      "value": 2.25
     },
     "requests_per_second_overall": {
       "value": 14941.99
     },
     "min_latency": {
-      "value": "36.72ms"
+      "value": 36.72
     }
   }
 }
