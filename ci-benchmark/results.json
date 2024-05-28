@@ -1,5 +1,7 @@
 {
   "wrk": {
+    "threads": 4,
+    "connections": 100,
     "latency": {
       "value": 25.3,
       "upper_value": 30.0
@@ -7,6 +9,10 @@
     "requests_per_second": {
       "value": 15.6,
       "upper_value": 20.5
-    }
+    },
+    "total_requests" : 448482,
+    "data_transferred": "2.25GB",
+    "requests_per_second_overall": 14941.99,
+    "min_latency": "36.72ms"
   }
 }
