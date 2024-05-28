@@ -4,20 +4,24 @@
   "connections": 100,
   "stats": {
     "latency": {
-      "avg": "6.70ms",
-      "stdev": "1.90ms",
-      "max": "36.72ms",
-      "deviation": "71.69%"
+      "avg": 6.70,
+      "stdev": 1.90,
+      "max": 36.72,
+      "deviation": 71.69,
+      "unit": "ms"
     },
     "requests_per_second": {
       "avg": 3750.0,
       "stdev": 157.32,
       "max": 4110.0,
-      "deviation": "80.83%"
+      "deviation": 80.83
     }
   },
   "total_requests": 448482,
-  "data_transferred": "2.25GB",
+  "data_transferred": {
+    "amount": 2.25,
+    "unit": "GB"
+  },
   "requests_per_second_overall": 14941.99,
-  "min_latency": "36.72ms"
+  "min_latency": 36.72
 }
