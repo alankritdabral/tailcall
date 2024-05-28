@@ -1,7 +1,4 @@
 {
-  "total_requests": 448482,
-  "data_transferred": "2.25GB",
-  "requests_per_second_overall": 14941.99,
   "wrk": {
     "latency": {
       "value": 25.3,
