@@ -1,27 +1,56 @@
 {
-  "test_name": "ci-benchmark",
-  "threads": 4,
-  "connections": 100,
-  "stats": {
-    "latency": {
-      "avg": 6.70,
-      "stdev": 1.90,
-      "max": 36.72,
-      "deviation": 71.69,
-      "unit": "ms"
-    },
-    "requests_per_second": {
-      "avg": 3750.0,
-      "stdev": 157.32,
-      "max": 4110.0,
-      "deviation": 80.83
+  "benchmark": {
+    "ci-benchmark": {
+      "threads": {
+        "value": 4
+      },
+      "connections": {
+        "value": 100
+      },
+      "latency": {
+        "avg": {
+          "value": 6.70,
+          "unit": "ms"
+        },
+        "stdev": {
+          "value": 1.90,
+          "unit": "ms"
+        },
+        "max": {
+          "value": 36.72,
+          "unit": "ms"
+        },
+        "deviation": {
+          "value": 71.69,
+          "unit": "%"
+        }
+      },
+      "requests_per_second": {
+        "avg": {
+          "value": 3750.0
+        },
+        "stdev": {
+          "value": 157.32
+        },
+        "max": {
+          "value": 4110.0
+        },
+        "deviation": {
+          "value": 80.83,
+          "unit": "%"
+        }
+      },
+      "total_requests": {
+        "value": 448482
+      },
+      "data_transferred": {
+        "value": 2.25,
+        "unit": "GB"
+      },
+      "requests_per_second_overall": {
+        "value": 14941.99
+      },
+      }
     }
-  },
-  "total_requests": 448482,
-  "data_transferred": {
-    "amount": 2.25,
-    "unit": "GB"
-  },
-  "requests_per_second_overall": 14941.99,
-  "min_latency": 36.72
+  }
 }
