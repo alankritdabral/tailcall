@@ -1,30 +1,16 @@
 {
-  "wrk": {
-    "threads": {
-      "value": 4
-    },
-    "connections": {
-      "value": 100
-    },
+  "wrk_benchmark": {
     "latency": {
-      "value": 25.3,
-      "upper_value": 30.0
+      "avg": "6.70ms",
+      "stdev": "1.90ms",
+      "max": "36.72ms",
+      "deviation": "71.69%"
     },
     "requests_per_second": {
-      "value": 15.6,
-      "upper_value": 20.5
-    },
-    "total_requests": {
-      "value": 448482
-    },
-    "data_transferred": {
-      "value": 2.25
-    },
-    "requests_per_second_overall": {
-      "value": 14941.99
-    },
-    "min_latency": {
-      "value": 36.72
+      "avg": 3750.0,
+      "stdev": 157.32,
+      "max": 4110.0,
+      "deviation": "80.83%"
     }
-  }
+}
 }
