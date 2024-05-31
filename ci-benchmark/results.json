@@ -1,10 +1,14 @@
 {
-  "wrk_benchmark": {
-    "latency": {
+  "latency": {
       "avg": "6.70ms",
       "stdev": "1.90ms",
       "max": "36.72ms",
       "deviation": "71.69%"
+    },
+    "requests_per_second": {
+      "avg": 3750.0,
+      "stdev": 157.32,
+      "max": 4110.0,
+      "deviation": "80.83%"
     }
-}
 }
