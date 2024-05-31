@@ -1,14 +1,16 @@
 {
   "wrk": {
     "latency": {
-      "value": 10.5,
-      "upper_value": 12.0,
-      "stdev": 157.32
+      "vaavglue": 10.5,
+      "stdev": 12.0,
+      "stdev": 157.32,
+      "deviation": 80.83
     },
     "requests_per_second": {
       "value": 7.3,
       "upper_value": 8.1,
-      "stdev": 157.32
+      "stdev": 157.32,
+      "deviation": 80.83
     }
   }
 }
